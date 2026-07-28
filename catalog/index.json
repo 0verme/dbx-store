@@ -6,5 +6,69 @@
     "name": "DBX Marketplace",
     "homepage": "https://github.com/t8y2/dbx-store"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "id": "dbx.example.hello",
+      "name": "DBX Hello Workbench",
+      "description": "Complete DBX plugin example with a native sidecar, saved connection provider, command, workbench UI, and virtual filesystem provider.",
+      "publisher": "DBX",
+      "verified": true,
+      "icon": "../assets/dbx.example.hello.svg",
+      "tags": [
+        "workbench",
+        "connection-provider",
+        "filesystem-provider",
+        "example"
+      ],
+      "permissions": [
+        "host.events",
+        "host.filesystem"
+      ],
+      "source": "https://github.com/t8y2/dbx",
+      "homepage": "https://github.com/t8y2/dbx-store/releases/tag/dbx-example-hello-v1.0.0-preview.1",
+      "license": "Apache-2.0",
+      "latestVersion": "1.0.0",
+      "versions": [
+        {
+          "version": "1.0.0",
+          "releasedAt": "2026-07-28T16:20:38Z",
+          "releaseNotes": "Initial end-to-end marketplace preview for the DBX plugin platform.",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://github.com/t8y2/dbx-store/releases/download/dbx-example-hello-v1.0.0-preview.1/dbx.example.hello-1.0.0-darwin-arm64.dbxp",
+              "sha256": "9e0809db9a0f0720ee91b23b7ba870d886686a0c500bf5ff176ab227a9eed23e",
+              "size": 331647
+            }
+          ]
+        }
+      ],
+      "localizations": {
+        "zh-CN": {
+          "name": "DBX Hello 工作台",
+          "description": "包含原生 Sidecar、可保存连接、命令、工作台 UI 和虚拟文件系统的完整 DBX 插件示例。"
+        },
+        "zh-TW": {
+          "name": "DBX Hello 工作台",
+          "description": "包含原生 Sidecar、可儲存連線、命令、工作台 UI 與虛擬檔案系統的完整 DBX 外掛範例。"
+        },
+        "ja": {
+          "name": "DBX Hello ワークベンチ",
+          "description": "ネイティブ Sidecar、保存可能な接続、コマンド、ワークベンチ UI、仮想ファイルシステムを含む DBX プラグイン例です。"
+        },
+        "es": {
+          "name": "Área de trabajo Hello de DBX",
+          "description": "Ejemplo completo con sidecar nativo, conexión guardada, comando, interfaz de trabajo y sistema de archivos virtual."
+        },
+        "it": {
+          "name": "Area di lavoro Hello di DBX",
+          "description": "Esempio completo con sidecar nativo, connessione salvata, comando, UI di lavoro e file system virtuale."
+        },
+        "pt-BR": {
+          "name": "Área de trabalho Hello do DBX",
+          "description": "Exemplo completo com sidecar nativo, conexão salva, comando, interface de trabalho e sistema de arquivos virtual."
+        }
+      }
+    }
+  ]
 }

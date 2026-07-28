@@ -1,0 +1,14 @@
+{
+  "id": "dbx",
+  "name": "DBX",
+  "status": "preview",
+  "keys": [
+    {
+      "id": "dbx-store-preview-2026",
+      "algorithm": "ed25519",
+      "publicKey": "VRb0VscZfWwuFa7LYfeD/wEOJeyNP8wPGND9br8Icmk=",
+      "status": "preview",
+      "purpose": "plugin-package-signing"
+    }
+  ]
+}

@@ -38,3 +38,7 @@ The validator builds `catalog/index.json` from `plugins/*.json`, checks identifi
 - Native plugin backends run with the current OS user's privileges; catalog inclusion is not an OS sandbox.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a plugin.
+
+## Marketplace preview
+
+The catalog currently includes `dbx.example.hello`, a macOS arm64 preview package used to validate catalog loading, signed downloads, installation, connection contributions, workbench UI, commands, and filesystem providers end to end. Its signing key is explicitly temporary and must be replaced before the plugin platform is released as production functionality.
