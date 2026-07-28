@@ -1,0 +1,10 @@
+{
+  "$schema": "../schemas/marketplace.schema.json",
+  "catalogVersion": 1,
+  "repository": {
+    "id": "dbx-official",
+    "name": "DBX Marketplace",
+    "homepage": "https://github.com/t8y2/dbx-store"
+  },
+  "plugins": []
+}
