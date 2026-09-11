@@ -1,0 +1,184 @@
+name: Sign plugin PR candidates
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr-number:
+        description: Pull request number with candidates/*.json awaiting store signing
+        required: true
+        type: string
+      sdk-ref:
+        description: Reviewed DBX tag or commit containing the packager contract
+        default: plugin-sdk-v1
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: plugin-pr-signing-${{ inputs.pr-number }}
+  cancel-in-progress: false
+
+jobs:
+  sign:
+    runs-on: ubuntu-24.04
+    environment: plugin-signing
+    env:
+      SIGNING_KEY_ID: ${{ vars.DBX_STORE_SIGNING_KEY_ID }}
+      PR_NUMBER: ${{ inputs.pr-number }}
+    steps:
+      - name: Resolve pull request head
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json headRepositoryOwner,headRepository,headRefName,headRefOid > pr.json
+          node <<'NODE'
+          const fs = require("node:fs");
+          const pr = JSON.parse(fs.readFileSync("pr.json", "utf8"));
+          const outputs = {
+            head_repo: `${pr.headRepositoryOwner.login}/${pr.headRepository.name}`,
+            head_ref: pr.headRefName,
+            head_sha: pr.headRefOid,
+          };
+          for (const [key, value] of Object.entries(outputs)) {
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `${key}=${value}\n`);
+          }
+          NODE
+
+      - name: Check out pull request branch
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.pr.outputs.head_repo }}
+          ref: ${{ steps.pr.outputs.head_sha }}
+          path: pr
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Check out reviewed DBX packager
+        uses: actions/checkout@v4
+        with:
+          repository: t8y2/dbx
+          ref: ${{ inputs.sdk-ref }}
+          path: .dbx-plugin-sdk
+
+      - name: Verify repository signing key
+        working-directory: pr
+        run: |
+          if [[ ! "$SIGNING_KEY_ID" =~ ^[A-Za-z0-9._:-]{1,128}$ ]]; then
+            echo "::error::Configure DBX_STORE_SIGNING_KEY_ID as a repository variable"
+            exit 1
+          fi
+          node <<'NODE'
+          const fs = require("node:fs");
+          const keys = JSON.parse(fs.readFileSync("signing-keys.json", "utf8")).keys;
+          const revoked = JSON.parse(fs.readFileSync("revoked.json", "utf8")).signingKeys;
+          const key = keys.find((entry) => entry.id === process.env.SIGNING_KEY_ID);
+          if (!key) throw new Error(`Unregistered repository signing key ${process.env.SIGNING_KEY_ID}`);
+          if (key.status !== "active") throw new Error(`Repository signing key ${process.env.SIGNING_KEY_ID} is not active`);
+          if (revoked.includes(process.env.SIGNING_KEY_ID)) throw new Error(`Repository signing key ${process.env.SIGNING_KEY_ID} is revoked`);
+          fs.appendFileSync(process.env.GITHUB_ENV, `EXPECTED_SIGNING_PUBLIC_KEY=${key.publicKey}\n`);
+          NODE
+
+      - name: Validate candidates and build signing plan
+        working-directory: pr
+        run: node scripts/validate.mjs --plan-candidates > "$GITHUB_WORKSPACE/plan.json"
+
+      - name: Sign candidates
+        working-directory: pr
+        env:
+          DBX_PLUGIN_SIGNING_KEY: ${{ secrets.DBX_STORE_SIGNING_KEY }}
+          DBX_PLUGIN_SIGNING_PUBLIC_KEY: ${{ env.EXPECTED_SIGNING_PUBLIC_KEY }}
+        run: |
+          node scripts/sign-candidates.mjs \
+            --plan "$GITHUB_WORKSPACE/plan.json" \
+            --key-id "$SIGNING_KEY_ID" \
+            --packager "$GITHUB_WORKSPACE/.dbx-plugin-sdk/plugins/sdk/packager/Cargo.toml" \
+            --out "$GITHUB_WORKSPACE/signout"
+
+      - name: Publish signed assets
+        working-directory: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          signout="$GITHUB_WORKSPACE/signout"
+          while IFS=$'\t' read -r tag file; do
+            gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" --title "$tag" --notes "DBX Store-reviewed plugin assets."
+            if gh release view "$tag" --json assets --jq '.assets[].name' | grep -Fxq "$file"; then
+              echo "::error::Release asset already exists and cannot be overwritten: $tag/$file"
+              exit 1
+            fi
+            gh release upload "$tag" "$signout/$file"
+          done < <(node -e '
+          const fs = require("node:fs");
+          const uploads = JSON.parse(fs.readFileSync(process.env.GITHUB_WORKSPACE + "/signout/uploads.json", "utf8"));
+          for (const upload of uploads) for (const file of upload.files) console.log(`${upload.tag}\t${file}`);
+          ')
+
+      - name: Finalize plugin listings
+        working-directory: pr
+        run: |
+          node scripts/finalize-candidates.mjs \
+            --signing-key-id "$SIGNING_KEY_ID" \
+            --signed "$GITHUB_WORKSPACE/signout/signed.json"
+          node scripts/validate.mjs
+
+      - name: Commit finalized catalog back to the pull request
+        id: pushback
+        working-directory: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BOT_TOKEN: ${{ secrets.DBX_STORE_BOT_TOKEN }}
+          HEAD_REPO: ${{ steps.pr.outputs.head_repo }}
+          HEAD_REF: ${{ steps.pr.outputs.head_ref }}
+        run: |
+          git config user.name "dbx-store-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(store): sign plugin candidates from PR #${PR_NUMBER}"
+          push_status="pushed-github-token"
+          if ! git push origin "HEAD:${HEAD_REF}"; then
+            if [ -n "$BOT_TOKEN" ]; then
+              git push "https://x-access-token:${BOT_TOKEN}@github.com/${HEAD_REPO}.git" "HEAD:${HEAD_REF}" || push_status="push-failed"
+              [ "$push_status" = "push-failed" ] || push_status="pushed-bot-token"
+            else
+              push_status="push-failed"
+            fi
+          fi
+          echo "status=$push_status" >> "$GITHUB_OUTPUT"
+          if [ "$push_status" = "push-failed" ]; then
+            git format-patch --stdout origin/"${HEAD_REF}"..HEAD > "$GITHUB_WORKSPACE/signed-catalog.patch" || true
+            echo "push=failed" >> "$GITHUB_ENV"
+          else
+            echo "push=ok" >> "$GITHUB_ENV"
+          fi
+
+      - name: Upload signed catalog patch (fallback)
+        if: env.push == 'failed'
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-catalog-patch-${{ inputs.pr-number }}
+          if-no-files-found: error
+          retention-days: 30
+          path: signed-catalog.patch
+
+      - name: Report on pull request
+        working-directory: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PUSH_NOTE="The finalized catalog was committed back to this pull request."
+          if [ "$push" = "failed" ]; then
+            PUSH_NOTE="Pushing back failed (fork without maintainer edits, or no DBX_STORE_BOT_TOKEN configured). Download the 'signed-catalog-patch' workflow artifact and apply it to this branch, then push manually."
+          fi
+          SUMMARY=$(node <<'NODE'
+          const fs = require("node:fs");
+          const digests = JSON.parse(fs.readFileSync(process.env.GITHUB_WORKSPACE + "/signout/signed.json", "utf8"));
+          const lines = Object.entries(digests).map(([key, value]) => `- \`${key}\` → sha256 \`${value.sha256}\` (${value.size} bytes)`);
+          console.log(["**DBX Store signing completed for PR #" + process.env.PR_NUMBER + "**", "", ...lines].join("\n"));
+          NODE
+          )
+          gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "$(printf '%s\n\n%s' "$SUMMARY" "$PUSH_NOTE")"

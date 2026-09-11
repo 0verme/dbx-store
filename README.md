@@ -27,10 +27,9 @@ Plugin source code stays in the plugin author's repository. CI-built `.dbxp` pac
 
 - Plugin source changes belong in the plugin's own source repository.
 - DBX host, SDK, CLI, schema, and official-example changes belong in [`t8y2/dbx`](https://github.com/t8y2/dbx).
-- Pre-signing review starts with a **Plugin submission Issue in this repository**.
-- The final Marketplace listing PR targets **`t8y2/dbx-store:main`**, not `t8y2/dbx`.
+- Marketplace submissions are a **single pull request against `t8y2/dbx-store:main`**: add `publishers/<publisher-id>.json` (first submission) and `candidates/<plugin-id>.json`, then maintainers review and run the protected signing workflow, which finalizes `plugins/<plugin-id>.json` and `catalog/index.json` on the same PR.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the exact Issue → review/signing → catalog PR sequence.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the candidate format and the exact PR → review/signing → merge sequence.
 
 ## Validation
 
@@ -38,7 +37,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the exact Issue → review/signing �
 node scripts/validate.mjs
 ```
 
-The validator builds `catalog/index.json` from `plugins/*.json`, checks identifiers, semantic versions, publisher records, DBX Store signing-key references, revocations, duplicate plugins/versions/targets, HTTPS artifact URLs, SHA-256 values, and rejects committed `.dbxp` files.
+The validator builds `catalog/index.json` from `plugins/*.json`, checks identifiers, semantic versions, publisher records, DBX Store signing-key references, revocations, duplicate plugins/versions/targets, HTTPS artifact URLs, SHA-256 values, and rejects committed `.dbxp` files. Open `candidates/*.json` submissions are validated but fail the build with `open candidate(s) awaiting DBX Store signing` — the pull request merges only after the signing workflow finalizes them.
 
 `revoked.json` records plugin versions as `{ "pluginId": "publisher.plugin", "version": "1.2.3" }` and signing keys by key ID. Revoked entries cannot remain in the generated catalog.
 

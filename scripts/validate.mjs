@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const pluginsDirectory = path.join(root, "plugins");
 const publishersDirectory = path.join(root, "publishers");
+const candidatesDirectory = path.join(root, "candidates");
 const signingKeysPath = path.join(root, "signing-keys.json");
 const revokedPath = path.join(root, "revoked.json");
 const catalogPath = path.join(root, "catalog", "index.json");
@@ -13,6 +14,8 @@ const signingKeyIdPattern = /^[A-Za-z0-9._:-]{1,128}$/;
 const signingKeyStatuses = new Set(["preview", "active", "retired"]);
 const semverPattern = /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const sha256Pattern = /^[a-f0-9]{64}$/i;
+const planCandidates = process.argv.includes("--plan-candidates");
+const storeReleaseUrlPrefix = "https://github.com/t8y2/dbx-store/releases/";
 
 await rejectCommittedPackages(root);
 const publishers = await loadPublishers();
@@ -33,6 +36,8 @@ for (const plugin of plugins) {
   ids.add(plugin.id);
 }
 
+const candidates = await loadCandidates(plugins);
+
 const catalog = {
   $schema: "../schemas/marketplace.schema.json",
   catalogVersion: 1,
@@ -45,7 +50,26 @@ const catalog = {
 };
 
 await writeFile(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`);
-console.log(`Validated ${plugins.length} plugin metadata file(s)`);
+
+if (planCandidates) {
+  console.log(JSON.stringify({ candidates: candidates.map((candidate) => ({
+    id: candidate.id,
+    version: candidate.version,
+    releaseNotes: candidate.releaseNotes ?? "",
+    targets: candidate.targets,
+  })) }));
+} else {
+  log(`Validated ${plugins.length} plugin metadata file(s)`);
+}
+
+if (candidates.length > 0 && !planCandidates) {
+  const listing = candidates.map((candidate) => `${candidate.id}@${candidate.version}`).join(", ");
+  throw new Error(
+    `Catalog contains ${candidates.length} open candidate(s) awaiting DBX Store signing: ${listing}. ` +
+      "A DBX maintainer must review the pull request and run the 'Sign plugin PR candidates' workflow on it. " +
+      "The workflow finalizes plugins/*.json and catalog/index.json; this check passes once no candidates/*.json remain.",
+  );
+}
 
 function validatePlugin(plugin, file, publishers, signingKeys, revoked) {
   assert(plugin && typeof plugin === "object" && !Array.isArray(plugin), `${file}: plugin metadata must be an object`);
@@ -100,6 +124,95 @@ function validatePlugin(plugin, file, publishers, signingKeys, revoked) {
       assert(localization && typeof localization === "object" && !Array.isArray(localization), `${file}: localization '${locale}' must be an object`);
       assertExactKeys(localization, ["name", "description"], `${file}: localization '${locale}'`);
     }
+  }
+}
+
+async function loadCandidates(plugins) {
+  const byId = new Map(plugins.map((plugin) => [plugin.id, plugin]));
+  const entries = await directoryJsonFiles(candidatesDirectory);
+  const candidates = [];
+  const seen = new Set();
+  for (const file of entries) {
+    const file_ = path.join(candidatesDirectory, file);
+    const candidate = JSON.parse(await readFile(file_, "utf8"));
+    validateCandidate(candidate, file, publishers, revoked, byId.get(candidate?.id));
+    assert(!seen.has(candidate.id), `${file}: duplicate candidate for plugin '${candidate.id}'`);
+    seen.add(candidate.id);
+    candidates.push(candidate);
+  }
+  return candidates;
+}
+
+function validateCandidate(candidate, file, publishers, revoked, existingPlugin) {
+  assert(candidate && typeof candidate === "object" && !Array.isArray(candidate), `${file}: candidate metadata must be an object`);
+  assertExactKeys(
+    candidate,
+    ["schemaVersion", "id", "publisher", "version", "releaseNotes", "name", "description", "icon", "tags", "permissions", "source", "homepage", "license", "localizations", "targets"],
+    `${file}: candidate metadata`,
+  );
+  assert(candidate.schemaVersion === 1, `${file}: unsupported candidate schema version`);
+  assert(identifierPattern.test(candidate.id || ""), `${file}: invalid plugin id`);
+  assert(file === `${candidate.id}.json`, `${file}: filename must match plugin id '${candidate.id}.json'`);
+  assert(identifierPattern.test(candidate.publisher || ""), `${file}: invalid publisher id`);
+  const publisher = publishers.byId.get(candidate.publisher);
+  assert(publisher, `${file}: publisher '${candidate.publisher}' is not registered`);
+  if (existingPlugin) {
+    assert(existingPlugin.publisher === candidate.publisher, `${file}: publisher '${candidate.publisher}' does not own plugin '${candidate.id}'`);
+  }
+  assert(semverPattern.test(candidate.version || ""), `${file}: version must use semantic versioning`);
+  assert(!revoked.pluginVersions.has(`${candidate.id}@${candidate.version}`), `${file}: plugin version '${candidate.id}@${candidate.version}' is revoked`);
+  if (existingPlugin) {
+    assert(
+      !existingPlugin.versions.some((version) => version.version === candidate.version),
+      `${file}: version '${candidate.version}' is already listed for plugin '${candidate.id}'`,
+    );
+  }
+  if (!existingPlugin) {
+    assert(nonempty(candidate.name), `${file}: name is required for a new plugin listing`);
+    assert(typeof candidate.source === "string" && candidate.source.startsWith("https://"), `${file}: source must be an HTTPS repository URL for review`);
+    assert(nonempty(candidate.license), `${file}: license is required for a new plugin listing`);
+  }
+  for (const field of ["name", "description", "icon", "source", "homepage", "license"]) {
+    if (candidate[field] !== undefined) assert(nonempty(candidate[field]), `${file}: '${field}' must be a non-empty string when provided`);
+  }
+  if (candidate.source !== undefined) assert(candidate.source.startsWith("https://"), `${file}: source must use HTTPS`);
+  if (candidate.homepage !== undefined) assert(candidate.homepage.startsWith("https://") || candidate.homepage.startsWith("http://"), `${file}: homepage must use HTTP(S)`);
+  if (candidate.icon !== undefined) assert(candidate.icon.startsWith("https://") || candidate.icon.startsWith("http://"), `${file}: icon must use HTTP(S)`);
+  for (const field of ["tags", "permissions"]) {
+    if (candidate[field] !== undefined) {
+      assert(Array.isArray(candidate[field]) && candidate[field].every((entry) => nonempty(entry)) && new Set(candidate[field]).size === candidate[field].length, `${file}: '${field}' must be an array of unique non-empty strings`);
+    }
+  }
+  if (candidate.localizations !== undefined) {
+    assert(candidate.localizations && typeof candidate.localizations === "object" && !Array.isArray(candidate.localizations), `${file}: localizations must be an object`);
+    for (const [locale, localization] of Object.entries(candidate.localizations)) {
+      assert(localization && typeof localization === "object" && !Array.isArray(localization), `${file}: localization '${locale}' must be an object`);
+      assertExactKeys(localization, ["name", "description"], `${file}: localization '${locale}'`);
+    }
+  }
+  if (candidate.releaseNotes !== undefined) assert(typeof candidate.releaseNotes === "string", `${file}: releaseNotes must be a string`);
+  assert(Array.isArray(candidate.targets) && candidate.targets.length > 0, `${file}: at least one candidate target is required`);
+  const targets = new Set();
+  for (const target of candidate.targets) {
+    assert(target && typeof target === "object" && !Array.isArray(target), `${file}: target entries must be objects`);
+    assertExactKeys(target, ["target", "url", "sha256", "size"], `${file}: candidate target '${target.target || "unknown"}'`);
+    assert(/^[a-z0-9-]{1,64}$/.test(target.target || ""), `${file}: invalid target '${target.target}'`);
+    assert(!targets.has(target.target), `${file}: duplicate target '${target.target}'`);
+    targets.add(target.target);
+    const url = parseUrl(target.url, `${file}: invalid candidate URL for '${target.target}'`);
+    assert(url.protocol === "https:", `${file}: candidate URLs must use HTTPS`);
+    assert(!target.url.startsWith(storeReleaseUrlPrefix), `${file}: candidate URLs must not reference DBX Store releases; submit the unsigned candidate artifact`);
+    assert(sha256Pattern.test(target.sha256 || ""), `${file}: invalid SHA-256 for target '${target.target}'`);
+    assert(Number.isSafeInteger(target.size) && target.size >= 1 && target.size <= 512 * 1024 * 1024, `${file}: invalid size for target '${target.target}'`);
+  }
+}
+
+async function directoryJsonFiles(directory) {
+  try {
+    return (await readdir(directory)).filter((file) => file.endsWith(".json")).sort();
+  } catch (error) {
+    if (error?.code === "ENOENT") return [];
+    throw error;
   }
 }
 
@@ -209,6 +322,10 @@ function assertExactKeys(value, allowed, context) {
   const allowedKeys = new Set(allowed);
   const unknown = Object.keys(value).filter((key) => !allowedKeys.has(key));
   assert(unknown.length === 0, `${context} contains unknown field(s): ${unknown.join(", ")}`);
+}
+
+function log(message) {
+  console.error(message);
 }
 
 function assert(condition, message) {
