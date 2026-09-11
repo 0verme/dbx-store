@@ -2,6 +2,8 @@
 
 Official plugin catalog, publisher records, and review metadata for [DBX](https://github.com/t8y2/dbx).
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 DBX reads the generated catalog from:
 
 ```text
