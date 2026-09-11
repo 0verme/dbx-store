@@ -7,6 +7,13 @@
       "publicKey": "VRb0VscZfWwuFa7LYfeD/wEOJeyNP8wPGND9br8Icmk=",
       "status": "preview",
       "purpose": "repository-package-signing"
+    },
+    {
+      "id": "dbx-store-release-2026",
+      "algorithm": "ed25519",
+      "publicKey": "9Ew1pCeGfTzg2Ltiqw7siiQlLsR+HK1MGqwsSVSC8ng=",
+      "status": "active",
+      "purpose": "repository-package-signing"
     }
   ]
 }
