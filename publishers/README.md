@@ -1,5 +1,5 @@
 # Publisher records
 
-Publisher identity, signing-key history, review notes, and future organization verification records belong here.
+Publisher identity, review status, and future organization verification records belong here. Plugin metadata uses the publisher record `id`, not its display name.
 
-Public signing keys may be recorded after DBX completes its release-key process. Private signing keys must remain in protected CI secret storage and must never be committed.
+Publisher records are attribution metadata, not cryptographic trust roots. Official packages are signed by DBX Store after review; repository public keys and rotation history live in `../signing-keys.json`. Private signing keys remain in the protected `plugin-signing` GitHub environment and must never be committed or shared with plugin authors.

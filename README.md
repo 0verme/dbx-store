@@ -13,7 +13,8 @@ https://raw.githubusercontent.com/t8y2/dbx-store/main/catalog/index.json
 ```text
 dbx-store/
 ├── plugins/                 # one reviewed plugin metadata file per plugin
-├── publishers/              # publisher identity and review records
+├── publishers/              # publisher identity and review records; no private trust material
+├── signing-keys.json        # DBX Store repository signing-key history
 ├── catalog/index.json       # generated catalog consumed by DBX
 ├── revoked.json             # revoked plugin versions and signing keys
 ├── schemas/                 # catalog schema snapshot
@@ -22,23 +23,45 @@ dbx-store/
 
 Plugin source code stays in the plugin author's repository. CI-built `.dbxp` packages belong in GitHub Releases, object storage, or a CDN; binary packages must not be committed here.
 
+## Where to submit
+
+- Plugin source changes belong in the plugin's own source repository.
+- DBX host, SDK, CLI, schema, and official-example changes belong in [`t8y2/dbx`](https://github.com/t8y2/dbx).
+- Pre-signing review starts with a **Plugin submission Issue in this repository**.
+- The final Marketplace listing PR targets **`t8y2/dbx-store:main`**, not `t8y2/dbx`.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the exact Issue → review/signing → catalog PR sequence.
+
 ## Validation
 
 ```bash
 node scripts/validate.mjs
 ```
 
-The validator builds `catalog/index.json` from `plugins/*.json`, checks identifiers, semantic versions, duplicate plugins/versions/targets, HTTPS artifact URLs, SHA-256 values, and rejects committed `.dbxp` files.
+The validator builds `catalog/index.json` from `plugins/*.json`, checks identifiers, semantic versions, publisher records, DBX Store signing-key references, revocations, duplicate plugins/versions/targets, HTTPS artifact URLs, SHA-256 values, and rejects committed `.dbxp` files.
+
+`revoked.json` records plugin versions as `{ "pluginId": "publisher.plugin", "version": "1.2.3" }` and signing keys by key ID. Revoked entries cannot remain in the generated catalog.
 
 ## Trust model
 
-- Human review controls whether metadata is accepted into the official catalog.
+- Human review controls whether a candidate is approved for DBX Store signing and catalog inclusion.
 - Catalog SHA-256 values bind reviewed metadata to exact release assets.
-- DBX verifies the Ed25519 signature inside every official `.dbxp` before installation.
+- DBX Store signs approved `.dbxp` candidates with a repository key; plugin authors do not receive or manage this key.
+- DBX verifies the repository Ed25519 signature inside every official `.dbxp` before installation.
 - Native plugin backends run with the current OS user's privileges; catalog inclusion is not an OS sandbox.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a plugin.
 
-## Marketplace preview
+## Publishing boundary
 
-The catalog currently includes `dbx.example.hello`, a macOS arm64 preview package used to validate catalog loading, signed downloads, installation, connection contributions, workbench UI, commands, and filesystem providers end to end. Its signing key is explicitly temporary and must be replaced before the plugin platform is released as production functionality.
+The catalog lists only artifacts built from the current manifest and SDK contract. Prototype packages must be rebuilt, signed, and reviewed before their metadata is added here; stale preview assets are intentionally not kept installable.
+
+## Signing approved candidates
+
+Plugin repositories publish unsigned candidate packages and `release-candidates.json`. After source and binary review, a maintainer runs the protected `Sign approved plugin candidate` workflow with the reviewed candidate URL, SHA-256, byte size, Manifest identity, and target. The workflow binds signing to those exact candidate bytes, rejects already-signed packages, adds the DBX Store signature with the protected `DBX_STORE_SIGNING_KEY` secret, and publishes the final artifact from `dbx-store` Releases.
+
+Every signed asset is accompanied by target-specific final artifact metadata and a signing receipt that records the reviewed candidate hash and workflow run. Existing release assets are immutable: the workflow refuses to overwrite them, so any changed bytes require a new plugin version.
+
+Configure the `plugin-signing` GitHub environment with required reviewers, the `DBX_STORE_SIGNING_KEY` environment secret, and the `DBX_STORE_SIGNING_KEY_ID` repository variable. The selected key must have status `active`, and the workflow verifies that the secret derives the public key recorded in `signing-keys.json`. Private keys never enter the repository or plugin-author CI.
+
+The checked-in preview key is only a client-contract fixture and validator rules prohibit catalog artifacts from referencing it. Before enabling official signing, generate a production key through the protected key ceremony, add its public record with status `active`, ship the matching public key in DBX, and configure the environment secret and variable. Rotated historical keys may use status `retired`; compromised keys belong in `revoked.json`.

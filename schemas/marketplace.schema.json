@@ -43,7 +43,7 @@
     "artifact": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["target", "url", "sha256"],
+      "required": ["target", "url", "sha256", "signingKeyId"],
       "properties": {
         "target": {
           "type": "string",
@@ -53,6 +53,12 @@
         },
         "url": { "type": "string", "format": "uri-reference" },
         "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+        "signingKeyId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]+$"
+        },
         "size": { "type": "integer", "minimum": 0, "maximum": 536870912 }
       }
     },

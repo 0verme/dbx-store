@@ -1,0 +1,252 @@
+name: Sign approved plugin candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate-url:
+        description: Immutable HTTPS URL of the reviewed unsigned .dbxp candidate
+        required: true
+        type: string
+      candidate-sha256:
+        description: Reviewed SHA-256 of the unsigned candidate
+        required: true
+        type: string
+      candidate-size:
+        description: Reviewed byte size of the unsigned candidate
+        required: true
+        type: string
+      output-name:
+        description: Final signed .dbxp filename
+        required: true
+        type: string
+      plugin-id:
+        description: Expected plugin Manifest ID
+        required: true
+        type: string
+      version:
+        description: Expected plugin Manifest version
+        required: true
+        type: string
+      target:
+        description: DBX artifact target such as darwin-arm64 or universal
+        required: true
+        type: string
+      release-tag:
+        description: dbx-store Release tag receiving the signed asset
+        required: true
+        type: string
+      sdk-ref:
+        description: Reviewed DBX tag or commit containing the packager contract
+        default: plugin-sdk-v1
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: plugin-signing-${{ inputs.release-tag }}
+  cancel-in-progress: false
+
+jobs:
+  sign:
+    runs-on: ubuntu-24.04
+    environment: plugin-signing
+    env:
+      SIGNING_KEY_ID: ${{ vars.DBX_STORE_SIGNING_KEY_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Checkout reviewed DBX packager
+        uses: actions/checkout@v4
+        with:
+          repository: t8y2/dbx
+          ref: ${{ inputs.sdk-ref }}
+          path: .dbx-plugin-sdk
+
+      - name: Validate signing request
+        shell: bash
+        env:
+          CANDIDATE_URL: ${{ inputs.candidate-url }}
+          CANDIDATE_SHA256: ${{ inputs.candidate-sha256 }}
+          CANDIDATE_SIZE: ${{ inputs.candidate-size }}
+          OUTPUT_NAME: ${{ inputs.output-name }}
+          PLUGIN_ID: ${{ inputs.plugin-id }}
+          VERSION: ${{ inputs.version }}
+          TARGET: ${{ inputs.target }}
+          RELEASE_TAG: ${{ inputs.release-tag }}
+        run: |
+          if [[ ! "$CANDIDATE_URL" =~ ^https:// ]]; then
+            echo "::error::candidate-url must use HTTPS"
+            exit 1
+          fi
+          if [[ ! "$CANDIDATE_SHA256" =~ ^[A-Fa-f0-9]{64}$ ]]; then
+            echo "::error::candidate-sha256 must contain 64 hexadecimal characters"
+            exit 1
+          fi
+          if [[ ! "$CANDIDATE_SIZE" =~ ^[0-9]+$ ]] || (( CANDIDATE_SIZE < 1 || CANDIDATE_SIZE > 536870912 )); then
+            echo "::error::candidate-size must be an integer between 1 and 536870912"
+            exit 1
+          fi
+          if [[ ! "$PLUGIN_ID" =~ ^[a-z0-9][a-z0-9._-]{0,127}$ ]]; then
+            echo "::error::plugin-id is invalid"
+            exit 1
+          fi
+          if [[ ! "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::version must use semantic versioning"
+            exit 1
+          fi
+          if [[ ! "$TARGET" =~ ^[a-z0-9-]{1,64}$ ]]; then
+            echo "::error::target is invalid"
+            exit 1
+          fi
+          if [[ ! "$OUTPUT_NAME" =~ ^[A-Za-z0-9._+-]+\.dbxp$ ]]; then
+            echo "::error::output-name must be a plain .dbxp filename"
+            exit 1
+          fi
+          if [[ ! "$RELEASE_TAG" =~ ^[A-Za-z0-9._+-]{1,200}$ ]]; then
+            echo "::error::release-tag contains unsupported characters"
+            exit 1
+          fi
+          if [[ "$OUTPUT_NAME" != "${PLUGIN_ID}-${VERSION}-${TARGET}.dbxp" ]]; then
+            echo "::error::output-name must be ${PLUGIN_ID}-${VERSION}-${TARGET}.dbxp"
+            exit 1
+          fi
+          if [[ ! "$SIGNING_KEY_ID" =~ ^[A-Za-z0-9._:-]{1,128}$ ]]; then
+            echo "::error::Configure DBX_STORE_SIGNING_KEY_ID as a repository variable"
+            exit 1
+          fi
+          node <<'NODE'
+          const fs = require("node:fs");
+          const keys = JSON.parse(fs.readFileSync("signing-keys.json", "utf8")).keys;
+          const revoked = JSON.parse(fs.readFileSync("revoked.json", "utf8")).signingKeys;
+          const key = keys.find((entry) => entry.id === process.env.SIGNING_KEY_ID);
+          if (!key) throw new Error(`Unregistered repository signing key ${process.env.SIGNING_KEY_ID}`);
+          if (key.status !== "active") throw new Error(`Repository signing key ${process.env.SIGNING_KEY_ID} is not active`);
+          if (revoked.includes(process.env.SIGNING_KEY_ID)) throw new Error(`Repository signing key ${process.env.SIGNING_KEY_ID} is revoked`);
+          fs.appendFileSync(process.env.GITHUB_ENV, `EXPECTED_SIGNING_PUBLIC_KEY=${key.publicKey}\n`);
+          NODE
+
+      - name: Download reviewed candidate
+        shell: bash
+        env:
+          CANDIDATE_URL: ${{ inputs.candidate-url }}
+        run: curl --fail --location --max-redirs 5 --proto '=https' --tlsv1.2 --output candidate.dbxp "$CANDIDATE_URL"
+
+      - name: Verify reviewed candidate bytes
+        shell: bash
+        env:
+          EXPECTED_SHA256: ${{ inputs.candidate-sha256 }}
+          EXPECTED_SIZE: ${{ inputs.candidate-size }}
+        run: |
+          node <<'NODE'
+          const crypto = require("node:crypto");
+          const fs = require("node:fs");
+          const bytes = fs.readFileSync("candidate.dbxp");
+          const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+          if (sha256.toLowerCase() !== process.env.EXPECTED_SHA256.toLowerCase()) {
+            throw new Error(`Candidate SHA-256 mismatch: expected ${process.env.EXPECTED_SHA256}, got ${sha256}`);
+          }
+          if (bytes.length !== Number(process.env.EXPECTED_SIZE)) {
+            throw new Error(`Candidate size mismatch: expected ${process.env.EXPECTED_SIZE}, got ${bytes.length}`);
+          }
+          NODE
+
+      - name: Verify candidate identity and unsigned state
+        shell: bash
+        env:
+          EXPECTED_PLUGIN_ID: ${{ inputs.plugin-id }}
+          EXPECTED_VERSION: ${{ inputs.version }}
+        run: |
+          node <<'NODE'
+          const childProcess = require("node:child_process");
+          const entries = childProcess.execFileSync("unzip", ["-Z1", "candidate.dbxp"], { encoding: "utf8" }).split(/\r?\n/);
+          if (entries.includes("signature.json")) throw new Error("Official signing accepts only unsigned candidates");
+          const manifest = JSON.parse(childProcess.execFileSync("unzip", ["-p", "candidate.dbxp", "manifest.json"], { encoding: "utf8" }));
+          if (manifest.id !== process.env.EXPECTED_PLUGIN_ID) throw new Error(`Expected plugin ${process.env.EXPECTED_PLUGIN_ID}, got ${manifest.id}`);
+          if (manifest.version !== process.env.EXPECTED_VERSION) throw new Error(`Expected version ${process.env.EXPECTED_VERSION}, got ${manifest.version}`);
+          NODE
+
+      - name: Add DBX Store signature
+        shell: bash
+        env:
+          DBX_PLUGIN_SIGNING_KEY: ${{ secrets.DBX_STORE_SIGNING_KEY }}
+          DBX_PLUGIN_SIGNING_PUBLIC_KEY: ${{ env.EXPECTED_SIGNING_PUBLIC_KEY }}
+          OUTPUT_NAME: ${{ inputs.output-name }}
+          TARGET: ${{ inputs.target }}
+          RELEASE_TAG: ${{ inputs.release-tag }}
+        run: |
+          artifact_url="https://github.com/t8y2/dbx-store/releases/download/${RELEASE_TAG}/${OUTPUT_NAME}"
+          artifact_metadata="${OUTPUT_NAME%.dbxp}.artifact.json"
+          cargo run --locked --manifest-path .dbx-plugin-sdk/plugins/sdk/packager/Cargo.toml -- \
+            sign candidate.dbxp "$OUTPUT_NAME" \
+            --key-id "$SIGNING_KEY_ID" \
+            --artifact-metadata "$artifact_metadata" \
+            --target "$TARGET" \
+            --artifact-url "$artifact_url"
+
+      - name: Write signing receipt
+        shell: bash
+        env:
+          CANDIDATE_URL: ${{ inputs.candidate-url }}
+          CANDIDATE_SHA256: ${{ inputs.candidate-sha256 }}
+          CANDIDATE_SIZE: ${{ inputs.candidate-size }}
+          OUTPUT_NAME: ${{ inputs.output-name }}
+          PLUGIN_ID: ${{ inputs.plugin-id }}
+          VERSION: ${{ inputs.version }}
+          TARGET: ${{ inputs.target }}
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+          const outputName = process.env.OUTPUT_NAME;
+          const artifactMetadataName = outputName.replace(/\.dbxp$/, ".artifact.json");
+          const receiptName = outputName.replace(/\.dbxp$/, ".signing-receipt.json");
+          const artifact = JSON.parse(fs.readFileSync(artifactMetadataName, "utf8"));
+          const receipt = {
+            schemaVersion: 1,
+            pluginId: process.env.PLUGIN_ID,
+            version: process.env.VERSION,
+            target: process.env.TARGET,
+            repositorySigningKeyId: process.env.SIGNING_KEY_ID,
+            candidate: {
+              url: process.env.CANDIDATE_URL,
+              sha256: process.env.CANDIDATE_SHA256.toLowerCase(),
+              size: Number(process.env.CANDIDATE_SIZE),
+            },
+            artifact,
+            workflowRun: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`,
+          };
+          fs.writeFileSync(receiptName, `${JSON.stringify(receipt, null, 2)}\n`);
+          NODE
+
+      - name: Publish signed asset
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OUTPUT_NAME: ${{ inputs.output-name }}
+          RELEASE_TAG: ${{ inputs.release-tag }}
+        run: |
+          gh release view "$RELEASE_TAG" >/dev/null 2>&1 || gh release create "$RELEASE_TAG" --title "$RELEASE_TAG" --notes "DBX Store-reviewed plugin assets."
+          artifact_metadata="${OUTPUT_NAME%.dbxp}.artifact.json"
+          signing_receipt="${OUTPUT_NAME%.dbxp}.signing-receipt.json"
+          existing_assets="$(gh release view "$RELEASE_TAG" --json assets --jq '.assets[].name')"
+          for asset in "$OUTPUT_NAME" "$artifact_metadata" "$signing_receipt"; do
+            if grep -Fxq "$asset" <<<"$existing_assets"; then
+              echo "::error::Release asset already exists and cannot be overwritten: $asset"
+              exit 1
+            fi
+          done
+          gh release upload "$RELEASE_TAG" "$OUTPUT_NAME" "$artifact_metadata" "$signing_receipt"
+
+      - name: Upload signing receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-plugin-${{ inputs.plugin-id }}-${{ inputs.version }}-${{ inputs.target }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            ${{ inputs.output-name }}
+            *.artifact.json
+            *.signing-receipt.json
