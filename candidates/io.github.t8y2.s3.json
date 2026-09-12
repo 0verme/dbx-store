@@ -46,6 +46,12 @@
       "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-linux-x64.dbxp",
       "sha256": "b224d1e13cf7786ceb9d37152f8d911921cefd5966836d7f12302f6de1c98e16",
       "size": 6296562
+    },
+    {
+      "target": "windows-x64",
+      "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-windows-x64.dbxp",
+      "sha256": "0d087a9b2bb055cc2642a0957bce9afa4b882607e0f2cd4e1dd398c8b5ac7e69",
+      "size": 6303276
     }
   ]
 }
