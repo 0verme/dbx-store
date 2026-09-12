@@ -6,5 +6,81 @@
     "name": "DBX Marketplace",
     "homepage": "https://github.com/t8y2/dbx-store"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "id": "io.github.t8y2.s3",
+      "name": "DBX S3",
+      "description": "S3-compatible object storage plugin for DBX.",
+      "publisher": "t8y2",
+      "verified": false,
+      "icon": "https://raw.githubusercontent.com/t8y2/dbx-plugin-s3/v0.1.1/assets/plugin.svg",
+      "tags": [
+        "storage",
+        "s3",
+        "files"
+      ],
+      "permissions": [],
+      "source": "https://github.com/t8y2/dbx-plugin-s3/tree/v0.1.1",
+      "homepage": "https://github.com/t8y2/dbx-plugin-s3",
+      "license": "Proprietary",
+      "latestVersion": "0.1.1",
+      "versions": [
+        {
+          "version": "0.1.1",
+          "releasedAt": "2026-09-12T15:17:57.804Z",
+          "releaseNotes": "Initial release with S3-compatible connections, object browsing, and previews.",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://github.com/t8y2/dbx-store/releases/download/io.github.t8y2.s3-0.1.1/io.github.t8y2.s3-0.1.1-darwin-arm64.dbxp",
+              "sha256": "d4a317f99ae6ba58706953f135479b31f1a6bfd3762425ec540a7d76f54156a4",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 5950245
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://github.com/t8y2/dbx-store/releases/download/io.github.t8y2.s3-0.1.1/io.github.t8y2.s3-0.1.1-darwin-x64.dbxp",
+              "sha256": "9f76ca3d10f577f7e679435624901bb51958d849f3563952d8c5b66644344c7c",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6292158
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://github.com/t8y2/dbx-store/releases/download/io.github.t8y2.s3-0.1.1/io.github.t8y2.s3-0.1.1-linux-arm64.dbxp",
+              "sha256": "75e3db4526b72eb3f63f2eaf09245bfc0ea2f24dc408f903d606a6ccb6769a4c",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 5861533
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://github.com/t8y2/dbx-store/releases/download/io.github.t8y2.s3-0.1.1/io.github.t8y2.s3-0.1.1-linux-x64.dbxp",
+              "sha256": "6ad96f8c9b662eac048a28be7e3d69d3d6d45dc86fdcb8843c6ef0670416406d",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6297331
+            },
+            {
+              "target": "windows-arm64",
+              "url": "https://github.com/t8y2/dbx-store/releases/download/io.github.t8y2.s3-0.1.1/io.github.t8y2.s3-0.1.1-windows-arm64.dbxp",
+              "sha256": "055b61705f1af986f356b692d213d88e4d309fa982b28beb0c5a7efc36b06924",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 5830612
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://github.com/t8y2/dbx-store/releases/download/io.github.t8y2.s3-0.1.1/io.github.t8y2.s3-0.1.1-windows-x64.dbxp",
+              "sha256": "93eb204c4948ee8a93d481f373aa8041cbef74fde3e5572441a6e07847bb9566",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6304005
+            }
+          ]
+        }
+      ],
+      "localizations": {
+        "zh-CN": {
+          "name": "DBX S3",
+          "description": "DBX 的 S3 兼容对象存储插件。"
+        }
+      }
+    }
+  ]
 }
