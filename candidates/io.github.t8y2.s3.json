@@ -26,7 +26,7 @@
     {
       "target": "darwin-arm64",
       "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-darwin-arm64.dbxp",
-      "sha256": "352ea3d9284c03f8564b6ed84a178bda0a7b7319053a39ec72f9cf9cd8935a0c",
+      "sha256": "352ea3d9284c03f8564b6ed84a178bda0b7a7319053a39ec72f9cf9cd8935a0c",
       "size": 5949516
     },
     {
