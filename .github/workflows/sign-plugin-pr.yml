@@ -24,7 +24,8 @@ concurrency:
 jobs:
   sign:
     runs-on: ubuntu-24.04
-    environment: plugin-signing
+    environment:
+      name: ${{ github.actor == 't8y2' && 'plugin-signing-owner' || 'plugin-signing' }}
     env:
       SIGNING_KEY_ID: ${{ vars.DBX_STORE_SIGNING_KEY_ID }}
       PR_NUMBER: ${{ inputs.pr-number }}
