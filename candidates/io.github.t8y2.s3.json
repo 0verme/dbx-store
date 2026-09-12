@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.t8y2.s3",
+  "publisher": "t8y2",
+  "version": "0.1.1",
+  "name": "DBX S3",
+  "description": "S3-compatible object storage plugin for DBX.",
+  "icon": "https://raw.githubusercontent.com/t8y2/dbx-plugin-s3/v0.1.1/assets/plugin.svg",
+  "tags": [
+    "storage",
+    "s3",
+    "files"
+  ],
+  "permissions": [],
+  "source": "https://github.com/t8y2/dbx-plugin-s3/tree/v0.1.1",
+  "homepage": "https://github.com/t8y2/dbx-plugin-s3",
+  "license": "Proprietary",
+  "releaseNotes": "Initial release with S3-compatible connections, object browsing, and previews.",
+  "localizations": {
+    "zh-CN": {
+      "name": "DBX S3",
+      "description": "DBX 的 S3 兼容对象存储插件。"
+    }
+  },
+  "targets": [
+    {
+      "target": "darwin-arm64",
+      "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-darwin-arm64.dbxp",
+      "sha256": "6967edd29f1a6fb0a258a21bd316ac0fcb8883eb0ab5ba7266862eede2bf28d3",
+      "size": 5949376
+    },
+    {
+      "target": "darwin-x64",
+      "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-darwin-x64.dbxp",
+      "sha256": "99bb9d828d32a9951a5f171827311db2716605c22ffe6516e97f09fcfa732d0d",
+      "size": 6291195
+    },
+    {
+      "target": "linux-arm64",
+      "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-linux-arm64.dbxp",
+      "sha256": "610660641998516c1a03bd702268c3796ecb4439977da07675517c31faa4f045",
+      "size": 5860448
+    },
+    {
+      "target": "linux-x64",
+      "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-linux-x64.dbxp",
+      "sha256": "b224d1e13cf7786ceb9d37152f8d911921cefd5966836d7f12302f6de1c98e16",
+      "size": 6296562
+    }
+  ]
+}
