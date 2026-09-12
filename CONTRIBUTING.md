@@ -64,7 +64,7 @@ Do not include plugin source directories, `.dbxp` binaries, signing private keys
 ## What the signing workflow does
 
 `Sign plugin PR candidates` (workflow_dispatch on a PR number, environment
-`plugin-signing`) verifies the repository key state, re-validates the PR tree,
+`plugin-signing` for non-owners or `plugin-signing-owner` for `t8y2`) verifies the repository key state, re-validates the PR tree,
 downloads each pinned candidate, checks that packages are unsigned and their
 manifest identity matches, signs with the protected `DBX_STORE_SIGNING_KEY`,
 publishes the signed `.dbxp` plus artifact metadata and a signing receipt to

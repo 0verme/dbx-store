@@ -103,11 +103,12 @@ node scripts/validate.mjs
 
 ## 维护者签名配置
 
-官方仓库签名使用 GitHub Environment `plugin-signing`：
+官方仓库签名使用两个 GitHub Environment：
 
-- `DBX_STORE_SIGNING_KEY`：仅保存在 Environment Secret 中的 Ed25519 私钥种子；
-- `DBX_STORE_SIGNING_KEY_ID`：Environment Variable，必须对应 `signing-keys.json` 中状态为 `active` 的 key；
-- Environment 应配置必需审核人，并禁止提交者自审；
+- `plugin-signing`：配置必需审核人 `t8y2`，并开启禁止提交者自审，供其他人发起工作流时使用；
+- `plugin-signing-owner`：配置同一审核人，但关闭禁止提交者自审，仅在 `t8y2` 发起工作流时使用；
+- 两个 Environment 都必须配置 `DBX_STORE_SIGNING_KEY`（Environment Secret）和 `DBX_STORE_SIGNING_KEY_ID`（Environment Variable）；
+- `DBX_STORE_SIGNING_KEY_ID` 必须对应 `signing-keys.json` 中状态为 `active` 的 key；
 - 公钥记录提交到 `signing-keys.json`，并随 DBX 发布到官方客户端的内置信任列表。
 
 密钥轮换时必须使用新的 key ID，先让支持版本信任新公钥，再停止使用旧 key。泄露的密钥应记录到 `revoked.json`，不能复用旧 key ID。
