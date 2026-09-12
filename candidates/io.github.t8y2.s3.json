@@ -48,6 +48,12 @@
       "size": 6296562
     },
     {
+      "target": "windows-arm64",
+      "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-windows-arm64.dbxp",
+      "sha256": "276a27f4a71e05e1eaa1afa8fade4206ff19f14a4e92663009d63bf24cb2123d",
+      "size": 5829879
+    },
+    {
       "target": "windows-x64",
       "url": "https://github.com/t8y2/dbx-plugin-s3/releases/download/v0.1.1/io.github.t8y2.s3-0.1.1-windows-x64.dbxp",
       "sha256": "0d087a9b2bb055cc2642a0957bce9afa4b882607e0f2cd4e1dd398c8b5ac7e69",
