@@ -9,7 +9,7 @@ on:
         type: string
       sdk-ref:
         description: Reviewed DBX tag or commit containing the packager contract
-        default: plugin-sdk-v1
+        default: plugin-cli-v0.1.2
         required: true
         type: string
 
