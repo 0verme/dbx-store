@@ -16,9 +16,21 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Detect optional DBX Store App credentials
+        id: app-config
+        env:
+          APP_ID: ${{ secrets.DBX_STORE_AUTOMATION_APP_ID }}
+          PRIVATE_KEY: ${{ secrets.DBX_STORE_AUTOMATION_APP_PRIVATE_KEY }}
+        run: |
+          if [ -n "$APP_ID" ] && [ -n "$PRIVATE_KEY" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Create DBX Store App token
         id: app-token
-        if: ${{ secrets.DBX_STORE_AUTOMATION_APP_ID != '' && secrets.DBX_STORE_AUTOMATION_APP_PRIVATE_KEY != '' }}
+        if: steps.app-config.outputs.configured == 'true'
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.DBX_STORE_AUTOMATION_APP_ID }}
