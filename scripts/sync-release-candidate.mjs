@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const options = parseOptions(process.argv.slice(2));
@@ -64,6 +64,7 @@ if (!existingPlugin) {
   assert(typeof candidate.license === "string" && candidate.license.length > 0, "New plugins require store metadata 'license'");
 }
 
+await mkdir(path.dirname(output), { recursive: true });
 await writeFile(output, `${JSON.stringify(candidate, null, 2)}\n`);
 console.log(`Prepared ${candidate.id}@${candidate.version} with ${candidate.targets.length} target(s)`);
 
