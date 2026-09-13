@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "plugins": [
+    {
+      "repository": "t8y2/dbx-plugin-s3",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
+    }
+  ]
+}

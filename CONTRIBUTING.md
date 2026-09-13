@@ -19,6 +19,12 @@ Do not submit ordinary plugin source code to `t8y2/dbx`. Keep it in the plugin's
 6. After review, a DBX maintainer runs the protected **Sign plugin PR candidates** workflow on your pull request. The workflow verifies the pinned candidate bytes, signs them with the repository key, publishes the signed assets to `dbx-store` Releases, and commits the finalized `plugins/<plugin-id>.json`, the regenerated `catalog/index.json`, and the removal of `candidates/<plugin-id>.json` back to your PR branch.
 7. Once CI is green, a maintainer merges the pull request.
 
+The store automation polls repositories listed in `automation/plugin-sources.json` and creates or updates candidate PRs. It requires the protected signing workflow and a maintainer merge; the automation App must not have access to `DBX_STORE_SIGNING_KEY`.
+
+To enable this automation, install a dedicated GitHub App on `t8y2/dbx-store` with only Metadata read, Contents read/write, and Pull requests read/write permissions. Configure `DBX_STORE_AUTOMATION_APP_ID` and `DBX_STORE_AUTOMATION_APP_PRIVATE_KEY` only as Actions secrets in `dbx-store`. These credentials are for opening catalog PRs only and must be different from the signing secret. Register a public plugin repository with `autoUpdate: true` in `automation/plugin-sources.json`; plugin repositories need no automation secret.
+
+For an already-listed plugin, the synchronizer only needs the repository Release and `release-candidates.json`; `.dbx-store.json` is optional and is used only for first-submission metadata or intentional listing updates.
+
 For a new version of an already-listed plugin, submit `candidates/<plugin-id>.json` with the new version only; listing fields you omit keep their current values, and any field you include replaces the stored value. The publisher must already own the plugin.
 
 ## Candidate file format

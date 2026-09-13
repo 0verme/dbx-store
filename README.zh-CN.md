@@ -29,8 +29,8 @@ dbx-store/
 
 - 插件源码、测试和插件自身的 Release：插件作者自己的源码仓库。
 - DBX Host、SDK、CLI、协议、Schema 和官方示例：[`t8y2/dbx`](https://github.com/t8y2/dbx)。
-- 签名前审核：在本仓库创建 **Plugin submission Issue**。
-- 最终 Marketplace 上架：向 [`t8y2/dbx-store:main`](https://github.com/t8y2/dbx-store/tree/main) 提交 catalog PR，不是向 `t8y2/dbx` 提交。
+- Marketplace 上架：向 [`t8y2/dbx-store:main`](https://github.com/t8y2/dbx-store/tree/main) 提交 catalog PR，不是向 `t8y2/dbx` 提交。
+- 插件仓库可以在 Release 成功后自动请求本仓库创建或更新候选 PR。
 
 ## 插件作者上架流程
 
@@ -51,18 +51,17 @@ dbx-plugin package .
 
 候选包可以放在插件仓库的 GitHub Release、CDN 或对象存储中，但不要把 `.dbxp` 二进制提交到 Git 历史。
 
-### 2. 创建审核 Issue
+### 2. 创建或更新 catalog PR
 
-在 [`dbx-store Issues`](https://github.com/t8y2/dbx-store/issues/new/choose) 中选择 **Plugin submission**，提供：
+商店的定时 Workflow 会读取 `automation/plugin-sources.json` 中 `autoUpdate: true` 的插件仓库，发现最新的公开 Release，并读取其中的 `release-candidates.json`，自动创建或更新：
 
-- 插件 ID、版本和发布者 ID；
-- 源码仓库和不可变的源码 Tag 或 commit；
-- `release-candidates.json` 的 HTTPS 地址；
-- 插件功能、权限、数据访问和网络访问；
-- Native Sidecar 的进程、端口、文件写入和外部命令行为；
-- 许可证、隐私政策和支持地址。
+```text
+candidates/<plugin-id>.json
+```
 
-审核通过前，不要自行填写官方 `signingKeyId`，也不要把插件源码提交到 `t8y2/dbx`。
+已上架插件的版本更新不需要额外维护 `.dbx-store.json`；它只在首次上架或主动更新商店展示信息时使用。候选文件只能引用插件仓库发布的未签名包；审核通过前，不要自行填写官方 `signingKeyId`。
+
+自动同步只需要在 `dbx-store` 配置一个单独的 GitHub App。该 App 只需要 `dbx-store` 的 Metadata 只读、Contents 读写和 Pull requests 读写权限；`DBX_STORE_AUTOMATION_APP_ID`、`DBX_STORE_AUTOMATION_APP_PRIVATE_KEY` 只配置在商店仓库中，插件作者不需要配置任何自动化 Secret。它不能访问 `DBX_STORE_SIGNING_KEY`。
 
 ### 3. 等待审核和官方签名
 
@@ -76,23 +75,9 @@ Workflow 会验证候选包仍是未签名包、Manifest ID 和版本正确、�
 
 作者不会接触官方仓库私钥。
 
-### 4. 提交最终 catalog PR
+### 4. 合并 catalog PR
 
-获得最终签名 artifact metadata 后，Fork 本仓库并新增或更新：
-
-```text
-publishers/<publisher-id>.json    # 发布者首次提交时需要
-plugins/<plugin-id>.json
-catalog/index.json                # 由校验脚本生成
-```
-
-在仓库根目录运行：
-
-```bash
-node scripts/validate.mjs
-```
-
-然后向 `t8y2/dbx-store:main` 创建 Pull Request。每个 artifact 的 `url`、`sha256`、`size` 和 `signingKeyId` 必须来自最终签名 metadata。
+维护者运行签名 Workflow 后，Workflow 会把最终的 `plugins/<plugin-id>.json`、`catalog/index.json` 和签名回执写回同一个 PR。所有检查通过后，由维护者审核并合并 PR。
 
 最终上架 PR 不能包含：
 
@@ -136,9 +121,9 @@ node scripts/validate.mjs
 每次更新都必须使用新的语义化版本，不能覆盖旧 Release 资产：
 
 1. 在插件源码仓库发布新的源码 Tag 和未签名候选 Release；
-2. 在本仓库创建新的 Plugin submission Issue，引用已有插件和新版本；
+2. Release Workflow 自动向本仓库创建或更新新的候选 PR；
 3. 等待审核并完成 DBX Store 仓库签名；
-4. 提交更新 `plugins/<plugin-id>.json` 的 catalog PR。
+4. 维护者合并该 PR，目录随后更新。
 
 插件代码问题应在插件源码仓库修复；只有目录元数据、审核状态、最终下载地址、哈希、大小和商店文案属于本仓库。
 
@@ -146,5 +131,4 @@ node scripts/validate.mjs
 
 - [DBX 插件开发文档目录](https://github.com/t8y2/dbx/tree/main/plugins)
 - [提交插件的英文规范](CONTRIBUTING.md)
-- [插件提交 Issue 模板](.github/ISSUE_TEMPLATE/plugin-submission.yml)
 - [catalog PR 模板](.github/PULL_REQUEST_TEMPLATE/plugin-catalog.md)

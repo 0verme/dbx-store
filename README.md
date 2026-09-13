@@ -30,6 +30,7 @@ Plugin source code stays in the plugin author's repository. CI-built `.dbxp` pac
 - Plugin source changes belong in the plugin's own source repository.
 - DBX host, SDK, CLI, schema, and official-example changes belong in [`t8y2/dbx`](https://github.com/t8y2/dbx).
 - Marketplace submissions are a **single pull request against `t8y2/dbx-store:main`**: add `publishers/<publisher-id>.json` (first submission) and `candidates/<plugin-id>.json`, then maintainers review and run the protected signing workflow, which finalizes `plugins/<plugin-id>.json` and `catalog/index.json` on the same PR.
+- The `Sync plugin releases to catalog PRs` workflow polls registered public plugin repositories with `autoUpdate: true`, creates or updates candidate PRs, and never signs or merges them.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the candidate format and the exact PR → review/signing → merge sequence.
 
