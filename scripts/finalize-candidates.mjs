@@ -10,11 +10,11 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const candidatesDirectory = path.join(root, "candidates");
 const pluginsDirectory = path.join(root, "plugins");
-const releaseBase = "https://github.com/t8y2/dbx-store/releases/download";
 const listingFields = ["name", "description", "icon", "tags", "permissions", "source", "homepage", "license", "localizations"];
 
 const signingKeyId = requiredOption("--signing-key-id");
 const signedPath = requiredOption("--signed");
+const artifactBaseUrl = normalizeBaseUrl(requiredOption("--artifact-base-url"));
 const signed = JSON.parse(await readFile(signedPath, "utf8"));
 
 const files = (await readdir(candidatesDirectory)).filter((file) => file.endsWith(".json")).sort();
@@ -34,7 +34,7 @@ for (const file of files) {
     const fileName = `${candidate.id}-${candidate.version}-${target.target}.dbxp`;
     return {
       target: target.target,
-      url: `${releaseBase}/${candidate.id}-${candidate.version}/${fileName}`,
+      url: `${artifactBaseUrl}/${candidate.id}/${candidate.version}/${fileName}`,
       sha256: digest.sha256,
       signingKeyId,
       size: digest.size,
@@ -85,6 +85,12 @@ function requiredOption(name) {
   const index = process.argv.indexOf(name);
   if (index === -1 || !process.argv[index + 1]) throw new Error(`Missing required option ${name}`);
   return process.argv[index + 1];
+}
+
+function normalizeBaseUrl(value) {
+  const url = new URL(value);
+  if (url.protocol !== "https:") throw new Error(`Invalid artifact base URL: ${value}`);
+  return value.replace(/\/+$/, "");
 }
 
 function compareSemver(left, right) {

@@ -28,6 +28,9 @@ jobs:
       name: ${{ github.actor == 't8y2' && 'plugin-signing-owner' || 'plugin-signing' }}
     env:
       SIGNING_KEY_ID: ${{ vars.DBX_STORE_SIGNING_KEY_ID }}
+      R2_ENDPOINT: ${{ vars.DBX_R2_ENDPOINT }}
+      R2_BUCKET: ${{ vars.DBX_R2_BUCKET || 'dbx' }}
+      R2_PUBLIC_BASE_URL: ${{ vars.DBX_R2_PUBLIC_BASE_URL }}
       PR_NUMBER: ${{ inputs.pr-number }}
     steps:
       - name: Resolve pull request head
@@ -83,6 +86,15 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_ENV, `EXPECTED_SIGNING_PUBLIC_KEY=${key.publicKey}\n`);
           NODE
 
+      - name: Verify R2 publishing configuration
+        working-directory: pr
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$R2_ENDPOINT" =~ ^https:// ]] || { echo "::error::Configure DBX_R2_ENDPOINT as a repository variable"; exit 1; }
+          [[ "$R2_PUBLIC_BASE_URL" =~ ^https:// ]] || { echo "::error::Configure DBX_R2_PUBLIC_BASE_URL as a repository variable"; exit 1; }
+          [[ "$R2_BUCKET" =~ ^[a-z0-9.-]{3,63}$ ]] || { echo "::error::Configure a valid DBX_R2_BUCKET"; exit 1; }
+
       - name: Validate candidates and build signing plan
         working-directory: pr
         run: node scripts/validate.mjs --plan-candidates > "$GITHUB_WORKSPACE/plan.json"
@@ -97,26 +109,36 @@ jobs:
             --plan "$GITHUB_WORKSPACE/plan.json" \
             --key-id "$SIGNING_KEY_ID" \
             --packager "$GITHUB_WORKSPACE/.dbx-plugin-sdk/plugins/sdk/packager/Cargo.toml" \
+            --artifact-base-url "$R2_PUBLIC_BASE_URL" \
             --out "$GITHUB_WORKSPACE/signout"
 
       - name: Publish signed assets
         working-directory: pr
         env:
-          GH_TOKEN: ${{ github.token }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.DBX_R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DBX_R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          AWS_EC2_METADATA_DISABLED: true
         run: |
           set -euo pipefail
           signout="$GITHUB_WORKSPACE/signout"
-          while IFS=$'\t' read -r tag file; do
-            gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" --title "$tag" --notes "DBX Store-reviewed plugin assets."
-            if gh release view "$tag" --json assets --jq '.assets[].name' | grep -Fxq "$file"; then
-              echo "::error::Release asset already exists and cannot be overwritten: $tag/$file"
+          aws s3api head-bucket --bucket "$R2_BUCKET" --endpoint-url "$R2_ENDPOINT"
+          while IFS=$'\t' read -r key file; do
+            if aws s3api head-object --bucket "$R2_BUCKET" --key "$key" --endpoint-url "$R2_ENDPOINT" >/dev/null 2>&1; then
+              echo "::error::R2 object already exists and cannot be overwritten: $key"
               exit 1
             fi
-            gh release upload "$tag" "$signout/$file"
+            content_type="application/octet-stream"
+            [[ "$file" == *.json ]] && content_type="application/json"
+            aws s3 cp "$signout/$file" "s3://$R2_BUCKET/$key" \
+              --endpoint-url "$R2_ENDPOINT" \
+              --content-type "$content_type" \
+              --cache-control "public, max-age=31536000, immutable" \
+              --only-show-errors
           done < <(node -e '
           const fs = require("node:fs");
           const uploads = JSON.parse(fs.readFileSync(process.env.GITHUB_WORKSPACE + "/signout/uploads.json", "utf8"));
-          for (const upload of uploads) for (const file of upload.files) console.log(`${upload.tag}\t${file}`);
+          for (const upload of uploads) for (const file of upload.files) console.log(`${upload.prefix}/${file}\t${file}`);
           ')
 
       - name: Finalize plugin listings
@@ -124,6 +146,7 @@ jobs:
         run: |
           node scripts/finalize-candidates.mjs \
             --signing-key-id "$SIGNING_KEY_ID" \
+            --artifact-base-url "$R2_PUBLIC_BASE_URL" \
             --signed "$GITHUB_WORKSPACE/signout/signed.json"
           node scripts/validate.mjs
 

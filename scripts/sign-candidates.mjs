@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 const planPath = requiredOption("--plan");
 const keyId = requiredOption("--key-id");
 const packagerManifest = requiredOption("--packager");
+const artifactBaseUrl = normalizeBaseUrl(requiredOption("--artifact-base-url"));
 const outDirectory = path.resolve(requiredOption("--out", "."));
 
 const plan = JSON.parse(await readFile(planPath, "utf8"));
@@ -18,14 +19,12 @@ if (!Array.isArray(plan.candidates) || plan.candidates.length === 0) throw new E
 await rm(outDirectory, { recursive: true, force: true });
 await mkdir(outDirectory, { recursive: true });
 
-const releaseBase = "https://github.com/t8y2/dbx-store/releases/download";
 const digests = {};
 const uploads = [];
 
 for (const candidate of plan.candidates) {
   for (const target of candidate.targets) {
     const outputName = `${candidate.id}-${candidate.version}-${target.target}.dbxp`;
-    const releaseTag = `${candidate.id}-${candidate.version}`;
     const candidatePath = path.join(outDirectory, `candidate-${outputName}`);
     const signedPath = path.join(outDirectory, outputName);
     console.log(`Signing ${candidate.id}@${candidate.version} ${target.target} ...`);
@@ -51,7 +50,7 @@ for (const candidate of plan.candidates) {
     if (manifest.id !== candidate.id) throw new Error(`Expected plugin ${candidate.id} in ${outputName}, got ${manifest.id}`);
     if (manifest.version !== candidate.version) throw new Error(`Expected version ${candidate.version} in ${outputName}, got ${manifest.version}`);
 
-    const artifactUrl = `${releaseBase}/${releaseTag}/${outputName}`;
+    const artifactUrl = `${artifactBaseUrl}/${candidate.id}/${candidate.version}/${outputName}`;
     execFileSync(
       "cargo",
       [
@@ -94,7 +93,7 @@ for (const candidate of plan.candidates) {
 
     digests[`${candidate.id}/${candidate.version}/${target.target}`] = { sha256: signedSha256, size: signedBytes.length };
     uploads.push({
-      tag: releaseTag,
+      prefix: `${candidate.id}/${candidate.version}`,
       files: [outputName, `${outputName.replace(/\.dbxp$/, "")}.artifact.json`, `${outputName.replace(/\.dbxp$/, "")}.signing-receipt.json`],
     });
     await rm(candidatePath, { force: true });
@@ -116,4 +115,10 @@ function requiredOption(name, fallback = undefined) {
     throw new Error(`Missing required option ${name}`);
   }
   return process.argv[index + 1];
+}
+
+function normalizeBaseUrl(value) {
+  const url = new URL(value);
+  if (url.protocol !== "https:") throw new Error("--artifact-base-url must use HTTPS");
+  return value.replace(/\/+$/, "");
 }

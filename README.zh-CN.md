@@ -36,11 +36,13 @@ dbx-store/
 └── scripts/validate.mjs     # 确定性的目录生成与校验脚本
 ```
 
-插件源码保存在作者自己的仓库中。CI 生成的 `.dbxp` 安装包应放在 GitHub Release、对象存储或 CDN 中，不能提交到本仓库。
+插件源码和未签名候选 Release 保存在作者自己的仓库中。DBX Store 签名工作流会把审核后的正式 `.dbxp` 安装包发布到对象存储或 CDN，不能把二进制包提交到本仓库。
+
+插件作者可以正常发布 GitHub Release。商店同步器会读取作者仓库的公开 Release 和 `release-candidates.json`；这个 Release 是未签名的审核输入，不是最终的官方安装包。审核通过后，维护者会把不可变的正式签名包发布到商店对象存储。Catalog 保存公开制品 URL、SHA-256、大小和仓库签名元数据。
 
 ## 提交位置
 
-- 插件源码、测试和插件自身的 Release：插件作者自己的源码仓库。
+- 插件源码、测试和插件自身的未签名候选 Release：插件作者自己的源码仓库。
 - DBX Host、SDK、CLI、协议、Schema 和官方示例：[`t8y2/dbx`](https://github.com/t8y2/dbx)。
 - Marketplace 上架：向 [`t8y2/dbx-store:main`](https://github.com/t8y2/dbx-store/tree/main) 提交 catalog PR，不是向 `t8y2/dbx` 提交。
 - 插件仓库可以在 Release 成功后自动请求本仓库创建或更新候选 PR。
@@ -111,7 +113,7 @@ Workflow 会验证候选包仍是未签名包、Manifest ID 和版本正确、�
 
 密钥轮换时必须使用新的 key ID，先让支持版本信任新公钥，再停止使用旧 key。泄露的密钥应记录到 `revoked.json`，不能复用旧 key ID。
 
-维护者通过 Workflow 输入已审核的候选 URL、SHA-256、大小、插件 ID、版本、目标平台、输出文件名、Release Tag 和 SDK ref。Workflow 禁止覆盖已有 Release 资产；如果包内容发生变化，必须发布新的插件版本。
+维护者通过 Workflow 输入已审核的候选 URL、SHA-256、大小、插件 ID、版本、目标平台、输出文件名和 SDK ref。Workflow 将包上传到 R2，并禁止覆盖已有 R2 对象；如果包内容发生变化，必须发布新的插件版本。
 
 ## 目录校验
 
@@ -131,9 +133,9 @@ node scripts/validate.mjs
 
 ## 更新已有插件
 
-每次更新都必须使用新的语义化版本，不能覆盖旧 Release 资产：
+每次更新都必须使用新的语义化版本，不能覆盖旧 R2 对象：
 
-1. 在插件源码仓库发布新的源码 Tag 和未签名候选 Release；
+1. 在插件源码仓库发布新的源码 Tag 和未签名候选包；
 2. Release Workflow 自动向本仓库创建或更新新的候选 PR；
 3. 等待审核并完成 DBX Store 仓库签名；
 4. 维护者合并该 PR，目录随后更新。
