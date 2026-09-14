@@ -1,0 +1,56 @@
+name: Publish catalog to R2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - catalog/index.json
+  workflow_dispatch:
+
+concurrency:
+  group: publish-catalog-to-r2
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    environment: plugin-signing-owner
+    permissions:
+      contents: read
+    env:
+      R2_ENDPOINT: ${{ vars.DBX_R2_ENDPOINT }}
+      R2_BUCKET: ${{ vars.DBX_R2_BUCKET || 'dbx' }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.DBX_R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.DBX_R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      AWS_EC2_METADATA_DISABLED: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate publishing configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$R2_ENDPOINT" =~ ^https:// ]] || { echo "::error::Configure DBX_R2_ENDPOINT"; exit 1; }
+          [[ "$R2_BUCKET" =~ ^[a-z0-9.-]{3,63}$ ]] || { echo "::error::Configure a valid DBX_R2_BUCKET"; exit 1; }
+          aws s3api head-bucket --bucket "$R2_BUCKET" --endpoint-url "$R2_ENDPOINT"
+
+      - name: Validate catalog
+        run: node scripts/validate.mjs
+
+      - name: Upload catalog to R2
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws s3 cp catalog/index.json "s3://$R2_BUCKET/catalog/index.json" \
+            --endpoint-url "$R2_ENDPOINT" \
+            --content-type "application/json" \
+            --cache-control "public, max-age=60, s-maxage=60, must-revalidate" \
+            --only-show-errors
+          aws s3api head-object \
+            --bucket "$R2_BUCKET" \
+            --key catalog/index.json \
+            --endpoint-url "$R2_ENDPOINT" \
+            --query '{contentLength: ContentLength, contentType: ContentType}' \
+            --output json
