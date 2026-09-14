@@ -10,6 +10,19 @@ DBX reads the generated catalog from:
 https://raw.githubusercontent.com/t8y2/dbx-store/main/catalog/index.json
 ```
 
+## Start developing a plugin
+
+To build your own DBX plugin, start with the official guide *Develop and Submit DBX Plugins*. It covers the project structure, manifest reference, frontend Host API, sidecar SDKs, packaging, local debugging, and the full official-store submission flow:
+
+- English: https://dbxio.com/en/docs/plugin-development
+- 简体中文: https://dbxio.com/cn/docs/plugin-development
+
+The development CLI installs without cloning or compiling DBX:
+
+```bash
+npm install --global @dbx-app/plugin-cli
+```
+
 ## Repository layout
 
 ```text

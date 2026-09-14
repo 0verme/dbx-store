@@ -10,6 +10,19 @@ DBX 从以下地址读取生成后的官方插件目录：
 https://raw.githubusercontent.com/t8y2/dbx-store/main/catalog/index.json
 ```
 
+## 开始开发插件
+
+开发自己的 DBX 插件请从官方文档《开发和提交 DBX 插件》开始，它完整覆盖项目结构、Manifest 规范、前端 Host API、Sidecar SDK、打包、本地调试和提交官方商店的全流程：
+
+- 简体中文：https://dbxio.com/cn/docs/plugin-development
+- English：https://dbxio.com/en/docs/plugin-development
+
+开发 CLI 无需克隆或编译 DBX 即可安装使用：
+
+```bash
+npm install --global @dbx-app/plugin-cli
+```
+
 ## 仓库结构
 
 ```text
@@ -129,6 +142,6 @@ node scripts/validate.mjs
 
 ## 相关链接
 
-- [DBX 插件开发文档目录](https://github.com/t8y2/dbx/tree/main/plugins)
+- [DBX 插件平台仓库（SDK、CLI、Schema、官方示例）](https://github.com/t8y2/dbx/tree/main/plugins)
 - [提交插件的英文规范](CONTRIBUTING.md)
 - [catalog PR 模板](.github/PULL_REQUEST_TEMPLATE/plugin-catalog.md)
