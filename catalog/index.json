@@ -9,18 +9,18 @@
   "plugins": [
     {
       "id": "io.github.t8y2.s3",
-      "name": "DBX S3",
+      "name": "S3 Browser",
       "description": "S3-compatible object storage plugin for DBX.",
       "publisher": "t8y2",
       "verified": false,
-      "icon": "https://raw.githubusercontent.com/t8y2/dbx-plugin-s3/v0.1.1/assets/plugin.svg",
+      "icon": "https://raw.githubusercontent.com/t8y2/dbx-plugin-s3/v0.1.3/assets/plugin.svg",
       "tags": [
         "storage",
         "s3",
         "files"
       ],
       "permissions": [],
-      "source": "https://github.com/t8y2/dbx-plugin-s3/tree/v0.1.1",
+      "source": "https://github.com/t8y2/dbx-plugin-s3/tree/v0.1.3",
       "homepage": "https://github.com/t8y2/dbx-plugin-s3",
       "license": "Proprietary",
       "latestVersion": "0.1.3",
@@ -175,7 +175,7 @@
       ],
       "localizations": {
         "zh-CN": {
-          "name": "DBX S3",
+          "name": "S3 Browser",
           "description": "DBX 的 S3 兼容对象存储插件。"
         }
       }
