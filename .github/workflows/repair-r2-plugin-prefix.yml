@@ -1,0 +1,110 @@
+name: Repair R2 plugin artifact prefix
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: repair-r2-plugin-prefix
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    environment: plugin-signing-owner
+    permissions:
+      contents: read
+    env:
+      R2_ENDPOINT: ${{ vars.DBX_R2_ENDPOINT }}
+      R2_BUCKET: ${{ vars.DBX_R2_BUCKET || 'dbx' }}
+      R2_PUBLIC_BASE_URL: ${{ vars.DBX_R2_PUBLIC_BASE_URL }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.DBX_R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.DBX_R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      AWS_EC2_METADATA_DISABLED: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate repair configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$R2_ENDPOINT" =~ ^https:// ]] || { echo "::error::Configure DBX_R2_ENDPOINT"; exit 1; }
+          [[ "$R2_PUBLIC_BASE_URL" =~ ^https:// ]] || { echo "::error::Configure DBX_R2_PUBLIC_BASE_URL"; exit 1; }
+          [[ "$R2_BUCKET" =~ ^[a-z0-9.-]{3,63}$ ]] || { echo "::error::Configure a valid DBX_R2_BUCKET"; exit 1; }
+          aws s3api head-bucket --bucket "$R2_BUCKET" --endpoint-url "$R2_ENDPOINT"
+
+      - name: Copy legacy objects into namespaced keys
+        shell: bash
+        run: |
+          set -euo pipefail
+          node > repair-plan.tsv <<'NODE'
+          const fs = require("node:fs");
+          const catalog = JSON.parse(fs.readFileSync("catalog/index.json", "utf8"));
+          const expectedBase = process.env.R2_PUBLIC_BASE_URL.replace(/\/+$/, "");
+          const seen = new Set();
+          for (const plugin of catalog.plugins) {
+            for (const version of plugin.versions) {
+              for (const artifact of version.artifacts) {
+                const url = new URL(artifact.url);
+                const prefix = `/plugins/${plugin.id}/${version.version}/`;
+                if (url.origin !== expectedBase || !url.pathname.startsWith(prefix)) {
+                  throw new Error(`Unexpected catalog artifact URL: ${artifact.url}`);
+                }
+                const fileName = decodeURIComponent(url.pathname.slice(prefix.length));
+                if (!/^[A-Za-z0-9._+-]+\.dbxp$/.test(fileName)) {
+                  throw new Error(`Unexpected artifact filename: ${fileName}`);
+                }
+                const keyPrefix = `plugins/${plugin.id}/${version.version}`;
+                const assets = [
+                  fileName,
+                  fileName.replace(/\.dbxp$/, ".artifact.json"),
+                  fileName.replace(/\.dbxp$/, ".signing-receipt.json"),
+                ];
+                for (const asset of assets) {
+                  const targetKey = `${keyPrefix}/${asset}`;
+                  if (seen.has(targetKey)) continue;
+                  seen.add(targetKey);
+                  console.log(`${plugin.id}\t${version.version}\t${asset}\t${targetKey}\t${artifact.sha256}\t${artifact.size}`);
+                }
+              }
+            }
+          }
+          NODE
+
+          while IFS=$'\t' read -r plugin_id version asset target_key expected_sha expected_size; do
+            source_key="${plugin_id}/${version}/${asset}"
+            echo "Repairing $source_key -> $target_key"
+            aws s3api head-object \
+              --bucket "$R2_BUCKET" \
+              --key "$source_key" \
+              --endpoint-url "$R2_ENDPOINT" >/dev/null
+            if aws s3api head-object \
+              --bucket "$R2_BUCKET" \
+              --key "$target_key" \
+              --endpoint-url "$R2_ENDPOINT" >/dev/null 2>&1; then
+              echo "Keeping existing immutable object $target_key"
+              continue
+            fi
+            aws s3api copy-object \
+              --bucket "$R2_BUCKET" \
+              --copy-source "$R2_BUCKET/$source_key" \
+              --key "$target_key" \
+              --metadata-directive COPY \
+              --endpoint-url "$R2_ENDPOINT" >/dev/null
+          done < repair-plan.tsv
+
+      - name: Verify repaired packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS=$'\t' read -r plugin_id version asset target_key expected_sha expected_size; do
+            [[ "$asset" == *.dbxp ]] || continue
+            url="${R2_PUBLIC_BASE_URL%/}/$target_key"
+            file="$RUNNER_TEMP/$plugin_id-$version-$asset"
+            curl --fail --location --max-redirs 5 --proto '=https' --tlsv1.2 --output "$file" "$url"
+            actual_sha="$(sha256sum "$file" | cut -d' ' -f1)"
+            actual_size="$(stat -c '%s' "$file")"
+            [[ "$actual_sha" == "$expected_sha" ]] || { echo "::error::SHA-256 mismatch for $url"; exit 1; }
+            [[ "$actual_size" == "$expected_size" ]] || { echo "::error::Size mismatch for $url"; exit 1; }
+          done < repair-plan.tsv
+          echo "Verified all namespaced plugin packages"

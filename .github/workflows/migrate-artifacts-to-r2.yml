@@ -48,7 +48,7 @@ jobs:
           const plan = JSON.parse(fs.readFileSync("migration-plan.json", "utf8"));
           for (const artifact of plan.artifacts) {
             for (const asset of artifact.assets) {
-              console.log([artifact.oldUrl.replace(/\/[^/]+$/, `/${asset}`), `${artifact.pluginId}/${artifact.version}/${asset}`, artifact.sha256, asset === artifact.assets[0] ? "package" : "metadata"].join("\t"));
+              console.log([artifact.oldUrl.replace(/\/[^/]+$/, `/${asset}`), `plugins/${artifact.pluginId}/${artifact.version}/${asset}`, artifact.sha256, asset === artifact.assets[0] ? "package" : "metadata"].join("\t"));
             }
           }
           NODE
@@ -77,7 +77,7 @@ jobs:
           const plan = JSON.parse(fs.readFileSync("migration-plan.json", "utf8"));
           for (const artifact of plan.artifacts) {
             for (const asset of artifact.assets) {
-              console.log([artifact.oldUrl.replace(/\/[^/]+$/, `/${asset}`), `${artifact.pluginId}/${artifact.version}/${asset}`, artifact.sha256, asset === artifact.assets[0] ? "package" : "metadata"].join("\t"));
+              console.log([artifact.oldUrl.replace(/\/[^/]+$/, `/${asset}`), `plugins/${artifact.pluginId}/${artifact.version}/${asset}`, artifact.sha256, asset === artifact.assets[0] ? "package" : "metadata"].join("\t"));
             }
           }
           NODE
