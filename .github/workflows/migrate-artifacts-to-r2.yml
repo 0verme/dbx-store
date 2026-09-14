@@ -1,0 +1,105 @@
+name: Migrate signed plugin artifacts to R2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: migrate-plugin-artifacts-to-r2
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-24.04
+    environment: plugin-signing-owner
+    env:
+      R2_ENDPOINT: ${{ vars.DBX_R2_ENDPOINT }}
+      R2_BUCKET: ${{ vars.DBX_R2_BUCKET || 'dbx' }}
+      R2_PUBLIC_BASE_URL: ${{ vars.DBX_R2_PUBLIC_BASE_URL }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.DBX_R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.DBX_R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      AWS_EC2_METADATA_DISABLED: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate migration configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$R2_ENDPOINT" =~ ^https:// ]] || { echo "::error::Configure DBX_R2_ENDPOINT"; exit 1; }
+          [[ "$R2_PUBLIC_BASE_URL" =~ ^https:// ]] || { echo "::error::Configure DBX_R2_PUBLIC_BASE_URL"; exit 1; }
+          [[ "$R2_BUCKET" =~ ^[a-z0-9.-]{3,63}$ ]] || { echo "::error::Configure a valid DBX_R2_BUCKET"; exit 1; }
+          aws s3api head-bucket --bucket "$R2_BUCKET" --endpoint-url "$R2_ENDPOINT"
+
+      - name: Build migration plan
+        run: node scripts/migrate-artifacts-to-r2.mjs --base-url "$R2_PUBLIC_BASE_URL" > migration-plan.json
+
+      - name: Upload historical artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          workdir="$RUNNER_TEMP/dbx-r2-migration"
+          mkdir -p "$workdir"
+          node <<'NODE'
+          const fs = require("node:fs");
+          const plan = JSON.parse(fs.readFileSync("migration-plan.json", "utf8"));
+          for (const artifact of plan.artifacts) {
+            for (const asset of artifact.assets) {
+              console.log([artifact.oldUrl.replace(/\/[^/]+$/, `/${asset}`), `${artifact.pluginId}/${artifact.version}/${asset}`, artifact.sha256, asset === artifact.assets[0] ? "package" : "metadata"].join("\t"));
+            }
+          }
+          NODE
+          while IFS=$'\t' read -r source_url key expected_sha kind; do
+            file="$workdir/$(basename "$key")"
+            curl --fail --location --max-redirs 5 --proto '=https' --tlsv1.2 --output "$file" "$source_url"
+            if [[ "$kind" == "package" ]]; then
+              actual_sha="$(sha256sum "$file" | cut -d' ' -f1)"
+              [[ "$actual_sha" == "$expected_sha" ]] || { echo "::error::SHA-256 mismatch for $key"; exit 1; }
+            fi
+            if aws s3api head-object --bucket "$R2_BUCKET" --key "$key" --endpoint-url "$R2_ENDPOINT" >/dev/null 2>&1; then
+              echo "Keeping existing immutable object $key"
+              rm -f "$file"
+              continue
+            fi
+            content_type="application/octet-stream"
+            [[ "$key" == *.json ]] && content_type="application/json"
+            aws s3 cp "$file" "s3://$R2_BUCKET/$key" \
+              --endpoint-url "$R2_ENDPOINT" \
+              --content-type "$content_type" \
+              --cache-control "public, max-age=31536000, immutable" \
+              --only-show-errors
+            rm -f "$file"
+          done < <(node <<'NODE'
+          const fs = require("node:fs");
+          const plan = JSON.parse(fs.readFileSync("migration-plan.json", "utf8"));
+          for (const artifact of plan.artifacts) {
+            for (const asset of artifact.assets) {
+              console.log([artifact.oldUrl.replace(/\/[^/]+$/, `/${asset}`), `${artifact.pluginId}/${artifact.version}/${asset}`, artifact.sha256, asset === artifact.assets[0] ? "package" : "metadata"].join("\t"));
+            }
+          }
+          NODE
+          )
+
+      - name: Rewrite catalog URLs after upload
+        run: |
+          node scripts/migrate-artifacts-to-r2.mjs --base-url "$R2_PUBLIC_BASE_URL" --rewrite > migration-result.json
+          node scripts/validate.mjs
+
+      - name: Commit migrated catalog
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "dbx-store-migration"
+          git config user.email "actions@users.noreply.github.com"
+          git add plugins catalog
+          if git diff --cached --quiet; then
+            echo "No catalog changes were needed"
+            exit 0
+          fi
+          git commit -m "chore(store): migrate signed plugin artifacts to R2"
+          git push origin HEAD:main

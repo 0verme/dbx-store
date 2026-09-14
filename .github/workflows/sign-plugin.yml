@@ -181,7 +181,7 @@ jobs:
           PLUGIN_ID: ${{ inputs.plugin-id }}
           VERSION: ${{ inputs.version }}
         run: |
-          artifact_url="${R2_PUBLIC_BASE_URL}/${PLUGIN_ID}/${VERSION}/${OUTPUT_NAME}"
+          artifact_url="${R2_PUBLIC_BASE_URL}/plugins/${PLUGIN_ID}/${VERSION}/${OUTPUT_NAME}"
           artifact_metadata="${OUTPUT_NAME%.dbxp}.artifact.json"
           cargo run --locked --manifest-path .dbx-plugin-sdk/plugins/sdk/packager/Cargo.toml -- \
             sign candidate.dbxp "$OUTPUT_NAME" \
@@ -239,7 +239,7 @@ jobs:
           aws s3api head-bucket --bucket "$R2_BUCKET" --endpoint-url "$R2_ENDPOINT"
           artifact_metadata="${OUTPUT_NAME%.dbxp}.artifact.json"
           signing_receipt="${OUTPUT_NAME%.dbxp}.signing-receipt.json"
-          prefix="$PLUGIN_ID/$VERSION"
+          prefix="plugins/$PLUGIN_ID/$VERSION"
           for asset in "$OUTPUT_NAME" "$artifact_metadata" "$signing_receipt"; do
             key="$prefix/$asset"
             if aws s3api head-object --bucket "$R2_BUCKET" --key "$key" --endpoint-url "$R2_ENDPOINT" >/dev/null 2>&1; then

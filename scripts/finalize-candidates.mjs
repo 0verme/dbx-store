@@ -34,7 +34,7 @@ for (const file of files) {
     const fileName = `${candidate.id}-${candidate.version}-${target.target}.dbxp`;
     return {
       target: target.target,
-      url: `${artifactBaseUrl}/${candidate.id}/${candidate.version}/${fileName}`,
+      url: `${artifactBaseUrl}/plugins/${candidate.id}/${candidate.version}/${fileName}`,
       sha256: digest.sha256,
       signingKeyId,
       size: digest.size,

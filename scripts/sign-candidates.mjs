@@ -50,7 +50,7 @@ for (const candidate of plan.candidates) {
     if (manifest.id !== candidate.id) throw new Error(`Expected plugin ${candidate.id} in ${outputName}, got ${manifest.id}`);
     if (manifest.version !== candidate.version) throw new Error(`Expected version ${candidate.version} in ${outputName}, got ${manifest.version}`);
 
-    const artifactUrl = `${artifactBaseUrl}/${candidate.id}/${candidate.version}/${outputName}`;
+    const artifactUrl = `${artifactBaseUrl}/plugins/${candidate.id}/${candidate.version}/${outputName}`;
     execFileSync(
       "cargo",
       [
@@ -93,7 +93,7 @@ for (const candidate of plan.candidates) {
 
     digests[`${candidate.id}/${candidate.version}/${target.target}`] = { sha256: signedSha256, size: signedBytes.length };
     uploads.push({
-      prefix: `${candidate.id}/${candidate.version}`,
+      prefix: `plugins/${candidate.id}/${candidate.version}`,
       files: [outputName, `${outputName.replace(/\.dbxp$/, "")}.artifact.json`, `${outputName.replace(/\.dbxp$/, "")}.signing-receipt.json`],
     });
     await rm(candidatePath, { force: true });
