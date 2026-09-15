@@ -16,6 +16,7 @@ const semverPattern = /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-
 const sha256Pattern = /^[a-f0-9]{64}$/i;
 const planCandidates = process.argv.includes("--plan-candidates");
 const storeReleaseUrlPrefix = "https://github.com/t8y2/dbx-store/releases/";
+const pluginIconPublicBaseUrl = "https://dl.dbxio.com";
 
 await rejectCommittedPackages(root);
 const publishers = await loadPublishers();
@@ -284,6 +285,7 @@ function normalizePlugin(plugin) {
   normalized.description ||= "";
   normalized.tags ||= [];
   normalized.permissions ||= [];
+  if (normalized.icon) normalized.icon = `${pluginIconPublicBaseUrl}/plugins/${normalized.id}/${normalized.latestVersion}/icon.svg`;
   normalized.versions.sort((left, right) => right.version.localeCompare(left.version, undefined, { numeric: true }));
   for (const version of normalized.versions) version.artifacts.sort((left, right) => left.target.localeCompare(right.target));
   return normalized;
