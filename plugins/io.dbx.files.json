@@ -4,7 +4,7 @@
   "description": "A unified file workspace for local folders, S3-compatible storage, WebDAV, FTP, SFTP, SMB/CIFS, and other OpenDAL services.",
   "publisher": "jinpy",
   "verified": false,
-  "icon": "https://raw.githubusercontent.com/jinpy666/dbx-plugin-files/files-v0.1.57/assets/plugin.svg",
+  "icon": "https://raw.githubusercontent.com/jinpy666/dbx-plugin-files/files-v0.1.58/assets/plugin.svg",
   "tags": [
     "files",
     "storage",
@@ -17,10 +17,10 @@
     "host.binary",
     "host.filesystem"
   ],
-  "source": "https://github.com/jinpy666/dbx-plugin-files/tree/files-v0.1.57",
+  "source": "https://github.com/jinpy666/dbx-plugin-files/tree/files-v0.1.58",
   "homepage": "https://github.com/jinpy666/dbx-plugin-files",
   "license": "MIT",
-  "latestVersion": "0.1.57",
+  "latestVersion": "0.1.58",
   "versions": [
     {
       "version": "0.1.57",
@@ -63,11 +63,53 @@
           "size": 12246317
         }
       ]
+    },
+    {
+      "version": "0.1.58",
+      "releasedAt": "2026-09-15T05:50:29.744Z",
+      "releaseNotes": "发布者身份与命名统一：插件 manifest 的 publisher 对齐 dbx-store 发布者 jinpy，各语言显示名统一为 Files Studio（中文不再显示「DBX 文件」）。Identity and naming alignment: the manifest publisher now matches the verified dbx-store publisher (jinpy), and every localized display name is unified as Files Studio.",
+      "artifacts": [
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.58/io.dbx.files-0.1.58-linux-x64.dbxp",
+          "sha256": "61cae18b29342c13b047c68acfbb830b71f943ed5c1854e474b1c6fdbd81f347",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 13609184
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.58/io.dbx.files-0.1.58-linux-arm64.dbxp",
+          "sha256": "0bc453221e5b2a418ea00d5bf09add237be9201e9535c4e020ab0e1e7c3fbccb",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 13916806
+        },
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.58/io.dbx.files-0.1.58-darwin-arm64.dbxp",
+          "sha256": "c174a47bf72e3ec4b28d8286d1e5de95204611e434ea3edcacaec61a67af4890",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 12768375
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.58/io.dbx.files-0.1.58-darwin-x64.dbxp",
+          "sha256": "88f021f95364bd319c59877ccc4494ca87c8854cf0060a4b005bad2b7834a1e0",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 13150831
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.58/io.dbx.files-0.1.58-windows-x64.dbxp",
+          "sha256": "4f0d331348f6dae1aa863cbc6717b18cf3732f49d3bbadc794fcd42bff138ee1",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 12246904
+        }
+      ]
     }
   ],
   "localizations": {
     "zh-CN": {
-      "name": "DBX 文件",
+      "name": "Files Studio",
       "description": "统一管理本地文件夹、S3 兼容存储、WebDAV、FTP、SFTP、SMB/CIFS 的文件工作台：传输任务、归档与受控运维集中在一个界面。"
     }
   }
