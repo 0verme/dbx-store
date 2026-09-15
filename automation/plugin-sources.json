@@ -10,6 +10,11 @@
       "repository": "jinpy666/dbx-plugin-ssh",
       "metadataPath": ".dbx-store.json",
       "autoUpdate": true
+    },
+    {
+      "repository": "jinpy666/dbx-plugin-ldap",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
     }
   ]
 }
