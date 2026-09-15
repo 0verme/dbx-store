@@ -8,6 +8,102 @@
   },
   "plugins": [
     {
+      "id": "io.dbx.kafka",
+      "name": "Kafka Studio",
+      "description": "Operate Apache Kafka from one workspace: inspect topics and partitions, produce and consume messages, filter and decode payloads, monitor consumer lag, manage offsets and ACLs, stream records, and export results.",
+      "publisher": "jinpy",
+      "verified": false,
+      "icon": "https://github.com/jinpy666/dbx-plugin-kafka/raw/kafka-v0.1.39/assets/plugin.svg",
+      "tags": [
+        "kafka",
+        "streaming",
+        "messaging",
+        "schema-registry"
+      ],
+      "permissions": [
+        "host.events",
+        "host.workbench"
+      ],
+      "source": "https://github.com/jinpy666/dbx-plugin-kafka/tree/kafka-v0.1.39",
+      "homepage": "https://github.com/jinpy666/dbx-plugin-kafka",
+      "license": "MIT",
+      "latestVersion": "0.1.39",
+      "versions": [
+        {
+          "version": "0.1.39",
+          "releasedAt": "2026-09-15T04:13:35.866Z",
+          "releaseNotes": "首个商店版本（Kafka Studio）：在一个 DBX 工作台中管理 Apache Kafka——topic/分区/消费组巡检、消息生产与消费（本地聚合 digest、cursor 翻页与流式导出）、消费组 lag 监控与受控 offset 重置、topic/ACL 运维，支持 PLAINTEXT/TLS/SASL（PLAIN/SCRAM）、Kerberos、OAUTHBEARER 与 Confluent/AWS Glue Schema Registry；工作台界面提供 7 种语言（en/zh-CN/zh-TW/es/it/ja/pt-BR）；写操作受只读、allowDelete 与两阶段确认保护，并提供 11 个 MCP 工具供 AI 自动化调用。",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.39/io.dbx.kafka-0.1.39-darwin-arm64.dbxp",
+              "sha256": "643d10bdd150d6d82ae73dd2d94a89539034091a9d9f4a1a0c03dd79079d99a0",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 12786741
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.39/io.dbx.kafka-0.1.39-darwin-x64.dbxp",
+              "sha256": "5c23089fb979acd50768e769baafe8cd8057887da644252c6df6adffad31efa4",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 13417336
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.39/io.dbx.kafka-0.1.39-linux-arm64.dbxp",
+              "sha256": "97cf5d97abc0ac4f0e8d80fe2a6dc62b754845eb6e17d948ac1a5e30c6822da6",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 12647742
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.39/io.dbx.kafka-0.1.39-linux-x64.dbxp",
+              "sha256": "7ac573ea3c4bbbb5ec5b46c8b9daec34032116340ad07698c544ee098a490581",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 13511353
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.39/io.dbx.kafka-0.1.39-windows-x64.dbxp",
+              "sha256": "0462a8969c50069fa9278a44fa2d78c94a1874bbebba1a5b0d8e803f7fecc34a",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 13589267
+            }
+          ]
+        }
+      ],
+      "localizations": {
+        "zh-CN": {
+          "name": "Kafka Studio",
+          "description": "在一个工作台中管理 Apache Kafka：查看 topic 与分区、生产和消费消息、过滤与解码 payload、监控消费组 lag、管理 offset 和 ACL、流式消费并导出结果。"
+        },
+        "zh-TW": {
+          "name": "Kafka Studio",
+          "description": "DBX 的 Kafka 主控台外掛：topic 與分割區、訊息生產與消費（過濾/解碼）、消費組（lag 與 offset 重置）、ACL、串流消費與匯出。"
+        },
+        "en": {
+          "name": "Kafka Studio",
+          "description": "Operate Apache Kafka from one workspace: inspect topics and partitions, produce and consume messages, filter and decode payloads, monitor consumer lag, manage offsets and ACLs, stream records, and export results."
+        },
+        "es": {
+          "name": "Kafka Studio",
+          "description": "Plugin de consola Kafka para DBX: topics y particiones, producción/consumo de mensajes con filtros y decodificación, grupos de consumidores con lag y reset de offsets, ACL, consumo en streaming y exportación."
+        },
+        "it": {
+          "name": "Kafka Studio",
+          "description": "Plugin console Kafka per DBX: topic e partizioni, produzione/consumo di messaggi con filtri e decodifica, gruppi di consumatori con lag e reset degli offset, ACL, consumo in streaming ed esportazione."
+        },
+        "ja": {
+          "name": "Kafka Studio",
+          "description": "DBX 用 Kafka コンソールプラグイン: トピックとパーティション、フィルタリング/デコード付きメッセージ送受信、コンシューマーグループ（ラグと offset リセット）、ACL、ストリーミング消費とエクスポート。"
+        },
+        "pt-BR": {
+          "name": "Kafka Studio",
+          "description": "Plugin de console Kafka para o DBX: tópicos e partições, produção/consumo de mensagens com filtros e decodificação, grupos de consumidores com lag e redefinição de offsets, ACLs, consumo em streaming e exportação."
+        }
+      }
+    },
+    {
       "id": "io.dbx.ldap",
       "name": "LDAP Studio",
       "description": "Browse, search, and manage LDAP directories: RFC 4515 filters, directory tree, schema inspection, guarded entry editing, and LDIF/CSV export.",
