@@ -77,7 +77,7 @@ The catalog lists only artifacts built from the current manifest and SDK contrac
 
 Plugin repositories publish unsigned candidate packages and `release-candidates.json`. After source and binary review, a maintainer runs the protected `Sign approved plugin candidate` workflow with the reviewed candidate URL, SHA-256, byte size, Manifest identity, and target. The workflow binds signing to those exact candidate bytes, rejects already-signed packages, adds the DBX Store signature with the protected `DBX_STORE_SIGNING_KEY` secret, and publishes the final artifact to the configured R2 bucket.
 
-For candidate pull requests, `t8y2` can also start signing by commenting `/sign` on the PR. The command dispatcher only ever runs from the default branch (an issue comment cannot carry PR-owned code) and invokes the protected `Sign plugin PR candidates` workflow with the commenter's identity, so owner runs skip the deployment-approval pause while any other actor still waits in the `plugin-signing` environment. Before signing, the workflow merges the PR's base branch into the PR branch, so the finalized catalog always regenerates on top of the latest `main`; a conflicting merge, or a `/sign` on a PR without open candidates, fails the run.
+For candidate pull requests, a DBX Store maintainer starts the same protected signing by commenting `/sign` on the PR. The workflow first syncs the PR branch with its base branch, then signs and pushes the finalized catalog back to the same PR.
 
 Every signed asset is accompanied by target-specific final artifact metadata and a signing receipt that records the reviewed candidate hash and workflow run. Existing R2 objects are immutable: the workflow refuses to overwrite them, so any changed bytes require a new plugin version.
 
