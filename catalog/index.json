@@ -129,7 +129,7 @@
       "description": "Manage Kubernetes clusters, workloads and resources from DBX.",
       "publisher": "eryajf",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/icon.png",
       "tags": [
         "kubernetes",
         "containers",

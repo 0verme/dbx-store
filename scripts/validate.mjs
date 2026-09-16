@@ -279,13 +279,22 @@ async function loadRevocations() {
   return { pluginVersions, signingKeys: new Set(document.signingKeys) };
 }
 
+function iconExtension(url) {
+  const match = /\.([a-z0-9]+)$/i.exec(new URL(url).pathname.split("/").pop() ?? "");
+  const ext = match?.[1]?.toLowerCase();
+  if (ext !== "svg" && ext !== "png") {
+    throw new Error(`unsupported icon asset '${url}': plugin icons must be SVG or PNG files`);
+  }
+  return ext;
+}
+
 function normalizePlugin(plugin) {
   const normalized = structuredClone(plugin);
   normalized.verified = normalized.verified === true;
   normalized.description ||= "";
   normalized.tags ||= [];
   normalized.permissions ||= [];
-  if (normalized.icon) normalized.icon = `${pluginIconPublicBaseUrl}/plugins/${normalized.id}/${normalized.latestVersion}/icon.svg`;
+  if (normalized.icon) normalized.icon = `${pluginIconPublicBaseUrl}/plugins/${normalized.id}/${normalized.latestVersion}/icon.${iconExtension(normalized.icon)}`;
   normalized.versions.sort((left, right) => right.version.localeCompare(left.version, undefined, { numeric: true }));
   for (const version of normalized.versions) version.artifacts.sort((left, right) => left.target.localeCompare(right.target));
   return normalized;
