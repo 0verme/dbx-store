@@ -4,7 +4,7 @@
   "description": "Operate Apache Kafka from one workspace: inspect topics and partitions, produce and consume messages, filter and decode payloads, monitor consumer lag, manage offsets and ACLs, stream records, and export results.",
   "publisher": "jinpy",
   "verified": false,
-  "icon": "https://raw.githubusercontent.com/jinpy666/dbx-plugin-kafka/kafka-v0.1.40/assets/plugin.svg",
+  "icon": "https://raw.githubusercontent.com/jinpy666/dbx-plugin-kafka/kafka-v0.1.41/assets/plugin.svg",
   "tags": [
     "kafka",
     "streaming",
@@ -18,7 +18,7 @@
   "source": "https://github.com/jinpy666/dbx-plugin-kafka",
   "homepage": "https://github.com/jinpy666/dbx-plugin-kafka",
   "license": "MIT",
-  "latestVersion": "0.1.40",
+  "latestVersion": "0.1.41",
   "versions": [
     {
       "version": "0.1.39",
@@ -101,6 +101,48 @@
           "sha256": "010b06e23bea04a797cbc5797901129fb478f9242c625e197490e70601b5749f",
           "signingKeyId": "dbx-store-release-2026",
           "size": 13627824
+        }
+      ]
+    },
+    {
+      "version": "0.1.41",
+      "releasedAt": "2026-09-16T14:23:44.820Z",
+      "releaseNotes": "修复 DBX 隧道/代理下的 Kafka 连接：插件改为拨宿主下发的最终端点 runtime.host:port，并在宿主下发 runtime.proxy 时让所有 broker（含 advertised.listeners 发现的）共用同一个 SOCKS5 dialer，admin/生产/一次性消费/流式消费一致生效；代理路径补齐 TLS 握手与按 broker 的 SNI。消费组 offset 重置修复 Kafka 4.x 误报成功的问题（OffsetCommit v10 起以 topic id 标识主题，旧提交被 broker 以 UNKNOWN_TOPIC_ID 拒绝），任一分区被拒即返回错误。Fixes Kafka connections behind DBX transport/proxy layers: the sidecar now dials the host-provided runtime endpoint and, when the host publishes runtime.proxy, routes every broker (including brokers discovered via advertised.listeners) through one SOCKS5 dialer shared by admin, produce, one-shot consume and stream clients, with the TLS handshake and per-broker SNI applied after the proxy CONNECT. Consumer-group offset reset now commits by topic id for Kafka 4.x (OffsetCommit v10+) instead of being rejected as UNKNOWN_TOPIC_ID and misreported as success.",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.41/io.dbx.kafka-0.1.41-darwin-arm64.dbxp",
+          "sha256": "06edf8228e6b6815155979ff284d85ea0eec46cabdd5edd25ce7517f5b248b4e",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 13261832
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.41/io.dbx.kafka-0.1.41-darwin-x64.dbxp",
+          "sha256": "0353c848a7e53119fec26d797fdee7191429a0902800afdc230eec9494387c59",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 14064672
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.41/io.dbx.kafka-0.1.41-linux-arm64.dbxp",
+          "sha256": "06606a99899da0969b93472b9877d43c302d96619e21998ae2d4088c25332d7d",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 12497257
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.41/io.dbx.kafka-0.1.41-linux-x64.dbxp",
+          "sha256": "fe612f3eb344015c801ecfcfe30851b780886c7db20951f71fcb7b7a21afb703",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 13570396
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.41/io.dbx.kafka-0.1.41-windows-x64.dbxp",
+          "sha256": "01a109d32da519690f7fa46af56b59b1f544a75ee418f5b69c0a55e6da80cda3",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 13661578
         }
       ]
     }
