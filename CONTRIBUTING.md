@@ -16,7 +16,7 @@ Do not submit ordinary plugin source code to `t8y2/dbx`. Keep it in the plugin's
    - `candidates/<plugin-id>.json` — the candidate metadata below.
 4. Fill in the pull request template: capabilities, permissions, data access, network access, and native sidecar behavior.
 5. CI validates the candidate and stays **red** with `open candidate(s) awaiting DBX Store signing` until signing completes. This is intentional — it blocks merging unsigned work.
-6. After review, a DBX maintainer runs the protected **Sign plugin PR candidates** workflow on your pull request. The workflow verifies the pinned candidate bytes, signs them with the repository key, publishes immutable signed assets to the configured R2 bucket, and commits the finalized `plugins/<plugin-id>.json`, the regenerated `catalog/index.json`, and the removal of `candidates/<plugin-id>.json` back to your PR branch.
+6. After review, a DBX maintainer runs the protected **Sign plugin PR candidates** workflow on your pull request. The workflow syncs your branch with its base branch, verifies the pinned candidate bytes, signs them with the repository key, publishes immutable signed assets to the configured R2 bucket, and commits the finalized `plugins/<plugin-id>.json`, the regenerated `catalog/index.json`, and the removal of `candidates/<plugin-id>.json` back to your PR branch.
 7. Once CI is green, a maintainer merges the pull request.
 
 The store automation polls repositories listed in `automation/plugin-sources.json` and creates or updates candidate PRs. It requires the protected signing workflow and a maintainer merge; the automation App must not have access to `DBX_STORE_SIGNING_KEY`.
@@ -70,8 +70,10 @@ Do not include plugin source directories, `.dbxp` binaries, signing private keys
 
 ## What the signing workflow does
 
-`Sign plugin PR candidates` (workflow_dispatch on a PR number, environment
-`plugin-signing` for non-owners or `plugin-signing-owner` for `t8y2`) verifies the repository key state, re-validates the PR tree,
+`Sign plugin PR candidates` (triggered by a maintainer's `/sign` PR comment or a manual
+workflow_dispatch on a PR number; environment
+`plugin-signing` for non-owners or `plugin-signing-owner` for `t8y2`) first merges the
+PR's base branch into the PR branch, then verifies the repository key state, re-validates the PR tree,
 downloads each pinned candidate, checks that packages are unsigned and their
 manifest identity matches, signs with the protected `DBX_STORE_SIGNING_KEY`,
 publishes the signed `.dbxp` plus artifact metadata and a signing receipt to

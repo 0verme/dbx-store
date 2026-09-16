@@ -82,6 +82,8 @@ candidates/<plugin-id>.json
 
 DBX Store 维护者会检查源码、`manifest.json`、权限、候选包的 SHA-256 和大小，以及 Native Sidecar 行为。审核通过后，维护者运行受保护的 **Sign approved plugin candidate** Workflow。
 
+对于候选 PR，维护者也可以直接在 PR 下评论 `/sign` 触发受保护的 PR 签名工作流。签名前工作流会先把最新目标分支合入 PR 分支，再将签名后的最终目录写回同一个 PR。
+
 Workflow 会验证候选包仍是未签名包、Manifest ID 和版本正确、下载内容与已审核 SHA-256/大小一致，然后使用 DBX Store 仓库 Ed25519 密钥生成：
 
 - 最终签名 `.dbxp`；
