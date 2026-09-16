@@ -71,7 +71,7 @@ jobs:
           fetch-depth: 0
           path: pr
 
-      - name: Merge base branch into pull request branch
+      - name: Sync base branch state into pull request branch
         working-directory: pr
         env:
           GH_TOKEN: ${{ github.token }}
@@ -81,9 +81,13 @@ jobs:
           git config user.name "dbx-store-bot"
           git config user.email "actions@users.noreply.github.com"
           git fetch "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$BASE_REF"
-          if ! git merge FETCH_HEAD --no-edit; then
-            echo "::error::Cannot merge '$BASE_REF' into this pull request automatically; resolve the conflicts on the PR branch and sign again."
-            exit 1
+          # Overlay the base branch's store state instead of a true merge: a
+          # merge would carry .github changes, and the Actions App token cannot
+          # push workflow files back to fork branches.
+          git rm -r -q --ignore-unmatch plugins catalog publishers schemas scripts automation signing-keys.json revoked.json
+          git checkout FETCH_HEAD -- plugins catalog publishers schemas scripts automation signing-keys.json revoked.json
+          if ! git diff --cached --quiet; then
+            git commit -q -m "chore(store): sync base branch before signing PR #${PR_NUMBER}"
           fi
 
       - uses: dtolnay/rust-toolchain@stable

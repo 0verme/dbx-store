@@ -72,8 +72,8 @@ Do not include plugin source directories, `.dbxp` binaries, signing private keys
 
 `Sign plugin PR candidates` (triggered by a maintainer's `/sign` PR comment or a manual
 workflow_dispatch on a PR number; environment
-`plugin-signing` for non-owners or `plugin-signing-owner` for `t8y2`) first merges the
-PR's base branch into the PR branch, then verifies the repository key state, re-validates the PR tree,
+`plugin-signing` for non-owners or `plugin-signing-owner` for `t8y2`) first syncs the
+PR branch with the base branch's store state, then verifies the repository key state, re-validates the PR tree,
 downloads each pinned candidate, checks that packages are unsigned and their
 manifest identity matches, signs with the protected `DBX_STORE_SIGNING_KEY`,
 publishes the signed `.dbxp` plus artifact metadata and a signing receipt to
