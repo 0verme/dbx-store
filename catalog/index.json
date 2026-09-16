@@ -10,10 +10,10 @@
     {
       "id": "io.dbx.files",
       "name": "Files Studio",
-      "description": "A unified file workspace for local folders, S3-compatible storage, WebDAV, FTP, SFTP, SMB/CIFS, and other OpenDAL services.",
+      "description": "A unified file workspace for local folders, S3-compatible storage, Azure Blob, Google Cloud Storage, Huawei OBS, WebDAV, FTP, SFTP, SMB/CIFS, and other OpenDAL services.",
       "publisher": "jinpy",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.58/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.59/icon.svg",
       "tags": [
         "files",
         "storage",
@@ -26,11 +26,53 @@
         "host.binary",
         "host.filesystem"
       ],
-      "source": "https://github.com/jinpy666/dbx-plugin-files/tree/files-v0.1.58",
+      "source": "https://github.com/jinpy666/dbx-plugin-files/tree/files-v0.1.59",
       "homepage": "https://github.com/jinpy666/dbx-plugin-files",
       "license": "MIT",
-      "latestVersion": "0.1.58",
+      "latestVersion": "0.1.59",
       "versions": [
+        {
+          "version": "0.1.59",
+          "releasedAt": "2026-09-16T14:21:25.724Z",
+          "releaseNotes": "新增 Google Cloud Storage、Azure Blob、华为 OBS，以及阿里云盘、Dropbox、Google Drive、Koofr、OneDrive、pCloud、Seafile、Yandex Disk 等 OpenDAL 云存储服务，并同步扩充连接表单契约与协议矩阵测试。Adds Google Cloud Storage, Azure Blob, Huawei OBS, plus Alibaba Drive, Dropbox, Google Drive, Koofr, OneDrive, pCloud, Seafile, and Yandex Disk, with expanded connection-form and protocol-matrix coverage.",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.59/io.dbx.files-0.1.59-darwin-arm64.dbxp",
+              "sha256": "18868c2dd6cba0d495f030661ba9aa157ec726c822709a8946945eb7f59b018b",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 16133663
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.59/io.dbx.files-0.1.59-darwin-x64.dbxp",
+              "sha256": "09b77ce82874060e8595a852f682e33106b3e06c5b2f0fc8deeaa6cc36337230",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 16487838
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.59/io.dbx.files-0.1.59-linux-arm64.dbxp",
+              "sha256": "d7af80c0a834e0cd0b903efefa3c72609e107b2f11f4c15682f75a27516f0f45",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 17492214
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.59/io.dbx.files-0.1.59-linux-x64.dbxp",
+              "sha256": "f80f00719a923852769c9f728cb7a0d4f41dfd13daf879741363980780074bb4",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 17053130
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.59/io.dbx.files-0.1.59-windows-x64.dbxp",
+              "sha256": "f47859993ce9b5babb92fc60e9f26022d83850755de85a80d6b3ab5a3c423d9a",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 16056161
+            }
+          ]
+        },
         {
           "version": "0.1.58",
           "releasedAt": "2026-09-15T05:50:29.744Z",
@@ -119,7 +161,7 @@
       "localizations": {
         "zh-CN": {
           "name": "Files Studio",
-          "description": "统一管理本地文件夹、S3 兼容存储、WebDAV、FTP、SFTP、SMB/CIFS 的文件工作台：传输任务、归档与受控运维集中在一个界面。"
+          "description": "统一管理本地文件夹、S3 兼容存储、Azure Blob、Google Cloud Storage、华为 OBS、WebDAV、FTP、SFTP、SMB/CIFS 等 OpenDAL 服务的文件工作台：传输任务、归档与受控运维集中在一个界面。"
         }
       }
     },
