@@ -1,0 +1,45 @@
+name: Sign plugin PR command
+
+# Thin dispatcher: a maintainer with repository-key authority comments `/sign`
+# on a candidate PR. It runs from the default branch (issue_comment events
+# never use the PR's merge ref), so a PR cannot modify this gate. The heavy
+# lifting stays in the protected sign-plugin-pr.yml, which re-validates the
+# candidates and still applies the plugin-signing environment gates to any
+# other actor.
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+
+jobs:
+  ack:
+    if: >-
+      github.event.issue.pull_request != null &&
+      github.actor == 't8y2' &&
+      (github.event.comment.body == '/sign' || startsWith(github.event.comment.body, '/sign '))
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Acknowledge command
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+        run: gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}/reactions" -f content=eyes
+
+  sign:
+    if: >-
+      github.event.issue.pull_request != null &&
+      github.actor == 't8y2' &&
+      (github.event.comment.body == '/sign' || startsWith(github.event.comment.body, '/sign '))
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/sign-plugin-pr.yml
+    with:
+      pr-number: ${{ github.event.issue.number }}
+    secrets: inherit

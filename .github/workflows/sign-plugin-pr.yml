@@ -12,6 +12,16 @@ on:
         default: plugin-cli-v0.1.2
         required: true
         type: string
+  workflow_call:
+    inputs:
+      pr-number:
+        description: Pull request number with candidates/*.json awaiting store signing
+        type: string
+        required: true
+      sdk-ref:
+        description: Reviewed DBX tag or commit containing the packager contract
+        type: string
+        default: plugin-cli-v0.1.2
 
 permissions:
   contents: write
@@ -38,7 +48,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json headRepositoryOwner,headRepository,headRefName,headRefOid > pr.json
+          gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json headRepositoryOwner,headRepository,headRefName,headRefOid,baseRefName > pr.json
           node <<'NODE'
           const fs = require("node:fs");
           const pr = JSON.parse(fs.readFileSync("pr.json", "utf8"));
@@ -46,6 +56,7 @@ jobs:
             head_repo: `${pr.headRepositoryOwner.login}/${pr.headRepository.name}`,
             head_ref: pr.headRefName,
             head_sha: pr.headRefOid,
+            base_ref: pr.baseRefName,
           };
           for (const [key, value] of Object.entries(outputs)) {
             fs.appendFileSync(process.env.GITHUB_OUTPUT, `${key}=${value}\n`);
@@ -57,7 +68,23 @@ jobs:
         with:
           repository: ${{ steps.pr.outputs.head_repo }}
           ref: ${{ steps.pr.outputs.head_sha }}
+          fetch-depth: 0
           path: pr
+
+      - name: Merge base branch into pull request branch
+        working-directory: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_REF: ${{ steps.pr.outputs.base_ref }}
+        run: |
+          set -euo pipefail
+          git config user.name "dbx-store-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git fetch "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$BASE_REF"
+          if ! git merge FETCH_HEAD --no-edit; then
+            echo "::error::Cannot merge '$BASE_REF' into this pull request automatically; resolve the conflicts on the PR branch and sign again."
+            exit 1
+          fi
 
       - uses: dtolnay/rust-toolchain@stable
 
@@ -97,7 +124,16 @@ jobs:
 
       - name: Validate candidates and build signing plan
         working-directory: pr
-        run: node scripts/validate.mjs --plan-candidates > "$GITHUB_WORKSPACE/plan.json"
+        run: |
+          node scripts/validate.mjs --plan-candidates > "$GITHUB_WORKSPACE/plan.json"
+          node -e '
+          const fs = require("node:fs");
+          const plan = JSON.parse(fs.readFileSync(`${process.env.GITHUB_WORKSPACE}/plan.json`, "utf8"));
+          if (plan.candidates.length === 0) {
+            console.error("::error::This pull request has no open candidates awaiting DBX Store signing.");
+            process.exit(1);
+          }
+          '
 
       - name: Sign candidates
         working-directory: pr
