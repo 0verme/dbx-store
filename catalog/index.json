@@ -124,6 +124,83 @@
       }
     },
     {
+      "id": "io.dbx.k8s",
+      "name": "Kubernetes Manager",
+      "description": "Manage Kubernetes clusters, workloads and resources from DBX.",
+      "publisher": "eryajf",
+      "verified": false,
+      "icon": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/icon.svg",
+      "tags": [
+        "kubernetes",
+        "containers",
+        "devops"
+      ],
+      "permissions": [
+        "host.events"
+      ],
+      "source": "https://github.com/eryajf/dbx-plugin-k8s/tree/82240b2d6d32c8fb8890a2a0415630a466d0faef",
+      "homepage": "https://github.com/eryajf/dbx-plugin-k8s",
+      "license": "Apache-2.0",
+      "latestVersion": "0.1.1",
+      "versions": [
+        {
+          "version": "0.1.1",
+          "releasedAt": "2026-09-16T05:28:49.440Z",
+          "releaseNotes": "Initial DBX Store release: manage Kubernetes clusters and resources, inspect workloads, view logs, use pod terminals and port forwarding, and operate resources using the connection credentials and Kubernetes RBAC.",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/io.dbx.k8s-0.1.1-darwin-arm64.dbxp",
+              "sha256": "5e5cdeda809fb5a2c2e064ea7214bf078a0ff8917fd8b69c2db9daff68b1797e",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 30810286
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/io.dbx.k8s-0.1.1-darwin-x64.dbxp",
+              "sha256": "d2c954ba9bddbe3d0e6476346f9273692ce909a357321538959a195f04587944",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 32002881
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/io.dbx.k8s-0.1.1-linux-arm64.dbxp",
+              "sha256": "6a57dc9e924d4ee0e40c90f51d99c652f6b20c8d37ceea75c1169a23c9bd18d9",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 30357023
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/io.dbx.k8s-0.1.1-linux-x64.dbxp",
+              "sha256": "1476987e6edf37c7787e5a0e4261685e58450591e52fa0b1e0fa428a6fd73c4f",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 31971213
+            },
+            {
+              "target": "windows-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/io.dbx.k8s-0.1.1-windows-arm64.dbxp",
+              "sha256": "00efadab01ebd430508bad9e2608c11c65431736234977887753ecf353a8b56a",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 30404836
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.1/io.dbx.k8s-0.1.1-windows-x64.dbxp",
+              "sha256": "1d6199123d43c58c27a276d623eab0c1933a8ac8482185286dbb063d09304a48",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 32261080
+            }
+          ]
+        }
+      ],
+      "localizations": {
+        "zh-CN": {
+          "name": "Kubernetes 管理",
+          "description": "在 DBX 中管理 Kubernetes 集群、工作负载和资源。"
+        }
+      }
+    },
+    {
       "id": "io.dbx.kafka",
       "name": "Kafka Studio",
       "description": "Operate Apache Kafka from one workspace: inspect topics and partitions, produce and consume messages, filter and decode payloads, monitor consumer lag, manage offsets and ACLs, stream records, and export results.",
