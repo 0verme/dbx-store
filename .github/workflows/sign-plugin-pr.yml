@@ -84,8 +84,38 @@ jobs:
           # Overlay the base branch's store state instead of a true merge: a
           # merge would carry .github changes, and the Actions App token cannot
           # push workflow files back to fork branches.
+          rm -rf /tmp/pr-publishers /tmp/pr-plugin-sources.json
+          mkdir -p /tmp/pr-publishers
+          cp publishers/*.json /tmp/pr-publishers/ 2>/dev/null || true
+          cp automation/plugin-sources.json /tmp/pr-plugin-sources.json 2>/dev/null || true
           git rm -r -q --ignore-unmatch plugins catalog publishers schemas scripts automation signing-keys.json revoked.json
           git checkout FETCH_HEAD -- plugins catalog publishers schemas scripts automation signing-keys.json revoked.json
+          # First submissions register their publisher and automation source on
+          # the PR branch; the overlay must keep them or validate rejects the
+          # unregistered publisher. Existing base records always win.
+          for file in /tmp/pr-publishers/*.json; do
+            [ -f "$file" ] || continue
+            name=$(basename "$file")
+            if [ ! -f "publishers/$name" ]; then
+              cp "$file" "publishers/$name"
+              git add "publishers/$name"
+            fi
+          done
+          if [ -f /tmp/pr-plugin-sources.json ] && [ -f automation/plugin-sources.json ]; then
+            node <<'NODE'
+            const fs = require("node:fs");
+            const path = "automation/plugin-sources.json";
+            const base = JSON.parse(fs.readFileSync(path, "utf8"));
+            const pr = JSON.parse(fs.readFileSync("/tmp/pr-plugin-sources.json", "utf8"));
+            const byRepository = new Map((base.plugins ?? []).map((entry) => [entry.repository, entry]));
+            for (const entry of pr.plugins ?? []) {
+              if (!byRepository.has(entry.repository)) byRepository.set(entry.repository, entry);
+            }
+            base.plugins = [...byRepository.values()];
+            fs.writeFileSync(path, `${JSON.stringify(base, null, 2)}\n`);
+          NODE
+            git add automation/plugin-sources.json
+          fi
           if ! git diff --cached --quiet; then
             git commit -q -m "chore(store): sync base branch before signing PR #${PR_NUMBER}"
           fi
