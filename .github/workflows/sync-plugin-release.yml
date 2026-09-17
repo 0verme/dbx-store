@@ -2,7 +2,12 @@ name: Sync plugin releases to catalog PRs
 
 on:
   schedule:
-    - cron: "17 * * * *"
+    # Nominal 4x the intended hourly cadence: GitHub Actions delays and
+    # silently drops schedule events under load (observed ~25% of hourly
+    # slots firing), so this lands at roughly one effective run per hour.
+    # Safe to over-schedule: each run is an idempotent full sync and the
+    # plugin-catalog-sync concurrency group prevents overlap.
+    - cron: "4,19,34,49 * * * *"
   workflow_dispatch:
 
 concurrency:
