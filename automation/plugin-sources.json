@@ -25,6 +25,11 @@
       "repository": "eryajf/dbx-plugin-k8s",
       "metadataPath": ".dbx-store.json",
       "autoUpdate": true
+    },
+    {
+      "repository": "ragdollcb/waitWork",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
     }
   ]
 }

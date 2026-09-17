@@ -1,0 +1,74 @@
+{
+  "id": "monstercat.waitwork",
+  "name": "waitWork",
+  "description": "等一会工作，休息一下。支持本地 TXT 小说阅读、章节目录、阅读设置与自动保存，切换页面自动收起正文。",
+  "publisher": "monstercat",
+  "verified": false,
+  "icon": "https://raw.githubusercontent.com/ragdollcb/waitWork/87cec337fbb3990ce0246480ad7c77a9570d014c/assets/plugin.svg",
+  "tags": [
+    "productivity",
+    "reader"
+  ],
+  "permissions": [],
+  "source": "https://github.com/ragdollcb/waitWork/tree/87cec337fbb3990ce0246480ad7c77a9570d014c",
+  "homepage": "https://github.com/ragdollcb/waitWork",
+  "license": "Apache-2.0",
+  "latestVersion": "0.5.2",
+  "versions": [
+    {
+      "version": "0.5.2",
+      "releasedAt": "2026-09-17T09:28:52.308Z",
+      "releaseNotes": "统一前后端发布版本，修复标签与包内版本不一致导致的构建失败；补充 Apache-2.0 许可证声明和商店介绍资料。保留本地 TXT 阅读、自动保存和查询样式界面，提供 Windows、macOS、Linux 的 x64 和 ARM64 安装包。",
+      "artifacts": [
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.5.2/monstercat.waitwork-0.5.2-windows-x64.dbxp",
+          "sha256": "97c9375150a341c2ccdc827f3a7b3e1b40b780a0fe8b781c92a9304140196caa",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2330491
+        },
+        {
+          "target": "windows-arm64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.5.2/monstercat.waitwork-0.5.2-windows-arm64.dbxp",
+          "sha256": "258912a3d9a1285ec005cd8ed28191698079dd7d59b6d7102c5b9d735817acc6",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2141717
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.5.2/monstercat.waitwork-0.5.2-darwin-x64.dbxp",
+          "sha256": "1009cca2465b3b656242c33c64645935a4a2aba6f1588113fc7b29793e9620b1",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2340000
+        },
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.5.2/monstercat.waitwork-0.5.2-darwin-arm64.dbxp",
+          "sha256": "ac187e83ed4362691517cee0e4a792bf92bd46a66f7e5e3094b9a925fed1d5db",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2212239
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.5.2/monstercat.waitwork-0.5.2-linux-x64.dbxp",
+          "sha256": "b8c3681de278798c1578b4e72de4b9fcee09a43e1c13f1f34b46b9477c1dee7c",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2282916
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.5.2/monstercat.waitwork-0.5.2-linux-arm64.dbxp",
+          "sha256": "8815591ff08c71a96bc9283ac5e4ac0608679c80ac09d1d92797874aef38306d",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2113152
+        }
+      ]
+    }
+  ],
+  "localizations": {
+    "zh-CN": {
+      "name": "waitWork",
+      "description": "等一会工作，休息一下。本地 TXT 小说阅读、章节目录与自动保存。"
+    }
+  }
+}
