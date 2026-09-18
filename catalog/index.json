@@ -905,6 +905,77 @@
       }
     },
     {
+      "id": "io.github.mugongliu1.terminal",
+      "name": "Embedded Terminal",
+      "description": "Run an interactive local shell directly inside a DBX workbench.",
+      "publisher": "mugongliu1",
+      "verified": false,
+      "icon": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.2/icon.svg",
+      "tags": [
+        "terminal",
+        "shell",
+        "developer-tools",
+        "local"
+      ],
+      "permissions": [
+        "host.events"
+      ],
+      "source": "https://github.com/mugongliu1/dbx-terminal-launcher/tree/v0.2.2",
+      "homepage": "https://github.com/mugongliu1/dbx-terminal-launcher",
+      "license": "Apache-2.0",
+      "latestVersion": "0.2.2",
+      "versions": [
+        {
+          "version": "0.2.2",
+          "releasedAt": "2026-09-18T03:42:50.249Z",
+          "releaseNotes": "Initial official store release with multi-tab local terminals, ANSI rendering, responsive resizing, restart and clear controls, and Chinese and English UI.",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.2/io.github.mugongliu1.terminal-0.2.2-darwin-arm64.dbxp",
+              "sha256": "53c7e5c4335a3d1fe7e8a0f00c233b40d957fdcdf9b03b4433956de0b1c54199",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 412053
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.2/io.github.mugongliu1.terminal-0.2.2-darwin-x64.dbxp",
+              "sha256": "a9c77f09699d51f21c81f3f366acc0c5166647414d7a5d379b5b27f786265c67",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 433136
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.2/io.github.mugongliu1.terminal-0.2.2-linux-arm64.dbxp",
+              "sha256": "6ee6f0195b2378759c62c9410076d964fb1a343206fe22403603c57ef8265d13",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 444561
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.2/io.github.mugongliu1.terminal-0.2.2-linux-x64.dbxp",
+              "sha256": "a049124a01bb55070356cd3fc7e6f4301147177681bebb4f7c67c41ff9bc3f78",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 466035
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.2/io.github.mugongliu1.terminal-0.2.2-windows-x64.dbxp",
+              "sha256": "081c52f8d56b50b64ac544faa7416f84874b6bee08da07a415311339d4129fc2",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 354858
+            }
+          ]
+        }
+      ],
+      "localizations": {
+        "zh-CN": {
+          "name": "内嵌终端",
+          "description": "直接在 DBX 工作台内运行本机交互式终端。"
+        }
+      }
+    },
+    {
       "id": "io.github.t8y2.s3",
       "name": "S3 Browser",
       "description": "S3-compatible object storage plugin for DBX.",
