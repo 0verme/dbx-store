@@ -1,6 +1,6 @@
 {
   "id": "monstercat.waitwork",
-  "name": "waitWork",
+  "name": "Wait Work",
   "description": "等一会工作，休息一下。支持本地 TXT 小说阅读、章节目录、阅读设置与自动保存，切换页面自动收起正文。",
   "publisher": "monstercat",
   "verified": false,
@@ -67,7 +67,7 @@
   ],
   "localizations": {
     "zh-CN": {
-      "name": "waitWork",
+      "name": "Wait Work",
       "description": "等一会工作，休息一下。本地 TXT 小说阅读、章节目录与自动保存。"
     }
   }
