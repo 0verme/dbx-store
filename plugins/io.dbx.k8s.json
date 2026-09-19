@@ -4,7 +4,7 @@
   "description": "Manage Kubernetes clusters, workloads and resources from DBX.",
   "publisher": "eryajf",
   "verified": false,
-  "icon": "https://github.com/eryajf/dbx-plugin-k8s/raw/82240b2d6d32c8fb8890a2a0415630a466d0faef/assets/plugin.png",
+  "icon": "https://raw.githubusercontent.com/eryajf/dbx-plugin-k8s/v0.1.2/assets/plugin.png",
   "tags": [
     "kubernetes",
     "containers",
@@ -16,7 +16,7 @@
   "source": "https://github.com/eryajf/dbx-plugin-k8s/tree/82240b2d6d32c8fb8890a2a0415630a466d0faef",
   "homepage": "https://github.com/eryajf/dbx-plugin-k8s",
   "license": "Apache-2.0",
-  "latestVersion": "0.1.1",
+  "latestVersion": "0.1.2",
   "versions": [
     {
       "version": "0.1.1",
@@ -64,6 +64,55 @@
           "sha256": "1d6199123d43c58c27a276d623eab0c1933a8ac8482185286dbb063d09304a48",
           "signingKeyId": "dbx-store-release-2026",
           "size": 32261080
+        }
+      ]
+    },
+    {
+      "version": "0.1.2",
+      "releasedAt": "2026-09-19T18:12:30.723Z",
+      "releaseNotes": "",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.2/io.dbx.k8s-0.1.2-darwin-arm64.dbxp",
+          "sha256": "1ff3c6b42ae27ca989548c8c9fba1f220f5f707a5e5b9eed24c6c0a30145386e",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 31116900
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.2/io.dbx.k8s-0.1.2-darwin-x64.dbxp",
+          "sha256": "cef1de28dba6849b79b3c102f7c373523e6495b37e41ca0f36f598db092a0ac6",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 32316968
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.2/io.dbx.k8s-0.1.2-linux-arm64.dbxp",
+          "sha256": "54b4fdbd4901dc3c8565e835d7d8dee538b80142e9bb9157f5b86179cf4c14bc",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 30677360
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.2/io.dbx.k8s-0.1.2-linux-x64.dbxp",
+          "sha256": "9ce7d67512b2dbdf2eeb48a5d64fd007f19fd22568fdf2e4009428bc159d4308",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 32296722
+        },
+        {
+          "target": "windows-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.2/io.dbx.k8s-0.1.2-windows-arm64.dbxp",
+          "sha256": "550ca1079631e1c98b81f9f6815fa9c86fb20b9b267981b81217e0321812eadf",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 30708625
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.k8s/0.1.2/io.dbx.k8s-0.1.2-windows-x64.dbxp",
+          "sha256": "6e214b0898d8f7cfde7cb20d5959886b8f2f63e3d8fca07ab14164b5897cc1b9",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 32586062
         }
       ]
     }
