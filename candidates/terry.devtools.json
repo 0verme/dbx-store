@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "terry.devtools",
+  "publisher": "terry",
+  "version": "0.5.1",
+  "name": "Dev Tools",
+  "description": "26 everyday developer utilities in a package under 100KB — generators (password/QR/barcode/ID/lorem), codecs (Base64/URL/escape/image), crypto (hash/HMAC/JWT/AES), text tools (JSON/diff/case/lines/mojibake) and more. Pure frontend, zero permissions.",
+  "icon": "https://raw.githubusercontent.com/yaoxinghuo/dbx-dev-tools/v0.5.1/assets/plugin.svg",
+  "tags": [
+    "devtools",
+    "utilities",
+    "encoding",
+    "generator",
+    "qrcode",
+    "barcode",
+    "jwt",
+    "json",
+    "diff",
+    "color"
+  ],
+  "permissions": [],
+  "source": "https://github.com/yaoxinghuo/dbx-dev-tools",
+  "homepage": "https://github.com/yaoxinghuo/dbx-dev-tools",
+  "license": "MIT",
+  "releaseNotes": "26 tools: password/ID/lorem/QR/barcode generators, Base64/URL/escape/image codecs, hash & HMAC, JWT decode & sign, AES, RMB uppercase, JSON formatter, text diff, case/line/invisible-char/mojibake tools, timestamp & date calc, file size, number base, color & contrast, chmod.",
+  "localizations": {
+    "zh-CN": {
+      "name": "Dev Tools",
+      "description": "26 个日常开发工具，安装包不到 100KB——生成器（密码/二维码/条码/ID/占位文本）、编解码（Base64/URL/转义/图片）、安全（哈希/HMAC/JWT/AES）、文本工具（JSON/对比/大小写/行处理/乱码修复）等。纯前端、零权限。"
+    }
+  },
+  "targets": [
+    {
+      "target": "universal",
+      "url": "https://github.com/yaoxinghuo/dbx-dev-tools/releases/download/v0.5.1/terry.devtools-0.5.1-universal.dbxp",
+      "sha256": "5973f550dcd59fa19d402cb07be723f383f78e9a2b0a73a227261f789133d2b9",
+      "size": 85282
+    }
+  ]
+}
