@@ -40,6 +40,11 @@
       "repository": "yaoxinghuo/dbx-dev-tools",
       "metadataPath": ".dbx-store.json",
       "autoUpdate": true
+    },
+    {
+      "repository": "renpengkai/dbx-plugin-http-client",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
     }
   ]
 }
