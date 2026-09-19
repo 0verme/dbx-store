@@ -2224,7 +2224,7 @@
       "description": "A collection of everyday developer utilities: password/QR/barcode/UUID generators, hash, Base64, JWT parser, RMB uppercase, URL codec and image ⇄ Base64.",
       "publisher": "terry",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/terry.devtools/0.3.3/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/terry.devtools/0.4.2/icon.svg",
       "tags": [
         "devtools",
         "utilities",
@@ -2232,11 +2232,25 @@
         "generator"
       ],
       "permissions": [],
-      "source": "https://github.com/yaoxinghuo/dbx-dev-tools/tree/v0.3.3",
+      "source": "https://github.com/yaoxinghuo/dbx-dev-tools",
       "homepage": "https://github.com/yaoxinghuo/dbx-dev-tools",
       "license": "MIT",
-      "latestVersion": "0.3.3",
+      "latestVersion": "0.4.2",
       "versions": [
+        {
+          "version": "0.4.2",
+          "releasedAt": "2026-09-19T18:00:28.177Z",
+          "releaseNotes": "Initial release with 10 tools: password, QR code, barcode, hash, UUID, Base64, JWT parser, RMB uppercase, URL codec and image ⇄ Base64.",
+          "artifacts": [
+            {
+              "target": "universal",
+              "url": "https://dl.dbxio.com/plugins/terry.devtools/0.4.2/terry.devtools-0.4.2-universal.dbxp",
+              "sha256": "2877b840ab1ee5966fb0bf03048ab1fc30253f7053dd45149e7c40ba200c3ca6",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 64069
+            }
+          ]
+        },
         {
           "version": "0.3.3",
           "releasedAt": "2026-09-18T03:36:41.223Z",
