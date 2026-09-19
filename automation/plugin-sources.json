@@ -55,6 +55,11 @@
       "repository": "NintyCat/dbx-plugin-NintyAPI",
       "metadataPath": ".dbx-store.json",
       "autoUpdate": true
+    },
+    {
+      "repository": "Abeautifulsnow/dbx-plugin-excalidraw",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
     }
   ]
 }
