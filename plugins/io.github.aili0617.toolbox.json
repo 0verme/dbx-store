@@ -1,0 +1,69 @@
+{
+  "id": "io.github.aili0617.toolbox",
+  "name": "DBX Toolbox",
+  "description": "An all-in-one, privacy-focused developer toolbox for data conversion, encoding and decoding, formatting, text and image processing, generators, cryptographic tools, and an encrypted key vault—all processed locally.",
+  "publisher": "aili0617",
+  "verified": false,
+  "icon": "https://raw.githubusercontent.com/aiLi0617/dbx-plugin-toolbox/v0.1.0/assets/plugin.svg",
+  "tags": [
+    "developer-tools",
+    "utilities",
+    "encoding",
+    "cryptography"
+  ],
+  "permissions": [],
+  "source": "https://github.com/aiLi0617/dbx-plugin-toolbox/tree/v0.1.0",
+  "homepage": "https://github.com/aiLi0617/dbx-plugin-toolbox",
+  "license": "Apache-2.0",
+  "latestVersion": "0.1.0",
+  "versions": [
+    {
+      "version": "0.1.0",
+      "releasedAt": "2026-09-20T16:45:24.337Z",
+      "releaseNotes": "首次发布，包含 38 个本地开发工具、图片处理、密码学工具和使用 Argon2id + AES-GCM 保护的加密密钥库。",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.github.aili0617.toolbox/0.1.0/io.github.aili0617.toolbox-0.1.0-darwin-arm64.dbxp",
+          "sha256": "3bbbad9e8ab501ed2e6c68e27f39549f5d36f5614d33721f5128e2e86c38349c",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2253573
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.aili0617.toolbox/0.1.0/io.github.aili0617.toolbox-0.1.0-darwin-x64.dbxp",
+          "sha256": "94e8fc2385f0202ecd6cad857dd4763b5a999a4f1c2d809b1a7d6c900a239dc8",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2316714
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.github.aili0617.toolbox/0.1.0/io.github.aili0617.toolbox-0.1.0-linux-arm64.dbxp",
+          "sha256": "130fa30b936f8098f6af6fc23f334640076d82a47201ecde7d7cafc6b059309a",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 3273115
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.aili0617.toolbox/0.1.0/io.github.aili0617.toolbox-0.1.0-linux-x64.dbxp",
+          "sha256": "decca2a7d063b77a4bfe3180bce61a6fd459ef3d98cd40cc4f0d1dc6f8bd7eeb",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 3363848
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.aili0617.toolbox/0.1.0/io.github.aili0617.toolbox-0.1.0-windows-x64.dbxp",
+          "sha256": "4d15f7d5f37a237748af5755912f95802a88a7fda552334a7a2bfa38f1e4fb36",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2299932
+        }
+      ]
+    }
+  ],
+  "localizations": {
+    "zh-CN": {
+      "name": "DBX 工具箱",
+      "description": "一站式、注重隐私的本地开发工具箱，涵盖数据转换、编解码、格式化、文本与图片处理、实用生成器、密码学工具及加密密钥库；所有数据均在本机处理。"
+    }
+  }
+}
