@@ -4,7 +4,7 @@
   "description": "A lightweight, local-first diagramming workspace powered by Excalidraw, embedded directly in DBX.",
   "publisher": "runstone",
   "verified": false,
-  "icon": "https://raw.githubusercontent.com/Abeautifulsnow/dbx-plugin-excalidraw/v0.2.0/assets/plugin.svg",
+  "icon": "https://raw.githubusercontent.com/Abeautifulsnow/dbx-plugin-excalidraw/v0.2.1/assets/plugin.svg",
   "tags": [
     "diagram",
     "drawing",
@@ -15,7 +15,7 @@
   "source": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw",
   "homepage": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw",
   "license": "MIT",
-  "latestVersion": "0.2.0",
+  "latestVersion": "0.2.1",
   "versions": [
     {
       "version": "0.2.0",
@@ -56,6 +56,48 @@
           "sha256": "a34d509caf6013ee79a38231972870417739dc14d89d91ba457bf6db10381289",
           "signingKeyId": "dbx-store-release-2026",
           "size": 18061673
+        }
+      ]
+    },
+    {
+      "version": "0.2.1",
+      "releasedAt": "2026-09-20T05:49:58.317Z",
+      "releaseNotes": "Reliability release: fixes a rare autosave data-loss race, delivers exports to the plugin data folder (sandbox-safe, path shown in-app), keeps documents openable when an image asset is missing, prevents accidental scene replacement via drag-and-drop, and makes fresh clones build offline.",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.excalidraw/0.2.1/io.dbx.excalidraw-0.2.1-darwin-arm64.dbxp",
+          "sha256": "7df28230e53ad01126b56b3861dd1bbe25f7ec03691b2952e6dd9e132499260c",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 17905854
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.excalidraw/0.2.1/io.dbx.excalidraw-0.2.1-darwin-x64.dbxp",
+          "sha256": "23246ef00bed8b046cfc806cde2567d2a2ec5c5d4a916540532e90519d1d429c",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 17992713
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.excalidraw/0.2.1/io.dbx.excalidraw-0.2.1-linux-arm64.dbxp",
+          "sha256": "16013ea53d60d7273e8ad19ad45c4f6bb8116f3447109057656f9b22718dd3ee",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 17890850
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.excalidraw/0.2.1/io.dbx.excalidraw-0.2.1-linux-x64.dbxp",
+          "sha256": "9811a50aa1d35b4a1371cb5ea4fadbafe867c6b689f87e3c6ab46f6239147bca",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 18009671
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.excalidraw/0.2.1/io.dbx.excalidraw-0.2.1-windows-x64.dbxp",
+          "sha256": "974c0a8d0219dcea2accdc116e430454d7416cc2e09015d577fe410a4baa87df",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 18073595
         }
       ]
     }
