@@ -1,24 +1,25 @@
 {
   "id": "io.github.summery-yk.portainer",
   "name": "Portainer",
-  "description": "Browse Portainer environments, stacks and containers from DBX, inspect resource usage and read container logs.",
+  "description": "Browse Portainer environments, stacks and containers from DBX, inspect resource usage and read container logs, with MCP tools for AI clients.",
   "publisher": "summery-yk",
   "verified": false,
-  "icon": "https://raw.githubusercontent.com/summery-yk/dbx-plugin-portainer/v0.1.0/assets/plugin.svg",
+  "icon": "https://raw.githubusercontent.com/summery-yk/dbx-plugin-portainer/v0.2.0/assets/plugin.svg",
   "tags": [
     "portainer",
     "docker",
     "container",
     "stack",
-    "logs"
+    "logs",
+    "mcp"
   ],
   "permissions": [
     "host.workbench"
   ],
-  "source": "https://github.com/summery-yk/dbx-plugin-portainer/tree/v0.1.0",
+  "source": "https://github.com/summery-yk/dbx-plugin-portainer/tree/v0.2.0",
   "homepage": "https://github.com/summery-yk/dbx-plugin-portainer",
   "license": "Apache-2.0",
-  "latestVersion": "0.1.0",
+  "latestVersion": "0.2.0",
   "versions": [
     {
       "version": "0.1.0",
@@ -33,12 +34,26 @@
           "size": 5754809
         }
       ]
+    },
+    {
+      "version": "0.2.0",
+      "releasedAt": "2026-09-20T05:45:15.121Z",
+      "releaseNotes": "Adds an MCP tool surface: the plugin now implements the DBX mcp/tools and mcp/call methods and exposes nine read-only tools (environment overview, environments, stacks, containers, container search, database discovery with connection parameters, container inspect, container logs with range/tail/timestamp/search, container stats). Containers can be addressed by name or id. Also ships a reusable, dependency-free MCP support package (backend/mcp) for other plugins. Everything remains read-only.",
+      "artifacts": [
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.summery-yk.portainer/0.2.0/io.github.summery-yk.portainer-0.2.0-windows-x64.dbxp",
+          "sha256": "75f4ebd0f830b11cb2af320712b3e666b37faa13d51f03c495a9503b73e216de",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 5861880
+        }
+      ]
     }
   ],
   "localizations": {
     "zh-CN": {
       "name": "Portainer",
-      "description": "在 DBX 中浏览 Portainer 的环境、堆栈与容器，查看资源占用并阅读容器日志。"
+      "description": "在 DBX 中浏览 Portainer 的环境、堆栈与容器，查看资源占用并阅读容器日志，同时向 AI 客户端提供 MCP 工具。"
     }
   }
 }
