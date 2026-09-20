@@ -552,7 +552,7 @@
       "description": "Operate Apache Kafka from one workspace: inspect topics and partitions, produce and consume messages, filter and decode payloads, monitor consumer lag, manage offsets and ACLs, stream records, and export results.",
       "publisher": "jinpy",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.43/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.44/icon.svg",
       "tags": [
         "kafka",
         "streaming",
@@ -566,8 +566,50 @@
       "source": "https://github.com/jinpy666/dbx-plugin-kafka",
       "homepage": "https://github.com/jinpy666/dbx-plugin-kafka",
       "license": "MIT",
-      "latestVersion": "0.1.43",
+      "latestVersion": "0.1.44",
       "versions": [
+        {
+          "version": "0.1.44",
+          "releasedAt": "2026-09-20T02:31:54.557Z",
+          "releaseNotes": "修复深色主题下 Topic 侧栏不可读的问题：图标色随 color-scheme 自动翻转，核心颜色令牌改为实时跟随宿主主题（不再被内联快照冻结），并提升树行/星标对比度。消息查询新增「最近 N 条」Offset 策略并设为默认：原「最新」策略从日志末端只等待新消息，对没有持续流量的 topic 总是「已扫描 0 · 命中 0」，现在默认即可读到每个分区最新的历史记录。Fixed topics sidebar legibility in dark theme: icon hues follow color-scheme, core color tokens now track the host theme live instead of being frozen by an inline snapshot, and tree row/star contrast was raised. Messages query adds a recent-N offset strategy and defaults to it: the previous latest default only waited for new records and always scanned zero on idle topics; the new default surfaces the newest existing records per partition.",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.44/io.dbx.kafka-0.1.44-darwin-arm64.dbxp",
+              "sha256": "9cbd9031c48047de6a82128928da82744e3f45e654dcbdc85e595d0186be8f53",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 13297025
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.44/io.dbx.kafka-0.1.44-darwin-x64.dbxp",
+              "sha256": "2bd8988bc7276ee73c4d6f1ae5f3bb19e403a1160ebe01cb2ba3a3476bc05262",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 14102781
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.44/io.dbx.kafka-0.1.44-linux-arm64.dbxp",
+              "sha256": "965318c1dcca65fa97253a9894ce661163860cab1b5be50a28b5a0e3d166d15b",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 12529311
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.44/io.dbx.kafka-0.1.44-linux-x64.dbxp",
+              "sha256": "4d906482114d3a4544c0ddea37e4b7387a45bfcdf66b428002e582af73dbaa94",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 13612473
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.kafka/0.1.44/io.dbx.kafka-0.1.44-windows-x64.dbxp",
+              "sha256": "45300aafbdfc11f3dd5a33e6b67a00311c01ffdc74d8aab742dc9e4f77893bec",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 13694086
+            }
+          ]
+        },
         {
           "version": "0.1.43",
           "releasedAt": "2026-09-19T02:29:15.755Z",
@@ -1169,7 +1211,7 @@
       "description": "A secure SSH terminal for interactive sessions, SFTP file transfer, remote commands, and guarded server operations.",
       "publisher": "jinpy",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/io.dbx.ssh/0.4.79/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/io.dbx.ssh/0.4.80/icon.svg",
       "tags": [
         "ssh",
         "terminal",
@@ -1185,8 +1227,50 @@
       "source": "https://github.com/jinpy666/dbx-plugin-ssh",
       "homepage": "https://github.com/jinpy666/dbx-plugin-ssh",
       "license": "MIT",
-      "latestVersion": "0.4.79",
+      "latestVersion": "0.4.80",
       "versions": [
+        {
+          "version": "0.4.80",
+          "releasedAt": "2026-09-20T02:29:17.017Z",
+          "releaseNotes": "First official store release: interactive SSH terminal with PTY, SFTP file transfer, remote command execution, sudo with approval guards, host key management, and multi-language UI.",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.ssh/0.4.80/io.dbx.ssh-0.4.80-darwin-arm64.dbxp",
+              "sha256": "332a2aa958107d8dc2146ff06a6ffbedb862cf75479cb527bf0e1eac119c0822",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6448505
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.ssh/0.4.80/io.dbx.ssh-0.4.80-darwin-x64.dbxp",
+              "sha256": "e660fe6b8945e5c7352c8f507554f9738775e57c23ca39d1312d50e287cdaaf0",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6860825
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.ssh/0.4.80/io.dbx.ssh-0.4.80-linux-arm64.dbxp",
+              "sha256": "9cc802d1fad5b2b7b14da37bae723b69651405ded500061ce1428a23f385b631",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6722692
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.ssh/0.4.80/io.dbx.ssh-0.4.80-linux-x64.dbxp",
+              "sha256": "b0880295e3a2299e6d4785926d8c35a073b9b63b835cecf454e51674352980ad",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6938818
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.dbx.ssh/0.4.80/io.dbx.ssh-0.4.80-windows-x64.dbxp",
+              "sha256": "b2caa0c3bdc29bf5238601dbce62cfac89a5983605836b4fbb60c484e34f238b",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 7039857
+            }
+          ]
+        },
         {
           "version": "0.4.79",
           "releasedAt": "2026-09-19T02:34:24.473Z",
@@ -1522,7 +1606,7 @@
       "description": "Convert spreadsheets (xlsx/xls/csv) into SQLite databases and export them back, so anyone can query their data with SQL or the DBX AI assistant.",
       "publisher": "chnhjf",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.2/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.3/icon.svg",
       "tags": [
         "spreadsheet",
         "sqlite",
@@ -1531,11 +1615,25 @@
         "ai"
       ],
       "permissions": [],
-      "source": "https://github.com/CHNHJF/dbx-plugin-excelx/tree/v0.9.2",
+      "source": "https://github.com/CHNHJF/dbx-plugin-excelx/tree/v0.9.3",
       "homepage": "https://github.com/CHNHJF/dbx-plugin-excelx",
       "license": "Apache-2.0",
-      "latestVersion": "0.9.2",
+      "latestVersion": "0.9.3",
       "versions": [
+        {
+          "version": "0.9.3",
+          "releasedAt": "2026-09-20T02:26:52.428Z",
+          "releaseNotes": "Add Chinese (zh-CN) store listing and manifest localization; no functional changes.",
+          "artifacts": [
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.3/io.github.chnhjf.excelx-0.9.3-windows-x64.dbxp",
+              "sha256": "fb98392da2d7cd914d1b67fcea3ee391363ae8c436afbff28f601661d205221e",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 2192367
+            }
+          ]
+        },
         {
           "version": "0.9.2",
           "releasedAt": "2026-09-19T02:00:48.631Z",
@@ -1550,7 +1648,13 @@
             }
           ]
         }
-      ]
+      ],
+      "localizations": {
+        "zh-CN": {
+          "name": "ExcelX",
+          "description": "把 Excel / CSV 表格转换成 SQLite 数据库，随时导出回表格——让不懂数据库的人也能用 SQL 或 AI 助手直接查询、分析自己的数据。"
+        }
+      }
     },
     {
       "id": "io.github.mugongliu1.terminal",
@@ -2459,22 +2563,42 @@
     {
       "id": "terry.devtools",
       "name": "Dev Tools",
-      "description": "A collection of everyday developer utilities: password/QR/barcode/UUID generators, hash, Base64, JWT parser, RMB uppercase, URL codec and image ⇄ Base64.",
+      "description": "26 everyday developer utilities in a package under 100KB — generators (password/QR/barcode/ID/lorem), codecs (Base64/URL/escape/image), crypto (hash/HMAC/JWT/AES), text tools (JSON/diff/case/lines/mojibake) and more. Pure frontend, zero permissions.",
       "publisher": "terry",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/terry.devtools/0.4.2/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/terry.devtools/0.5.1/icon.svg",
       "tags": [
         "devtools",
         "utilities",
         "encoding",
-        "generator"
+        "generator",
+        "qrcode",
+        "barcode",
+        "jwt",
+        "json",
+        "diff",
+        "color"
       ],
       "permissions": [],
       "source": "https://github.com/yaoxinghuo/dbx-dev-tools",
       "homepage": "https://github.com/yaoxinghuo/dbx-dev-tools",
       "license": "MIT",
-      "latestVersion": "0.4.2",
+      "latestVersion": "0.5.1",
       "versions": [
+        {
+          "version": "0.5.1",
+          "releasedAt": "2026-09-20T02:33:37.570Z",
+          "releaseNotes": "26 tools: password/ID/lorem/QR/barcode generators, Base64/URL/escape/image codecs, hash & HMAC, JWT decode & sign, AES, RMB uppercase, JSON formatter, text diff, case/line/invisible-char/mojibake tools, timestamp & date calc, file size, number base, color & contrast, chmod.",
+          "artifacts": [
+            {
+              "target": "universal",
+              "url": "https://dl.dbxio.com/plugins/terry.devtools/0.5.1/terry.devtools-0.5.1-universal.dbxp",
+              "sha256": "1a9198d8aa0f7c22c533865ea273e14d9e59050dc224273be988125c65f9ce45",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 85933
+            }
+          ]
+        },
         {
           "version": "0.4.2",
           "releasedAt": "2026-09-19T18:00:28.177Z",
@@ -2507,7 +2631,7 @@
       "localizations": {
         "zh-CN": {
           "name": "Dev Tools",
-          "description": "日常开发工具集合：密码/二维码/条码/UUID 生成、哈希计算、Base64、JWT 解析、人民币大写、URL 编解码、图片 ⇄ Base64。"
+          "description": "26 个日常开发工具，安装包不到 100KB——生成器（密码/二维码/条码/ID/占位文本）、编解码（Base64/URL/转义/图片）、安全（哈希/HMAC/JWT/AES）、文本工具（JSON/对比/大小写/行处理/乱码修复）等。纯前端、零权限。"
         }
       }
     }
