@@ -65,6 +65,11 @@
       "repository": "kingwrcy/dbx-totp",
       "metadataPath": ".dbx-store.json",
       "autoUpdate": true
+    },
+    {
+      "repository": "summery-yk/dbx-plugin-portainer",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
     }
   ]
 }
