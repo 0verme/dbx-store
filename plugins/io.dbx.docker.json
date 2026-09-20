@@ -1,0 +1,79 @@
+{
+  "id": "io.dbx.docker",
+  "name": "Docker",
+  "description": "Docker Engine workbench: containers, images, volumes, networks, logs, monitoring, container files, an interactive container terminal, and a controlled Compose subset.",
+  "publisher": "ezreal-byte",
+  "verified": false,
+  "icon": "https://raw.githubusercontent.com/Ezreal-byte/dbx-docker-plugin/v0.1.4/assets/plugin.svg",
+  "tags": [
+    "docker",
+    "containers",
+    "compose"
+  ],
+  "permissions": [
+    "host.workbench",
+    "host.binary"
+  ],
+  "source": "https://github.com/Ezreal-byte/dbx-docker-plugin/tree/v0.1.4",
+  "homepage": "https://github.com/Ezreal-byte/dbx-docker-plugin",
+  "license": "Apache-2.0",
+  "latestVersion": "0.1.4",
+  "versions": [
+    {
+      "version": "0.1.4",
+      "releasedAt": "2026-09-20T16:10:41.059Z",
+      "releaseNotes": "First DBX Store submission. Adds a Docker Engine connection provider and workbench with container lifecycle, container rename, image pull/push/export, image tagging and per-tag removal, image layer history, live logs, ECharts resource monitoring, read-only container file browsing with download and upload, an interactive container terminal (docker exec over a binary channel), disk usage, and a controlled Compose subset. Cleanup runs in a guarded dialog with a read-only preview and a typed confirmation, and follows Docker CLI defaults. The UI follows the DBX interface language and reuses DBX transport layers instead of building its own SSH tunnel.",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.docker/0.1.4/io.dbx.docker-0.1.4-darwin-arm64.dbxp",
+          "sha256": "1e8b8007f7f5f4a479a705384010b9176a10ec0c6b850bb00a708c5b5bf64348",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 6930257
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.docker/0.1.4/io.dbx.docker-0.1.4-darwin-x64.dbxp",
+          "sha256": "355f2e8d09bff6e74d99f7a9f8a3288362247b608db4d27f8e631b4c606e9c47",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 7369268
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.docker/0.1.4/io.dbx.docker-0.1.4-linux-arm64.dbxp",
+          "sha256": "0ea15876a0e31a387686d55dae50fc4eda403339f1877c2ac052582ebc09ac7a",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 6607566
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.docker/0.1.4/io.dbx.docker-0.1.4-linux-x64.dbxp",
+          "sha256": "859ed85b30619b080eb49f53e4361b965537914d21c44439fa7976b6f63aecc3",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 7180613
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.docker/0.1.4/io.dbx.docker-0.1.4-windows-x64.dbxp",
+          "sha256": "e144d753210506becf853cfca74866fc736d0f55afbea01965816b0c16695dee",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 7392229
+        }
+      ]
+    }
+  ],
+  "localizations": {
+    "zh-CN": {
+      "name": "Docker",
+      "description": "Docker Engine 工作台：管理容器、镜像、卷与网络，实时日志、资源监控、容器文件上传下载、容器内交互式终端，以及常用 Compose 子集的应用。"
+    },
+    "en": {
+      "name": "Docker",
+      "description": "Docker Engine workbench: containers, images, volumes, networks, logs, monitoring, container files, an interactive container terminal, and a controlled Compose subset."
+    },
+    "zh": {
+      "name": "Docker",
+      "description": "Docker Engine 工作台：管理容器、镜像、卷与网络，实时日志、资源监控、容器文件上传下载、容器内交互式终端，以及常用 Compose 子集的应用。"
+    }
+  }
+}
