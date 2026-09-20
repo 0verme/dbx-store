@@ -1,0 +1,83 @@
+{
+  "id": "io.github.caichangqing1120.prometheus",
+  "name": "Prometheus",
+  "description": "Read-only PromQL editor, targets, alerts, rules and runtime status in a DBX workbench.",
+  "publisher": "caichangqing1120",
+  "verified": false,
+  "icon": "https://raw.githubusercontent.com/caichangqing1120/dbx-plugin-prometheus/v0.1.6/assets/plugin.svg",
+  "tags": [
+    "prometheus",
+    "monitoring",
+    "observability"
+  ],
+  "permissions": [],
+  "source": "https://github.com/caichangqing1120/dbx-plugin-prometheus/tree/v0.1.6",
+  "homepage": "https://github.com/caichangqing1120/dbx-plugin-prometheus",
+  "license": "MIT",
+  "latestVersion": "0.1.6",
+  "versions": [
+    {
+      "version": "0.1.6",
+      "releasedAt": "2026-09-20T15:57:23.928Z",
+      "releaseNotes": "Add multi-select service discovery browsing. Search only follows the typed keyword, selected services remain independently visible and removable, and targets from up to 20 services are streamed, merged and paginated across active or dropped states.",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.github.caichangqing1120.prometheus/0.1.6/io.github.caichangqing1120.prometheus-0.1.6-darwin-arm64.dbxp",
+          "sha256": "b20261fadf80faf8a8a51b6ddcb779019375f3670696ed02dea2a1d1f712c3ec",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 4492786
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.caichangqing1120.prometheus/0.1.6/io.github.caichangqing1120.prometheus-0.1.6-darwin-x64.dbxp",
+          "sha256": "fee1d99574d5cf421702ca2066eb43605b2ab814e0ceeb1185b0aa3d3682f9fc",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 4719509
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.github.caichangqing1120.prometheus/0.1.6/io.github.caichangqing1120.prometheus-0.1.6-linux-arm64.dbxp",
+          "sha256": "b6de185f21f4bd99b8d384f617314268dab12a3a86bf255e96692ef93d3f8123",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 4470797
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.caichangqing1120.prometheus/0.1.6/io.github.caichangqing1120.prometheus-0.1.6-linux-x64.dbxp",
+          "sha256": "283c95686b70dbf244e8f474ad1df6b1fb987f97f2017ff9d7840d4156ddb371",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 4755465
+        },
+        {
+          "target": "windows-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.github.caichangqing1120.prometheus/0.1.6/io.github.caichangqing1120.prometheus-0.1.6-windows-arm64.dbxp",
+          "sha256": "7adcbaa82b390646edf3a381a17dc18960da2f5b547567c773b7675ebdedc473",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 4465362
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.caichangqing1120.prometheus/0.1.6/io.github.caichangqing1120.prometheus-0.1.6-windows-x64.dbxp",
+          "sha256": "032991a2f6208c93a95c48729816c904c6d6034acead28ade02aefacbe106f2a",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 4788427
+        }
+      ]
+    }
+  ],
+  "localizations": {
+    "zh-CN": {
+      "name": "Prometheus",
+      "description": "在 DBX 中使用只读 PromQL 编辑器，并查看采集目标、活动告警、规则和运行状态。"
+    },
+    "en": {
+      "name": "Prometheus",
+      "description": "Read-only PromQL editor, targets, alerts, rules and runtime status in a DBX workbench."
+    },
+    "zh": {
+      "name": "Prometheus",
+      "description": "在 DBX 中使用只读 PromQL 编辑器，并查看采集目标、活动告警、规则和运行状态。"
+    }
+  }
+}
