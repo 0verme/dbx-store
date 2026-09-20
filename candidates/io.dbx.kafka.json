@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "id": "io.dbx.kafka",
+  "publisher": "jinpy",
+  "version": "0.1.46",
+  "name": "Kafka Studio",
+  "description": "Operate Apache Kafka from one workspace: inspect topics and partitions, produce and consume messages, filter and decode payloads, monitor consumer lag, manage offsets and ACLs, stream records, and export results.",
+  "icon": "https://raw.githubusercontent.com/jinpy666/dbx-plugin-kafka/kafka-v0.1.46/assets/plugin.svg",
+  "tags": [
+    "kafka",
+    "streaming",
+    "messaging",
+    "schema-registry"
+  ],
+  "permissions": [
+    "host.events",
+    "host.workbench"
+  ],
+  "source": "https://github.com/jinpy666/dbx-plugin-kafka",
+  "homepage": "https://github.com/jinpy666/dbx-plugin-kafka",
+  "license": "MIT",
+  "releaseNotes": "修复深色主题下 Topic 侧栏不可读的问题：图标色随 color-scheme 自动翻转，核心颜色令牌改为实时跟随宿主主题（不再被内联快照冻结），并提升树行/星标对比度。消息查询新增「最近 N 条」Offset 策略并设为默认：原「最新」策略从日志末端只等待新消息，对没有持续流量的 topic 总是「已扫描 0 · 命中 0」，现在默认即可读到每个分区最新的历史记录。Fixed topics sidebar legibility in dark theme: icon hues follow color-scheme, core color tokens now track the host theme live instead of being frozen by an inline snapshot, and tree row/star contrast was raised. Messages query adds a recent-N offset strategy and defaults to it: the previous latest default only waited for new records and always scanned zero on idle topics; the new default surfaces the newest existing records per partition.",
+  "localizations": {
+    "zh-CN": {
+      "name": "Kafka Studio",
+      "description": "在一个工作台中管理 Apache Kafka：查看 topic 与分区、生产和消费消息、过滤与解码 payload、监控消费组 lag、管理 offset 和 ACL、流式消费并导出结果。"
+    },
+    "zh-TW": {
+      "name": "Kafka Studio",
+      "description": "DBX 的 Kafka 主控台外掛：topic 與分割區、訊息生產與消費（過濾/解碼）、消費組（lag 與 offset 重置）、ACL、串流消費與匯出。"
+    },
+    "en": {
+      "name": "Kafka Studio",
+      "description": "Operate Apache Kafka from one workspace: inspect topics and partitions, produce and consume messages, filter and decode payloads, monitor consumer lag, manage offsets and ACLs, stream records, and export results."
+    },
+    "es": {
+      "name": "Kafka Studio",
+      "description": "Plugin de consola Kafka para DBX: topics y particiones, producción/consumo de mensajes con filtros y decodificación, grupos de consumidores con lag y reset de offsets, ACL, consumo en streaming y exportación."
+    },
+    "it": {
+      "name": "Kafka Studio",
+      "description": "Plugin console Kafka per DBX: topic e partizioni, produzione/consumo di messaggi con filtri e decodifica, gruppi di consumatori con lag e reset degli offset, ACL, consumo in streaming ed esportazione."
+    },
+    "ja": {
+      "name": "Kafka Studio",
+      "description": "DBX 用 Kafka コンソールプラグイン: トピックとパーティション、フィルタリング/デコード付きメッセージ送受信、コンシューマーグループ（ラグと offset リセット）、ACL、ストリーミング消費とエクスポート。"
+    },
+    "pt-BR": {
+      "name": "Kafka Studio",
+      "description": "Plugin de console Kafka para o DBX: tópicos e partições, produção/consumo de mensagens com filtros e decodificação, grupos de consumidores com lag e redefinição de offsets, ACLs, consumo em streaming e exportação."
+    }
+  },
+  "targets": [
+    {
+      "target": "darwin-arm64",
+      "url": "https://github.com/jinpy666/dbx-plugin-kafka/releases/download/kafka-v0.1.46/io.dbx.kafka-0.1.46-darwin-arm64.dbxp",
+      "sha256": "1031ecfa54068bb17e60a843e8b146e0ea7c76c06205ad55ea01df5ddc2f7f43",
+      "size": 13297964
+    },
+    {
+      "target": "darwin-x64",
+      "url": "https://github.com/jinpy666/dbx-plugin-kafka/releases/download/kafka-v0.1.46/io.dbx.kafka-0.1.46-darwin-x64.dbxp",
+      "sha256": "884d614cce544935b07fb4e3b8d44da3dccae269da24514c79a5a0a653cb6b43",
+      "size": 14103690
+    },
+    {
+      "target": "linux-arm64",
+      "url": "https://github.com/jinpy666/dbx-plugin-kafka/releases/download/kafka-v0.1.46/io.dbx.kafka-0.1.46-linux-arm64.dbxp",
+      "sha256": "84326c742df41d0cfdae9e367f8895806a38d9a7ac9dd83ae0bbf61e298cd591",
+      "size": 12530253
+    },
+    {
+      "target": "linux-x64",
+      "url": "https://github.com/jinpy666/dbx-plugin-kafka/releases/download/kafka-v0.1.46/io.dbx.kafka-0.1.46-linux-x64.dbxp",
+      "sha256": "bb53b5351aaf75081ff3e811596316b58e5b818bccb741f80238e008237eec04",
+      "size": 13613413
+    },
+    {
+      "target": "windows-x64",
+      "url": "https://github.com/jinpy666/dbx-plugin-kafka/releases/download/kafka-v0.1.46/io.dbx.kafka-0.1.46-windows-x64.dbxp",
+      "sha256": "c3c21f91948e7cdff1704c1a27b1836b5bbc845873a207e88f1ceaff10b03ea8",
+      "size": 13695011
+    }
+  ]
+}
