@@ -4,7 +4,7 @@
   "description": "A unified file workspace for local folders, S3-compatible storage, Azure Blob, Google Cloud Storage, Huawei OBS, WebDAV, FTP, SFTP, SMB/CIFS, and other OpenDAL services.",
   "publisher": "jinpy",
   "verified": false,
-  "icon": "https://raw.githubusercontent.com/jinpy666/dbx-plugin-files/files-v0.1.59/assets/plugin.svg",
+  "icon": "https://raw.githubusercontent.com/jinpy666/dbx-plugin-files/files-v0.1.60/assets/plugin.svg",
   "tags": [
     "files",
     "storage",
@@ -17,10 +17,10 @@
     "host.binary",
     "host.filesystem"
   ],
-  "source": "https://github.com/jinpy666/dbx-plugin-files/tree/files-v0.1.59",
+  "source": "https://github.com/jinpy666/dbx-plugin-files",
   "homepage": "https://github.com/jinpy666/dbx-plugin-files",
   "license": "MIT",
-  "latestVersion": "0.1.59",
+  "latestVersion": "0.1.60",
   "versions": [
     {
       "version": "0.1.57",
@@ -145,6 +145,48 @@
           "sha256": "f47859993ce9b5babb92fc60e9f26022d83850755de85a80d6b3ab5a3c423d9a",
           "signingKeyId": "dbx-store-release-2026",
           "size": 16056161
+        }
+      ]
+    },
+    {
+      "version": "0.1.60",
+      "releasedAt": "2026-09-20T02:37:31.080Z",
+      "releaseNotes": "新增 Google Cloud Storage、Azure Blob、华为 OBS，以及阿里云盘、Dropbox、Google Drive、Koofr、OneDrive、pCloud、Seafile、Yandex Disk 等 OpenDAL 云存储服务，并同步扩充连接表单契约与协议矩阵测试。Adds Google Cloud Storage, Azure Blob, Huawei OBS, plus Alibaba Drive, Dropbox, Google Drive, Koofr, OneDrive, pCloud, Seafile, and Yandex Disk, with expanded connection-form and protocol-matrix coverage.",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.60/io.dbx.files-0.1.60-darwin-arm64.dbxp",
+          "sha256": "539172725f89c829a389157ea021f7ef1768b7e40d70e96d4fb3c7f25d53e85e",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 38584224
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.60/io.dbx.files-0.1.60-darwin-x64.dbxp",
+          "sha256": "3642aea8ad5a2fb7eb9b8537576d35e98a1eea27a60d49eefce1a52820f48dd9",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 41083314
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.60/io.dbx.files-0.1.60-linux-arm64.dbxp",
+          "sha256": "3098b91a49fcd93cea720fdbd3ecd948ebe9e7dcefa13260ef03f811348273da",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 34887776
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.60/io.dbx.files-0.1.60-linux-x64.dbxp",
+          "sha256": "3da978975cf6e644a8848bd495966c7198b47792de4cdd7e594d31d09f1bbb0a",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 37739756
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.dbx.files/0.1.60/io.dbx.files-0.1.60-windows-x64.dbxp",
+          "sha256": "27236f0273a971f698b98758a2a36e4c5d28566f031b624de50a57ea0dfffb16",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 37279134
         }
       ]
     }
