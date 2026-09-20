@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "io.dbx.excalidraw",
+  "publisher": "runstone",
+  "version": "0.2.1",
+  "name": "Excalidraw Studio",
+  "description": "A lightweight, local-first diagramming workspace powered by Excalidraw, embedded directly in DBX.",
+  "icon": "https://raw.githubusercontent.com/Abeautifulsnow/dbx-plugin-excalidraw/v0.2.1/assets/plugin.svg",
+  "tags": [
+    "diagram",
+    "drawing",
+    "whiteboard",
+    "excalidraw"
+  ],
+  "source": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw",
+  "homepage": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw",
+  "license": "MIT",
+  "releaseNotes": "Reliability release: fixes a rare autosave data-loss race, delivers exports to the plugin data folder (sandbox-safe, path shown in-app), keeps documents openable when an image asset is missing, prevents accidental scene replacement via drag-and-drop, and makes fresh clones build offline.",
+  "localizations": {
+    "zh-CN": {
+      "name": "Excalidraw Studio",
+      "description": "内嵌于 DBX 的轻量本地优先画图工作台，由 Excalidraw 驱动。"
+    }
+  },
+  "targets": [
+    {
+      "target": "darwin-arm64",
+      "url": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw/releases/download/v0.2.1/io.dbx.excalidraw-0.2.1-darwin-arm64.dbxp",
+      "sha256": "da8f76394f0c076cf978d3b760eb750a8f9b902e656c236d369a749240801ddf",
+      "size": 17866885
+    },
+    {
+      "target": "darwin-x64",
+      "url": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw/releases/download/v0.2.1/io.dbx.excalidraw-0.2.1-darwin-x64.dbxp",
+      "sha256": "8e112773310564279e488623755dbc6a1105d0c5e3da3df6e6434ff1a90b8ef2",
+      "size": 17953745
+    },
+    {
+      "target": "linux-arm64",
+      "url": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw/releases/download/v0.2.1/io.dbx.excalidraw-0.2.1-linux-arm64.dbxp",
+      "sha256": "197c13f3411a514b23cd021c547a7dc4338e72e35c4b74fa5c614fa94be473f3",
+      "size": 17851884
+    },
+    {
+      "target": "linux-x64",
+      "url": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw/releases/download/v0.2.1/io.dbx.excalidraw-0.2.1-linux-x64.dbxp",
+      "sha256": "7f85705fdcce78a7fa6c42aac7c74beb211c67de553696a64dfcd071d09000ed",
+      "size": 17970706
+    },
+    {
+      "target": "windows-x64",
+      "url": "https://github.com/Abeautifulsnow/dbx-plugin-excalidraw/releases/download/v0.2.1/io.dbx.excalidraw-0.2.1-windows-x64.dbxp",
+      "sha256": "ecc2a255172e356466fc6d89a384cea98a4ce0f883551695016a59d5d64fd48a",
+      "size": 18034627
+    }
+  ]
+}
