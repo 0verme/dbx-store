@@ -1522,7 +1522,7 @@
       "description": "Convert spreadsheets (xlsx/xls/csv) into SQLite databases and export them back, so anyone can query their data with SQL or the DBX AI assistant.",
       "publisher": "chnhjf",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.2/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.3/icon.svg",
       "tags": [
         "spreadsheet",
         "sqlite",
@@ -1531,11 +1531,25 @@
         "ai"
       ],
       "permissions": [],
-      "source": "https://github.com/CHNHJF/dbx-plugin-excelx/tree/v0.9.2",
+      "source": "https://github.com/CHNHJF/dbx-plugin-excelx/tree/v0.9.3",
       "homepage": "https://github.com/CHNHJF/dbx-plugin-excelx",
       "license": "Apache-2.0",
-      "latestVersion": "0.9.2",
+      "latestVersion": "0.9.3",
       "versions": [
+        {
+          "version": "0.9.3",
+          "releasedAt": "2026-09-20T02:26:52.428Z",
+          "releaseNotes": "Add Chinese (zh-CN) store listing and manifest localization; no functional changes.",
+          "artifacts": [
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.3/io.github.chnhjf.excelx-0.9.3-windows-x64.dbxp",
+              "sha256": "fb98392da2d7cd914d1b67fcea3ee391363ae8c436afbff28f601661d205221e",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 2192367
+            }
+          ]
+        },
         {
           "version": "0.9.2",
           "releasedAt": "2026-09-19T02:00:48.631Z",
@@ -1550,7 +1564,13 @@
             }
           ]
         }
-      ]
+      ],
+      "localizations": {
+        "zh-CN": {
+          "name": "ExcelX",
+          "description": "把 Excel / CSV 表格转换成 SQLite 数据库，随时导出回表格——让不懂数据库的人也能用 SQL 或 AI 助手直接查询、分析自己的数据。"
+        }
+      }
     },
     {
       "id": "io.github.mugongliu1.terminal",
@@ -1673,7 +1693,7 @@
       "description": "S3-compatible object storage plugin for DBX.",
       "publisher": "t8y2",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/io.github.t8y2.s3/0.1.13/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/io.github.t8y2.s3/0.1.14/icon.svg",
       "tags": [
         "storage",
         "s3",
@@ -1686,8 +1706,57 @@
       "source": "https://github.com/t8y2/dbx-plugin-s3/tree/v0.1.3",
       "homepage": "https://github.com/t8y2/dbx-plugin-s3",
       "license": "Proprietary",
-      "latestVersion": "0.1.13",
+      "latestVersion": "0.1.14",
       "versions": [
+        {
+          "version": "0.1.14",
+          "releasedAt": "2026-09-19T20:39:11.087Z",
+          "releaseNotes": "",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.github.t8y2.s3/0.1.14/io.github.t8y2.s3-0.1.14-darwin-arm64.dbxp",
+              "sha256": "e9f9fc17f062db1b736dacbcb869469c79f6c95e304401b061c7e4b0d4834bac",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6418185
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.t8y2.s3/0.1.14/io.github.t8y2.s3-0.1.14-darwin-x64.dbxp",
+              "sha256": "f6fc04d3689f45a8c8786076965df02d1ae069a3cf7e58bc0612149ca5f2e28a",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6768924
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.github.t8y2.s3/0.1.14/io.github.t8y2.s3-0.1.14-linux-arm64.dbxp",
+              "sha256": "8c0377850f9c6860333da12303b4e34cfe703479b30ae1b7e42cca8db4b72532",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6331375
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.t8y2.s3/0.1.14/io.github.t8y2.s3-0.1.14-linux-x64.dbxp",
+              "sha256": "4943dab39828cf4861856dfe0ad99a35376306d5e8edc0ba88d1eb8f33e81728",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6778883
+            },
+            {
+              "target": "windows-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.github.t8y2.s3/0.1.14/io.github.t8y2.s3-0.1.14-windows-arm64.dbxp",
+              "sha256": "ccfb76692ebf5df478e13ddfb8ec67690b8a5b0afd91d621caf2af2cdf324f48",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6298589
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.t8y2.s3/0.1.14/io.github.t8y2.s3-0.1.14-windows-x64.dbxp",
+              "sha256": "2c9de2f3b63ce5487f17a3181e8fc791d86752ca4a30141ea15c49a9f269d829",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 6788691
+            }
+          ]
+        },
         {
           "version": "0.1.13",
           "releasedAt": "2026-09-17T12:31:45.956Z",
