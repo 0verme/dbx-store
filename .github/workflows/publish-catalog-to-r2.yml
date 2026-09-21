@@ -48,48 +48,51 @@ jobs:
           set -euo pipefail
           node scripts/mirror-plugin-icons.mjs > "$RUNNER_TEMP/plugin-icons.tsv"
           while IFS=$'\t' read -r plugin_id version artifact_url target_key; do
-            package_file="$RUNNER_TEMP/$plugin_id-$version.dbxp"
-            local_file="$RUNNER_TEMP/$plugin_id-$version-icon"
-            curl --fail --location --max-redirs 5 --proto '=https' --tlsv1.2 --output "$package_file" "$artifact_url"
-            icon_path="$(unzip -p "$package_file" manifest.json | node --input-type=module -e '
-              let input = "";
-              process.stdin.on("data", (chunk) => input += chunk);
-              process.stdin.on("end", () => {
-                const manifest = JSON.parse(input);
-                const icon = typeof manifest.icon === "string" ? manifest.icon.trim() : "";
-                if (!icon || icon.startsWith("/") || icon.includes("\\") || icon.split("/").includes("..")) throw new Error("manifest.icon must be a relative asset path");
-                process.stdout.write(icon);
-              });
-            ')"
-            unzip -p "$package_file" "$icon_path" > "$local_file"
-            actual_ext=""
-            if grep -aq '<svg\b' "$local_file"; then
-              actual_ext="svg"
-            elif [ "$(head -c 8 "$local_file" | od -An -tx1 | tr -d ' \n')" = "89504e470d0a1a0a" ]; then
-              actual_ext="png"
-            else
-              echo "::error::Icon is not SVG or PNG: $plugin_id@$version/$icon_path"
-              exit 1
-            fi
-            if [ "$actual_ext" != "${target_key##*.}" ]; then
-              echo "::error::Icon extension mismatch for $target_key: catalog expects .${target_key##*.} but the package contains .$actual_ext"
-              exit 1
-            fi
-            content_type="image/svg+xml"
-            [ "$actual_ext" = "png" ] && content_type="image/png"
-            if aws s3api head-object --bucket "$R2_BUCKET" --key "$target_key" --endpoint-url "$R2_ENDPOINT" >/dev/null 2>&1; then
-              echo "Keeping existing immutable icon $target_key"
-            else
-              aws s3 cp "$local_file" "s3://$R2_BUCKET/$target_key" \
-                --endpoint-url "$R2_ENDPOINT" \
-                --content-type "$content_type" \
-                --cache-control "public, max-age=31536000, immutable" \
-                --only-show-errors
-            fi
-            public_url="${R2_PUBLIC_BASE_URL%/}/$target_key"
-            curl --fail --location --max-redirs 5 --proto '=https' --tlsv1.2 --head "$public_url" >/dev/null
+          if ! (
+              package_file="$RUNNER_TEMP/$plugin_id-$version.dbxp"
+              local_file="$RUNNER_TEMP/$plugin_id-$version-icon"
+              curl --fail --location --max-redirs 5 --proto '=https' --tlsv1.2 --output "$package_file" "$artifact_url"
+              icon_path="$(unzip -p "$package_file" manifest.json | node --input-type=module -e '
+                let input = "";
+                process.stdin.on("data", (chunk) => input += chunk);
+                process.stdin.on("end", () => {
+                  const manifest = JSON.parse(input);
+                  const icon = typeof manifest.icon === "string" ? manifest.icon.trim() : "";
+                  if (!icon || icon.startsWith("/") || icon.includes("\\") || icon.split("/").includes("..")) throw new Error("manifest.icon must be a relative asset path");
+                  process.stdout.write(icon);
+                });
+              ')"
+              unzip -p "$package_file" "$icon_path" > "$local_file"
+              actual_ext=""
+              if grep -aq '<svg\b' "$local_file"; then
+                actual_ext="svg"
+              elif [ "$(head -c 8 "$local_file" | od -An -tx1 | tr -d ' \n')" = "89504e470d0a1a0a" ]; then
+                actual_ext="png"
+              else
+                echo "::error::Icon is not SVG or PNG: $plugin_id@$version/$icon_path"
+                exit 1
+              fi
+              if [ "$actual_ext" != "${target_key##*.}" ]; then
+                echo "::error::Icon extension mismatch for $target_key: catalog expects .${target_key##*.} but the package contains .$actual_ext"
+                exit 1
+              fi
+              content_type="image/svg+xml"
+              [ "$actual_ext" = "png" ] && content_type="image/png"
+              if aws s3api head-object --bucket "$R2_BUCKET" --key "$target_key" --endpoint-url "$R2_ENDPOINT" >/dev/null 2>&1; then
+                echo "Keeping existing immutable icon $target_key"
+              else
+                aws s3 cp "$local_file" "s3://$R2_BUCKET/$target_key" \
+                  --endpoint-url "$R2_ENDPOINT" \
+                  --content-type "$content_type" \
+                  --cache-control "public, max-age=31536000, immutable" \
+                  --only-show-errors
+              fi
+              public_url="${R2_PUBLIC_BASE_URL%/}/$target_key"
+              curl --fail --location --max-redirs 5 --proto '=https' --tlsv1.2 --head "$public_url" >/dev/null
+          ); then
+            echo "::warning::icon mirroring failed for $plugin_id@$version; publishing continues without it"
+          fi
           done < "$RUNNER_TEMP/plugin-icons.tsv"
-
       - name: Upload catalog to R2
         shell: bash
         run: |
