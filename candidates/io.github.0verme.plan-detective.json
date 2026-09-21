@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.0verme.plan-detective",
+  "publisher": "0verme",
+  "version": "0.5.4",
+  "name": "DBX Plan Detective",
+  "description": "Analyze DBX Estimated Plans with structured parsing, plan-tree visualization, deterministic findings, and hotspot detection.",
+  "icon": "https://raw.githubusercontent.com/0verme/dbx-plugin-plan-detective/v0.5.4/assets/plugin.svg",
+  "tags": [
+    "database",
+    "sql",
+    "execution-plan",
+    "performance"
+  ],
+  "permissions": [
+    "host.plans:read"
+  ],
+  "source": "https://github.com/0verme/dbx-plugin-plan-detective/tree/v0.5.4",
+  "homepage": "https://github.com/0verme/dbx-plugin-plan-detective",
+  "license": "Apache-2.0",
+  "releaseNotes": "Patch release: requires DBX >=0.6.18 for the Host Plan API; Host API ^1.2 remains unchanged. No functional changes.",
+  "localizations": {
+    "zh-CN": {
+      "name": "DBX Plan Detective",
+      "description": "分析 DBX Estimated Plan，提供结构化解析、执行计划树可视化、确定性诊断与热点定位。"
+    }
+  },
+  "targets": [
+    {
+      "target": "universal",
+      "url": "https://github.com/0verme/dbx-plugin-plan-detective/releases/download/v0.5.4/io.github.0verme.plan-detective-0.5.4-universal.dbxp",
+      "sha256": "40d1e087311cc4f3105e46194a8ad71b4611fba323a9ffd94277eaefc3dec3df",
+      "size": 62462
+    }
+  ]
+}
