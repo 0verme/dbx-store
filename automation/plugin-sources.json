@@ -85,6 +85,11 @@
       "repository": "aiLi0617/dbx-plugin-toolbox",
       "metadataPath": ".dbx-store.json",
       "autoUpdate": true
+    },
+    {
+      "repository": "acornlive/dbx-plugin-json-pretty",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
     }
   ]
 }
