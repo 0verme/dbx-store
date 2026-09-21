@@ -82,6 +82,11 @@
       "autoUpdate": true
     },
     {
+      "repository": "lukelwai/dbx-md-notes",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
+    },
+    {
       "repository": "aiLi0617/dbx-plugin-toolbox",
       "metadataPath": ".dbx-store.json",
       "autoUpdate": true
