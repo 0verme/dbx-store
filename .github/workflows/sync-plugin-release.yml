@@ -73,7 +73,8 @@ jobs:
               --tag "$tag" \
               --release-candidates-url "$candidates_url" \
               --metadata-url "$metadata_url" \
-              --output /tmp/plugin-candidate.json
+              --output /tmp/plugin-candidate.json \
+              || { echo "::warning::skipping ${repository}@${tag}: candidate processing failed"; continue; }
             read -r plugin_id plugin_version < <(node -e '
               const fs = require("node:fs");
               const candidate = JSON.parse(fs.readFileSync("/tmp/plugin-candidate.json", "utf8"));
@@ -111,7 +112,8 @@ jobs:
               --tag "$tag" \
               --release-candidates-url "$candidates_url" \
               --metadata-url "$metadata_url" \
-              --output "candidates/${plugin_id}.json"
+              --output "candidates/${plugin_id}.json" \
+              || { echo "::warning::skipping ${repository}@${tag}: candidate writing failed"; continue; }
             node scripts/validate.mjs --plan-candidates >/dev/null
             git config user.name "dbx-store-automation[bot]"
             git config user.email "dbx-store-automation[bot]@users.noreply.github.com"
