@@ -4,7 +4,7 @@
   "description": "Convert spreadsheets (xlsx/xls/csv) into SQLite databases and export them back, so anyone can query their data with SQL or the DBX AI assistant.",
   "publisher": "chnhjf",
   "verified": false,
-  "icon": "https://raw.githubusercontent.com/CHNHJF/dbx-plugin-excelx/v0.9.7/assets/plugin.svg",
+  "icon": "https://raw.githubusercontent.com/CHNHJF/dbx-plugin-excelx/v0.9.8/assets/plugin.svg",
   "tags": [
     "spreadsheet",
     "sqlite",
@@ -15,10 +15,10 @@
   "permissions": [
     "host.events"
   ],
-  "source": "https://github.com/CHNHJF/dbx-plugin-excelx/tree/v0.9.7",
+  "source": "https://github.com/CHNHJF/dbx-plugin-excelx/tree/v0.9.8",
   "homepage": "https://github.com/CHNHJF/dbx-plugin-excelx",
   "license": "Apache-2.0",
-  "latestVersion": "0.9.7",
+  "latestVersion": "0.9.8",
   "versions": [
     {
       "version": "0.9.2",
@@ -59,6 +59,34 @@
           "sha256": "3a84a4b2815006fde72c644481eec91207bdd132467c7e828112babfb0bfdebf",
           "signingKeyId": "dbx-store-release-2026",
           "size": 2357896
+        }
+      ]
+    },
+    {
+      "version": "0.9.8",
+      "releasedAt": "2026-09-22T04:05:16.758Z",
+      "releaseNotes": "macOS support (Apple Silicon + Intel) joins windows-x64: system osascript file picker, DBX data dir under ~/Library/Application Support, 'open' for folders. Backend tests and handshake verified on both macOS CI architectures. Windows behavior unchanged from 0.9.7.",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.8/io.github.chnhjf.excelx-0.9.8-darwin-arm64.dbxp",
+          "sha256": "72820d69abb4ca84d8fd6cfbc99f7f6053192cd8403e03dc18b24e65468d2af4",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2138201
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.8/io.github.chnhjf.excelx-0.9.8-darwin-x64.dbxp",
+          "sha256": "1b0045e100811e38f71e93d9fd0c8f5b33a3c801c58542a0755bd0f915d9c202",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2242190
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/io.github.chnhjf.excelx/0.9.8/io.github.chnhjf.excelx-0.9.8-windows-x64.dbxp",
+          "sha256": "1657bec35c7aac22e64fdfe43bf3cd5d9021188ed211e70a393c6b11d13596d0",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 2211367
         }
       ]
     }
