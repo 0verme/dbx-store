@@ -99,7 +99,7 @@
       "description": "A Postman-style HTTP workbench: compose requests, send them through a native sidecar, and inspect responses.",
       "publisher": "jettech",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.1/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.3/icon.svg",
       "tags": [
         "http",
         "api",
@@ -109,11 +109,53 @@
       "permissions": [
         "host.events"
       ],
-      "source": "https://github.com/renpengkai/dbx-plugin-http-client/tree/0.1.1",
+      "source": "https://github.com/renpengkai/dbx-plugin-http-client/tree/0.1.3",
       "homepage": "https://github.com/renpengkai/dbx-plugin-http-client",
       "license": "Apache-2.0",
-      "latestVersion": "0.1.1",
+      "latestVersion": "0.1.3",
       "versions": [
+        {
+          "version": "0.1.3",
+          "releasedAt": "2026-09-22T04:24:48.418Z",
+          "releaseNotes": "0.1.3：集合和子集合行内有「子集合」按钮，右键菜单也可新建子集合。删除集合、子集合或请求前会确认；删除集合/子集合会级联删除其中的子集合和请求，确认文案写明数量。form-data 字段可在「文本 / 文件」间切换，选中的本地文件由 Sidecar 以真实 multipart（含文件名）和文本字段一起发出。另含 0.1.2：多级文件夹与旧数据迁移，以及按 Content-Disposition / Content-Type / URL 推断下载文件名。",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.3/com.jettech.httpclient-0.1.3-darwin-arm64.dbxp",
+              "sha256": "f202acc43079f030fca8ee8e1ca15a6c7e85eee0e3114a36ed4c3dd6916e64d3",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4236708
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.3/com.jettech.httpclient-0.1.3-darwin-x64.dbxp",
+              "sha256": "649a2e16fbd7ce6e5a2a5094f4c1bbdd9938e8225757dcb5253e72746a3cbe90",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4445533
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.3/com.jettech.httpclient-0.1.3-linux-arm64.dbxp",
+              "sha256": "ddfe990301e72cb8befd7d5e2a527099b2e2fcd2d85a380ffe65af650ed626b0",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4226072
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.3/com.jettech.httpclient-0.1.3-linux-x64.dbxp",
+              "sha256": "c8a09c095b2e2a284212a9f29358656a1b879ef00a254ce92a846c08889fc3a4",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4506119
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.3/com.jettech.httpclient-0.1.3-windows-x64.dbxp",
+              "sha256": "9c973bd68558914d1acf7c48785f9957afb6b882cc7984249f3ffd6b5ca3efa7",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4520014
+            }
+          ]
+        },
         {
           "version": "0.1.1",
           "releasedAt": "2026-09-19T02:13:02.854Z",
@@ -160,15 +202,7 @@
       "localizations": {
         "zh-CN": {
           "name": "HTTP 客户端",
-          "description": "类似 Postman 的 HTTP 接口调试作台构造请求、通过原生 Sidecar 发送并查看响应。"
-        },
-        "zh": {
-          "name": "HTTP 客户端",
-          "description": "类似 Postman 的 HTTP 接口调试作台构造请求、通过原生 Sidecar 发送并查看响应。"
-        },
-        "en": {
-          "name": "HTTP Client",
-          "description": "A Postman-style HTTP workbench: compose requests, send them through a native sidecar, and inspect responses."
+          "description": "类似 Postman 的 HTTP 接口调试工作台：构造请求、通过原生 Sidecar 发送并查看响应。"
         }
       }
     },
