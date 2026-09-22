@@ -1,19 +1,19 @@
 {
   "id": "monstercat.waitwork",
   "name": "Wait Work",
-  "description": "Work a while, rest a while. Read local TXT, EPUB and MOBI books, or stream online books from custom sources — with chapter outlines, reading settings, autosave, and body text that folds away automatically when you switch pages.",
+  "description": "Work a while, rest a while. Read local TXT, EPUB and MOBI books or online books from custom sources, with chapter caching and autosave. Customize and save the SQL cover, result table and labels; reading folds away automatically when switching pages.",
   "publisher": "monstercat",
   "verified": false,
-  "icon": "https://raw.githubusercontent.com/ragdollcb/waitWork/v0.6.2/assets/plugin.svg",
+  "icon": "https://raw.githubusercontent.com/ragdollcb/waitWork/v0.6.4/assets/plugin.svg",
   "tags": [
     "productivity",
     "reader"
   ],
   "permissions": [],
-  "source": "https://github.com/ragdollcb/waitWork/tree/v0.6.2",
+  "source": "https://github.com/ragdollcb/waitWork/tree/v0.6.4",
   "homepage": "https://github.com/ragdollcb/waitWork",
   "license": "Apache-2.0",
-  "latestVersion": "0.6.2",
+  "latestVersion": "0.6.4",
   "versions": [
     {
       "version": "0.5.2",
@@ -112,12 +112,61 @@
           "size": 6059510
         }
       ]
+    },
+    {
+      "version": "0.6.4",
+      "releasedAt": "2026-09-22T07:08:58.495Z",
+      "releaseNotes": "新增伪装内容自定义与自动保存：可编辑 SQL、查询名称、连接显示名和结果标签名称，并粘贴含表头的结果表，保留前导零、空值和多行文本；内容独立保存到 query-cover.json，重新打开自动恢复，支持保存失败重试、同一后端的版本冲突保护及恢复预置查询。保持 Esc 切换、失焦自动收起、书架和阅读进度保存行为。",
+      "artifacts": [
+        {
+          "target": "darwin-arm64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.6.4/monstercat.waitwork-0.6.4-darwin-arm64.dbxp",
+          "sha256": "946e2df2d5b8d20996e6fa9f4b9c2e6b666e3c2a9f62908c9dd203e6fffb841a",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 5821701
+        },
+        {
+          "target": "darwin-x64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.6.4/monstercat.waitwork-0.6.4-darwin-x64.dbxp",
+          "sha256": "42563e299884e5d8fe8ea3aa897bebc4b3149fff23667cb8dcfe4a7637f0f2c8",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 6171890
+        },
+        {
+          "target": "linux-arm64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.6.4/monstercat.waitwork-0.6.4-linux-arm64.dbxp",
+          "sha256": "cb9fa6ba10dc467ca777aa75a063a057e0b2bec9648af9d72cbb77e1ac9906f1",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 5547857
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.6.4/monstercat.waitwork-0.6.4-linux-x64.dbxp",
+          "sha256": "77ccaaf95db37d0eb36b3b36087f7403769196d4d2455a20cbf3ded55a3e64be",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 6016889
+        },
+        {
+          "target": "windows-arm64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.6.4/monstercat.waitwork-0.6.4-windows-arm64.dbxp",
+          "sha256": "252cfaeccc24a2221117b210a5022c0bb9cb88d3e3c15c226eda733db66dd86b",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 5571849
+        },
+        {
+          "target": "windows-x64",
+          "url": "https://dl.dbxio.com/plugins/monstercat.waitwork/0.6.4/monstercat.waitwork-0.6.4-windows-x64.dbxp",
+          "sha256": "7bc9f656bc4b172e02949d6ee09831940e019506f396deedc5768a0d9079a027",
+          "signingKeyId": "dbx-store-release-2026",
+          "size": 6073512
+        }
+      ]
     }
   ],
   "localizations": {
     "zh-CN": {
       "name": "Wait Work",
-      "description": "等一会工作，休息一下。支持本地 TXT、EPUB、MOBI 与自定义书源在线阅读、章节目录、阅读设置和自动保存，切换页面自动收起正文。"
+      "description": "等一会工作，休息一下。支持 TXT、EPUB、MOBI 与自定义书源在线阅读、章节缓存和自动保存；可自定义 SQL、结果表与标签并保存，切换页面自动收起正文。"
     },
     "zh": {
       "name": "Wait Work",
