@@ -3521,7 +3521,7 @@
       "description": "Run an interactive local shell directly inside a DBX workbench.",
       "publisher": "mugongliu1",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.2/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.4/icon.svg",
       "tags": [
         "terminal",
         "shell",
@@ -3531,11 +3531,53 @@
       "permissions": [
         "host.events"
       ],
-      "source": "https://github.com/mugongliu1/dbx-terminal-launcher/tree/v0.2.2",
+      "source": "https://github.com/mugongliu1/dbx-terminal-launcher/tree/v0.2.4",
       "homepage": "https://github.com/mugongliu1/dbx-terminal-launcher",
       "license": "Apache-2.0",
-      "latestVersion": "0.2.2",
+      "latestVersion": "0.2.4",
       "versions": [
+        {
+          "version": "0.2.4",
+          "releasedAt": "2026-09-23T07:30:41.384Z",
+          "releaseNotes": "Fixes synchronized Codex frame repainting and cursor redraw artifacts in the embedded terminal.",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.4/io.github.mugongliu1.terminal-0.2.4-darwin-arm64.dbxp",
+              "sha256": "3c58d5945f7668b580591169160525f01492f0abbb0592a2e01e04ac237ae1d0",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 415082
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.4/io.github.mugongliu1.terminal-0.2.4-darwin-x64.dbxp",
+              "sha256": "802fcbe263ae9866341aa8195cab00fd0e761d4e1b6599596a1b8b792b163e68",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 436164
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.4/io.github.mugongliu1.terminal-0.2.4-linux-arm64.dbxp",
+              "sha256": "514399b30261b82a1ad4188e18ece67dfc0027bf10359c8c987c0ab8ba411439",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 447530
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.4/io.github.mugongliu1.terminal-0.2.4-linux-x64.dbxp",
+              "sha256": "2a7f43d942dadc7ecdf4984e6137875afde32a49cf659f9e5766c83acd0ee053",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 469101
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/io.github.mugongliu1.terminal/0.2.4/io.github.mugongliu1.terminal-0.2.4-windows-x64.dbxp",
+              "sha256": "99b4ad80bdc0c949ee64d787126d2479bd974a7cea8aa0d69b928f516cff0b07",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 358117
+            }
+          ]
+        },
         {
           "version": "0.2.2",
           "releasedAt": "2026-09-18T03:42:50.249Z",
@@ -3581,10 +3623,6 @@
       ],
       "localizations": {
         "zh-CN": {
-          "name": "内嵌终端",
-          "description": "直接在 DBX 工作台内运行本机交互式终端。"
-        },
-        "zh": {
           "name": "内嵌终端",
           "description": "直接在 DBX 工作台内运行本机交互式终端。"
         },
