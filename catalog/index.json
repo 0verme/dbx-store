@@ -99,7 +99,7 @@
       "description": "A Postman-style HTTP workbench: compose requests, send them through a native sidecar, and inspect responses.",
       "publisher": "jettech",
       "verified": false,
-      "icon": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.3/icon.svg",
+      "icon": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.4/icon.svg",
       "tags": [
         "http",
         "api",
@@ -112,8 +112,50 @@
       "source": "https://github.com/renpengkai/dbx-plugin-http-client/tree/0.1.3",
       "homepage": "https://github.com/renpengkai/dbx-plugin-http-client",
       "license": "Apache-2.0",
-      "latestVersion": "0.1.3",
+      "latestVersion": "0.1.4",
       "versions": [
+        {
+          "version": "0.1.4",
+          "releasedAt": "2026-09-23T12:20:12.641Z",
+          "releaseNotes": "0.1.4：新增可持久化自定义存储目录，数据不再随 Docker 容器重建而丢失 —— 可在新建「HTTP 客户端」连接时用文件夹选择器指定目录，也可在设置面板中填写并应用，目录指示会写入插件数据目录并在重启后读回。已打开的请求标签页支持右键批量关闭（关闭左边所有 / 关闭右边所有 / 关闭其它 / 关闭所有）。修复点击常用请求头会多出一行空行的问题；选项面板的代理与响应体最大字节数下拉框改为与其他选择框一致的扁平样式。",
+          "artifacts": [
+            {
+              "target": "darwin-arm64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.4/com.jettech.httpclient-0.1.4-darwin-arm64.dbxp",
+              "sha256": "36becca7e72887606cc56c51ed9ddad0d1bc19db33d942cdee0c839852ce570f",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4253299
+            },
+            {
+              "target": "darwin-x64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.4/com.jettech.httpclient-0.1.4-darwin-x64.dbxp",
+              "sha256": "7b19a0fcc484516d6327b9ab395b0a01f5261fbd108a353dcd4bee3bdb3b4b57",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4462551
+            },
+            {
+              "target": "linux-arm64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.4/com.jettech.httpclient-0.1.4-linux-arm64.dbxp",
+              "sha256": "64f33081730ce513a8718a3863bb0c67a8d4dde139956a710065ec8a93a03b76",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4243965
+            },
+            {
+              "target": "linux-x64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.4/com.jettech.httpclient-0.1.4-linux-x64.dbxp",
+              "sha256": "2d186ecc71e43c2042926094346e8c6acc05c565958570dab6f2e4a7c13d59d6",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4523547
+            },
+            {
+              "target": "windows-x64",
+              "url": "https://dl.dbxio.com/plugins/com.jettech.httpclient/0.1.4/com.jettech.httpclient-0.1.4-windows-x64.dbxp",
+              "sha256": "be9f93f303d88b2740e28a3ce39dc2d6395393cf8b7d22a2a7ed62a8f453ccb3",
+              "signingKeyId": "dbx-store-release-2026",
+              "size": 4539362
+            }
+          ]
+        },
         {
           "version": "0.1.3",
           "releasedAt": "2026-09-22T04:24:48.418Z",
