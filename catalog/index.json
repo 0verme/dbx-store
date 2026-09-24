@@ -2655,7 +2655,8 @@
         "host.events",
         "host.binary",
         "host.filesystem",
-        "host.workbench"
+        "host.workbench",
+        "host.storage"
       ],
       "source": "https://github.com/jinpy666/dbx-plugin-ssh",
       "homepage": "https://github.com/jinpy666/dbx-plugin-ssh",
