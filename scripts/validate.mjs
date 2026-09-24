@@ -58,6 +58,7 @@ if (planCandidates) {
     publisher: candidate.publisher,
     version: candidate.version,
     releaseNotes: candidate.releaseNotes ?? "",
+    permissions: candidate.permissions ?? [],
     targets: candidate.targets,
   })) }));
 } else {
