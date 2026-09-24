@@ -58,7 +58,9 @@ if (planCandidates) {
     publisher: candidate.publisher,
     version: candidate.version,
     releaseNotes: candidate.releaseNotes ?? "",
-    permissions: candidate.permissions ?? [],
+    // Omitted listing fields keep the published entry's values at finalize
+    // time, so the plan must not flatten an omitted permissions list to [].
+    ...(candidate.permissions !== undefined ? { permissions: candidate.permissions } : {}),
     targets: candidate.targets,
   })) }));
 } else {
