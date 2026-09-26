@@ -110,6 +110,11 @@
       "repository": "0verme/dbx-plugin-plan-detective",
       "metadataPath": ".dbx-store.json",
       "autoUpdate": true
+    },
+    {
+      "repository": "0verme/dbx-plugin-SchemaSeed",
+      "metadataPath": ".dbx-store.json",
+      "autoUpdate": true
     }
   ]
 }
